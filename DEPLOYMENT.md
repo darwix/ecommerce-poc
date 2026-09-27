@@ -7,7 +7,7 @@ Living record of how the Acme POC is hosted. Update it whenever something change
 | What | Where | Status |
 |---|---|---|
 | Static mockup (`mockup-v2/`) | Cloudflare Workers static assets, https://ecommerce-poc.acme-demo.workers.dev | Live. Deploy: `wrangler deploy --name ecommerce-poc --assets mockup-v2 --compatibility-date 2026-09-01` |
-| WooCommerce POC | NeoHosting shared cPanel, https://shop.armstronger.web.id/wp/ | WordPress 7.1.2 in `/wp/` + WooCommerce 11.1.2 active (Shop/Cart pages exist, still "Coming soon" mode, default Twenty Twenty-Five theme, site title "My Blog"). Acme theme, DOKU and products **not yet installed** (2026-09-27) |
+| WooCommerce POC | NeoHosting shared cPanel, https://shop.armstronger.web.id/wp/ | WordPress 7.1.2 in `/wp/` + WooCommerce 11.1.2, Acme theme active, store Live, 24 products imported and visible (home/shop/product/category/cart verified 2026-09-27, 0.5-0.8s TTFB). Still to do: About/FAQ pages (404), Indonesian language, DOKU plugin + keys, client Shop-manager user |
 | Local WooCommerce | podman stack in `woocommerce/` on port 8080 | Dev only, admin/admin |
 | VPS package | `woocommerce/deploy/` (Docker compose + Caddy) | Written, never run. Alternative if shared hosting fails |
 
@@ -18,6 +18,8 @@ Living record of how the Acme POC is hosted. Update it whenever something change
 - PHP 8.2 (needs 8.1+). Set `memory_limit` >= 256M. Extensions: mysqli, curl, mbstring, gd/imagick, zip, intl, xml.
 - Host runs an anti-bot layer: unauthenticated requests get a "One moment, please..." loader page, so `curl` cannot read the site. Check pages in a browser. Ask NeoHosting to whitelist `/wp-json/doku/` (DOKU webhooks are automated requests).
 - Softaculous "SoftWP" installs WordPress with bundled extras. Decline "AI Assistant" and onboarding. Remove SpeedyCache (breaks cart/checkout), Pagelayer, FormLayer, Social Login. Keep Backuply, GoSMTP (order email); CookieAdmin and SiteSEO optional.
+- **Enable OPcache** (cPanel > Select PHP Version > Extensions). It took TTFB from 2-6s (spikes to 49s and a 503) down to ~0.5s. Resource Usage showed no limit hits, so the slowness was PHP recompiling every request. Re-enable it if the PHP version changes.
+- Client access: give the client a **Shop manager** user (Users > Add New). It can see and edit orders, products and customers but cannot install plugins or change core settings. It can open WooCommerce > Settings > Payments (DOKU keys), so only use it for a trusted client.
 - **Deleting a Softaculous install removes files and database.** Never delete a domain or install without checking what it holds.
 
 ## DNS (Cloudflare)
