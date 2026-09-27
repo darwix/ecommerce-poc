@@ -9,6 +9,8 @@ Proof-of-concept rebuild of acme.example (Indonesian import-fashion / beauty res
 - Payment: DOKU (official plugin doku-payment, hosted DOKU Checkout page, sandbox). Credentials live in the DB option `woocommerce_doku_gateway_settings` (`sandbox_client_id`, `sandbox_shared_key`, `environment_payment_jokul=false`) - never commit them. Plugin needs HPOS off (`wp wc hpos disable`). Webhooks can't reach localhost, so orders stay pending unless a public tunnel is used. Installed with a manual curl + `wp plugin install /tmp/doku.zip` (see `seed/doku.sh`).
 - Stage 2 done so far: Indonesian locale, About/FAQ pages, category chips, ongkir disabled, DOKU checkout redirect. Still to do: variant/added popups, bottom-sheet filters, About/FAQ/account pages, Indonesian strings, payment gateway sandbox (Midtrans/Xendit, needs keys).
 
+Deployment state and hosting gotchas live in [DEPLOYMENT.md](DEPLOYMENT.md). Keep it updated after any deploy change.
+
 ## Layout
 
 ```
