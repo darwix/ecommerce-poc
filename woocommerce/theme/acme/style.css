@@ -1,7 +1,7 @@
-/*
+﻿/*
 Theme Name: Acme
 Description: Acme storefront theme for WooCommerce. Ported from mockup-v2 (pink + blue palette).
-Version: 0.2.3
+Version: 0.3.0
 Text Domain: acme
 */
 :root {
@@ -526,7 +526,7 @@ body:has(.totalbar:not([hidden])) #top { bottom: 160px; }
 .qa summary { cursor: pointer; padding: 18px 0; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
 .qa summary::-webkit-details-marker { display: none; }
 .qa summary::after { content: "+"; color: var(--pink-t); font-size: 22px; line-height: 1; }
-.qa details[open] summary::after { content: "−"; }
+.qa details[open] summary::after { content: "âˆ’"; }
 .qa details p { color: var(--muted); padding: 0 32px 18px 0; }
 .faq-more { margin-top: 28px; color: var(--muted); }
 .faq-more a { color: var(--pink-t); font-weight: 600; text-decoration: underline; }
@@ -603,3 +603,7 @@ table.shop_table th, table.shop_table td { padding: 12px 8px; border-bottom: 1px
 .wc-block-cart, .wc-block-checkout { margin-top: 12px; }
 .woocommerce-message, .woocommerce-info, .woocommerce-error { color: var(--text); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .woocommerce-message a.button { order: 2; padding: 8px 18px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+.chips a { padding: 8px 16px; border-radius: 999px; background: #fff; border: 1.5px solid var(--line); font-size: 14px; font-weight: 500; }
+.chips a:hover { border-color: var(--blue-h); }
+.chips a.on { background: var(--pink); border-color: var(--pink); font-weight: 600; }

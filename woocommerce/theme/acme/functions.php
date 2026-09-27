@@ -46,3 +46,18 @@ function acme_card($product) {
 	echo '</div><div class="meta"><h3><a href="' . esc_url($link) . '">' . esc_html($product->get_name()) . '</a></h3>';
 	echo '<span class="code">' . esc_html($product->get_sku()) . '</span><span class="price">' . $product->get_price_html() . '</span></div></article>';
 }
+
+// Ongkir is paid to the courier (COD J&T), so no shipping cost is added; the address is still collected as billing.
+add_filter('wc_shipping_enabled', '__return_false');
+
+// Shop title + category chips above the grid.
+add_filter('woocommerce_page_title', fn($t) => is_shop() ? 'Semua produk' : $t);
+add_action('woocommerce_before_shop_loop', function () {
+	$cur = get_queried_object();
+	$cur_id = $cur instanceof WP_Term ? $cur->term_id : 0;
+	echo '<nav class="chips" aria-label="Kategori"><a href="' . esc_url(wc_get_page_permalink('shop')) . '"' . (!$cur_id ? ' class="on"' : '') . '>Semua</a>';
+	foreach (get_terms(['taxonomy' => 'product_cat', 'hide_empty' => true, 'exclude' => [get_option('default_product_cat')]]) as $t) {
+		echo '<a href="' . esc_url(get_term_link($t)) . '"' . ($t->term_id === $cur_id ? ' class="on"' : '') . '>' . esc_html($t->name) . '</a>';
+	}
+	echo '</nav>';
+}, 5);

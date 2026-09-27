@@ -14,7 +14,7 @@
 		<button class="menu-btn" aria-label="Menu" onclick="document.querySelector('nav').classList.toggle('open')"><svg class="i" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
 		<a class="logo" href="<?php echo esc_url(home_url('/')); ?>"AB<small>ACME BEAUTY</small></a>
 		<nav>
-			<a href="<?php echo esc_url(home_url('/')); ?>"<?php echo is_front_page() ? ' class="active"' : ''; ?>>Beranda</a><a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>"<?php echo is_shop() ? ' class="active"' : ''; ?>>Semua produk</a>
+			<a href="<?php echo esc_url(home_url('/')); ?>"<?php echo is_front_page() ? ' class="active"' : ''; ?>>Beranda</a><a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>"<?php echo is_shop() ? ' class="active"' : ''; ?>>Semua produk</a><a href="<?php echo esc_url(home_url('/about/')); ?>"<?php echo is_page('about') ? ' class="active"' : ''; ?>>Tentang</a>
 		</nav>
 		<div class="icons">
 			<a href="<?php echo esc_url(home_url('/?post_type=product&s=')); ?>" aria-label="Cari produk"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm9 16-4-4"/></svg></a>
