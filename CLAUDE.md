@@ -6,7 +6,8 @@ Proof-of-concept rebuild of acme.example (Indonesian import-fashion / beauty res
 
 - **Phase 1 - static mockup (mockup-v2): done, deployed** to https://ecommerce-poc.acme-demo.workers.dev (Cloudflare Workers static assets).
 - **Phase 2 - local WooCommerce POC, Stage 1 done, awaiting review.** `woocommerce/` = podman compose (WP + MariaDB, port 8080; admin/admin) with custom theme `woocommerce/theme/acme/` (mockup-v2 style.css + PHP templates). WP 6.9.4 + WooCommerce 10.9.4 (11.x needs WP 7). 24 products seeded from `mockup-v2/app.js` via `woocommerce/seed/gen.js`. Gotchas: run wp-cli inside `woocommerce_wp_1` as uid 33 (WP's own HTTP client gets 434 from wordpress.org, so install plugins from zips fetched with curl); other containers `wp-app`/`wp-db` belong to a different project.
-- Stage 2 (after approval): variant/added popups, bottom-sheet filters, About/FAQ/account pages, Indonesian strings, payment gateway sandbox (Midtrans/Xendit, needs keys).
+- Payment: DOKU (official plugin doku-payment, hosted DOKU Checkout page, sandbox). Credentials live in the DB option `woocommerce_doku_gateway_settings` (`sandbox_client_id`, `sandbox_shared_key`, `environment_payment_jokul=false`) - never commit them. Plugin needs HPOS off (`wp wc hpos disable`). Webhooks can't reach localhost, so orders stay pending unless a public tunnel is used. Installed with a manual curl + `wp plugin install /tmp/doku.zip` (see `seed/doku.sh`).
+- Stage 2 done so far: Indonesian locale, About/FAQ pages, category chips, ongkir disabled, DOKU checkout redirect. Still to do: variant/added popups, bottom-sheet filters, About/FAQ/account pages, Indonesian strings, payment gateway sandbox (Midtrans/Xendit, needs keys).
 
 ## Layout
 
