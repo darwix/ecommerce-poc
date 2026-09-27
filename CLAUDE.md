@@ -2,10 +2,11 @@
 
 Proof-of-concept rebuild of acme.example (Indonesian import-fashion / beauty resale store, PT. Acme Beauty Group) with a new pink + blue palette. Target stack is WordPress + WooCommerce; later deployment on Biznet Gio. Design rules live in [DESIGN.md](DESIGN.md).
 
-## Status (2026-09-26)
+## Status (2026-09-27)
 
-- **Phase 1 – static mockup: done, awaiting approval.** Two versions exist; the user has not yet picked one.
-- **Phase 2 – local WooCommerce POC: not started.** Do not start until the user approves a mockup.
+- **Phase 1 - static mockup (mockup-v2): done, deployed** to https://ecommerce-poc.acme-demo.workers.dev (Cloudflare Workers static assets).
+- **Phase 2 - local WooCommerce POC, Stage 1 done, awaiting review.** `woocommerce/` = podman compose (WP + MariaDB, port 8080; admin/admin) with custom theme `woocommerce/theme/acme/` (mockup-v2 style.css + PHP templates). WP 6.9.4 + WooCommerce 10.9.4 (11.x needs WP 7). 24 products seeded from `mockup-v2/app.js` via `woocommerce/seed/gen.js`. Gotchas: run wp-cli inside `woocommerce_wp_1` as uid 33 (WP's own HTTP client gets 434 from wordpress.org, so install plugins from zips fetched with curl); other containers `wp-app`/`wp-db` belong to a different project.
+- Stage 2 (after approval): variant/added popups, bottom-sheet filters, About/FAQ/account pages, Indonesian strings, payment gateway sandbox (Midtrans/Xendit, needs keys).
 
 ## Layout
 
