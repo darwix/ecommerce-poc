@@ -63,8 +63,14 @@ Living record of how the Acme POC is hosted. Update it whenever something change
 
 ## Open items
 
-- [ ] Install WooCommerce, theme, DOKU, products on the host and verify in a browser.
-- [ ] Anti-bot whitelist for DOKU webhooks; set DOKU notification URLs.
-- [ ] QRIS credentials.
+- [x] Install WooCommerce, theme, DOKU, products on the host and verify in a browser.
+- [x] Enable OPcache (fixed the slow/timeout page loads).
+- [x] Confirm order emails (DOKU's own receipt + WooCommerce order emails) reach an inbox.
+- [ ] **Confirm the DOKU notification actually flips an order from Pending payment to Processing on its own** — this is the one open question deciding whether the POC's payment loop fully works. Anti-bot layer may be blocking DOKU's webhook call to `/wp/wp-json/doku/notification`; ask NeoHosting to whitelist it if the order stays Pending after a sandbox payment.
+- [ ] QRIS credentials (separate QRIS Client-ID/Shared Key/MPAN, not obtained).
 - [ ] Decide `/wp/` vs root install before showing the customer.
-- [ ] Rotate the DOKU sandbox Secret Key.
+- [ ] Rotate the DOKU sandbox Secret Key (it was pasted in chat during setup).
+- [ ] Create the client's Shop-manager user (see Access control section for role choice/tradeoffs).
+- [ ] About/FAQ pages still 404 on the host (theme has `page-about.php`/`page-faq.php`; the WordPress pages with slugs `about`/`faq` need creating).
+- [ ] Refunds and post-cancel refunds are manual (DOKU Back Office) — no plugin support. Note this for the client.
+- [ ] Verify stock-hold behavior: WooCommerce reserves stock on Pending orders and only decrements on payment; check "Hold stock (minutes)" >= DOKU's payment expiry window.
