@@ -7,7 +7,7 @@ Living record of how the Acme POC is hosted. Update it whenever something change
 | What | Where | Status |
 |---|---|---|
 | Static mockup (`mockup-v2/`) | Cloudflare Workers static assets, https://ecommerce-poc.acme-demo.workers.dev | Live. Deploy: `wrangler deploy --name ecommerce-poc --assets mockup-v2 --compatibility-date 2026-09-01` |
-| WooCommerce POC | NeoHosting shared cPanel, https://shop.armstronger.web.id/wp/ | WordPress installed in `/wp/`; WooCommerce, theme, DOKU and products **not yet installed** (2026-09-27) |
+| WooCommerce POC | NeoHosting shared cPanel, https://shop.armstronger.web.id/wp/ | WordPress 7.1.2 in `/wp/` + WooCommerce 11.1.2 active (Shop/Cart pages exist, still "Coming soon" mode, default Twenty Twenty-Five theme, site title "My Blog"). Acme theme, DOKU and products **not yet installed** (2026-09-27) |
 | Local WooCommerce | podman stack in `woocommerce/` on port 8080 | Dev only, admin/admin |
 | VPS package | `woocommerce/deploy/` (Docker compose + Caddy) | Written, never run. Alternative if shared hosting fails |
 
