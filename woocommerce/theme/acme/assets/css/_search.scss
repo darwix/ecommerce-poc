@@ -1,0 +1,133 @@
+/* search overlay + header icon */
+.icobtn {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.icobtn:hover {
+  background: $soft;
+}
+.icobtn svg {
+  width: 21px;
+  height: 21px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+.sdlg {
+  width: min(720px, calc(100% - 32px));
+}
+.sdlg form {
+  display: grid;
+  gap: 6px;
+}
+.sbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid $line;
+  padding-bottom: 14px;
+}
+.sbox svg {
+  width: 21px;
+  height: 21px;
+  stroke: $muted;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  flex: none;
+}
+.sbox input {
+  font: inherit;
+  font-size: 17px;
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+}
+.sbox input:focus-visible {
+  outline: 0;
+}
+.sres {
+  display: grid;
+  gap: 10px;
+  max-height: 60vh;
+  overflow: auto;
+}
+.lbl {
+  font-size: 13px;
+  font-weight: 600;
+  color: $muted;
+  margin-top: 8px;
+}
+.sgrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px 14px;
+}
+.sgrid .add {
+  display: none;
+}
+.sgrid .card h3 {
+  font-size: 14px;
+}
+.sres .linkbtn {
+  justify-self: start;
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.chips button {
+  background: #fff;
+  border: 1px solid $blue;
+  border-radius: 999px;
+  padding: 7px 15px;
+  font-size: 13px;
+}
+.chips button:hover {
+  background: $blue;
+}
+.fsearch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid $line;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0 12px;
+  margin-bottom: 20px;
+}
+.fsearch svg {
+  width: 19px;
+  height: 19px;
+  stroke: $muted;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  flex: none;
+}
+.fsearch input {
+  font: inherit;
+  font-size: 14px;
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  padding: 10px 0;
+}
+.fsearch:focus-within {
+  border-color: $blue-h;
+}
+.fsearch input:focus-visible {
+  outline: 0;
+}
+
+@media (max-width: 1000px) {
+  .sgrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

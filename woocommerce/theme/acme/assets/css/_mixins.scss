@@ -1,0 +1,37 @@
+// Responsive breakpoints
+@mixin tablet {
+  @media (max-width: 1000px) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: 760px) {
+    @content;
+  }
+}
+
+@mixin touch {
+  @media (hover: none) {
+    @content;
+  }
+}
+
+@mixin reduce-motion {
+  @media (prefers-reduced-motion: reduce) {
+    @content;
+  }
+}
+
+// Grid utilities
+@mixin grid-2-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@mixin flexbox-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

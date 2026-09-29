@@ -1,0 +1,12 @@
+{
+  "name": "acme-theme",
+  "version": "0.9.21",
+  "description": "Acme WooCommerce theme",
+  "scripts": {
+    "sass": "sass style.scss style.css --no-source-map",
+    "sass:watch": "sass --watch style.scss:style.css --poll --no-source-map"
+  },
+  "devDependencies": {
+    "sass": "^1.77.0"
+  }
+}

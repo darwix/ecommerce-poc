@@ -1,0 +1,667 @@
+/* checkout */
+.co {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 20px 80px;
+}
+.co form.checkout {
+  display: grid;
+  /* address + totals left (sticky), product list right (wide) */
+  grid-template-columns: 480px minmax(0, 1fr);
+  gap: 32px;
+  /* stretch, not start: the sticky sidebar needs a grid area taller than itself
+     to travel in, and `start` shrinks the item to its own content. */
+  align-items: stretch;
+}
+/* The theme hides horizontal overflow on html and body, which makes body the
+   scroll container and kills `position: sticky` for its children (the header
+   below). This template renders its own page shell, so it can opt out. */
+html.co-html,
+html.co-html body {
+  overflow: visible;
+}
+.co-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 68px;
+  padding: 0 max(20px, calc((100% - 1100px) / 2 + 20px));
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #fff;
+  border-bottom: 1px solid $line;
+}
+.co-head .logo {
+  flex: 1;
+  font-size: 22px;
+}
+.co-head > a > svg {
+  width: 22px;
+  height: 22px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+}
+.co h2 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 24px 0 12px;
+}
+/* Column-top headings carry no top margin. Scoped to .col-1: the shipping "Pengiriman"
+   heading is also a :first-child, and it needs the gap above it. */
+.co .col-1 h2:first-child,
+.co #order_review_heading,
+/* "Pesanan" over the product list, same treatment as the sidebar's. */
+.co-main > .co-lines-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+/* The grid item stretches to the row height, and the inner wrapper is what
+   sticks: a sticky grid item's containing block is its own grid area, so the
+   item itself can never travel. The wrapper starts below the sticky header. */
+.co-side > .co-side-in {
+  position: sticky;
+  top: 84px;
+  display: grid;
+  gap: 16px;
+}
+.box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px 20px;
+  box-shadow: $shadow;
+}
+.row-opt {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  text-align: left;
+}
+.row-opt > span:last-child {
+  display: grid;
+  gap: 2px;
+}
+.row-opt b {
+  font-weight: 600;
+}
+.row-opt small {
+  color: $muted;
+  font-size: 13px;
+}
+.ico {
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: $soft;
+  color: $pink-h;
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.linkbtn {
+  color: $blue-h;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: underline;
+}
+.linkbtn:hover {
+  color: $pink-h;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.fields label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.fields label small {
+  color: $muted;
+  font-weight: 400;
+}
+.fields .full {
+  grid-column: 1 / -1;
+}
+.fields input,
+.fields select,
+.fields textarea {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 11px 12px;
+  border: 1px solid $line;
+  border-radius: 10px;
+  background: #fff;
+  color: $text;
+}
+.fields textarea {
+  resize: vertical;
+}
+.fields input:disabled,
+.fields select:disabled {
+  background: #faf6f8;
+  color: $muted;
+}
+.fields :user-invalid {
+  border-color: $pink-h;
+}
+.tel {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid $line;
+  border-radius: 10px;
+  padding-left: 12px;
+}
+.tel b {
+  font-weight: 500;
+  font-size: 15px;
+  color: $muted;
+}
+.tel input {
+  border: 0 !important;
+  border-radius: 0;
+  padding-left: 4px;
+  background: transparent;
+  min-width: 0;
+}
+.tel:focus-within {
+  outline: 2px solid $blue-h;
+  outline-offset: 2px;
+}
+
+.paysel {
+  cursor: pointer;
+}
+.paysel:hover {
+  box-shadow: 0 4px 14px -8px rgba(217, 109, 150, 0.5);
+}
+#payLogo {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 52px;
+}
+#payLogo img,
+.ptile img {
+  max-width: 52px;
+  max-height: 22px;
+}
+.paysel .end {
+  margin-left: auto;
+  stroke: $muted;
+}
+.qris {
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  font-size: 14px;
+}
+
+/* checkout: reskin default WooCommerce checkout form to match mockup */
+/* checkout/form-checkout.php wraps the two columns, so the grid has exactly two
+   items. Same heading treatment as the address column's. */
+.co #order_review_heading {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+/* WC floats .col-1/.col-2 side by side inside #customer_details, which halves the
+   address card. Stack them so the address gets the full left column and the
+   order note sits underneath it. */
+.co .col2-set {
+  display: block;
+}
+.co .col2-set .col-1,
+.co .col2-set .col-2 {
+  float: none;
+  width: 100%;
+}
+/* col-2 carries the shipping row (mockup's "Pengiriman" section). */
+.co .col2-set .col-1,
+.co .col2-set .col-2 {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin-bottom: 0;
+}
+.co .col2-set h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+/* Section heading sits above the card; the card starts at the column top, so the
+   heading carries no top margin. (:first-child does not match - WC's attribution
+   input sits before it.) */
+.co .col2-set .col-1 > h2,
+.co .col2-set .col-1 > h3 {
+  margin: 0 0 12px;
+}
+
+/* Field styling lives in _address.scss, scoped to #addrDlg: the billing fields
+   only render inside the address picker dialog. */
+
+.co .woocommerce-shipping-fields .form-row,
+.co .woocommerce-additional-fields .form-row {
+  margin-bottom: 14px;
+}
+.co #order_review {
+  display: grid;
+  gap: 16px;
+}
+/* The AJAX fragment wrapper must not break the sidebar's card stack. */
+.co .woocommerce-checkout-review-order-table {
+  display: contents;
+}
+/* DOKU is the only gateway, so the method list is noise; the radio stays in the
+   DOM (hidden) so WooCommerce still receives payment_method on submit. */
+.woocommerce-checkout #payment ul.wc_payment_methods {
+  display: none;
+}
+.co #order_review .woocommerce-checkout-payment {
+  background: none;
+  padding: 0;
+  box-shadow: none;
+}
+.co #order_review .woocommerce-checkout-payment ul.wc_payment_methods {
+  margin: 0 0 16px;
+}
+.co .coline img {
+  width: 52px;
+  height: 64px;
+}
+.co table.shop_table {
+  width: 100%;
+  font-size: 14px;
+  border-collapse: collapse;
+}
+.co table.shop_table th,
+.co table.shop_table td {
+  padding: 8px 0;
+  border-bottom: 1px solid $line;
+  text-align: left;
+}
+.co table.shop_table .order-total td,
+.co table.shop_table .order-total th {
+  font-weight: 700;
+  font-size: 16px;
+  border-top: 1px solid $line;
+  border-bottom: none;
+}
+.co ul.wc_payment_methods {
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.co ul.wc_payment_methods li {
+  border: 1px solid $line;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.co ul.wc_payment_methods input[type="radio"] {
+  margin-right: 8px;
+}
+.co .payment_box {
+  margin-top: 10px;
+  font-size: 13px;
+  color: $muted;
+}
+/* WC gives the button .button.alt, not .btn, so restate the pill style here. */
+.co #place_order {
+  width: 100%;
+  justify-content: center;
+  background: $pink;
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 26px;
+  font: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+.co #place_order:hover {
+  background: $pink-t;
+}
+.woocommerce-checkout #payment div.payment_box {
+  background: none;
+  padding: 8px 0 0;
+  margin: 0;
+  color: $muted;
+  font-size: 13px;
+}
+.woocommerce-checkout #payment div.payment_box::before {
+  display: none;
+}
+/* ID beats WC's own #payment rule for the 15px side padding on .place-order. */
+.woocommerce-checkout .co #payment .place-order {
+  margin: 0;
+  padding: 0;
+}
+.woocommerce-checkout #payment .place-order .terms {
+  margin: 10px 0 0;
+  padding: 0;
+  text-align: center;
+}
+.ptiles {
+  display: grid;
+  gap: 10px;
+}
+.ptiles.two {
+  grid-template-columns: 1fr 1fr;
+}
+.ptile {
+  height: 50px;
+  border: 1px solid $line;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  background: #fff;
+}
+.ptile:hover {
+  border-color: $blue-h;
+}
+.ptile.on {
+  border: 2px solid $text;
+}
+#payDlg .lbl {
+  font-weight: 600;
+  font-size: 14px;
+  margin: 18px 0 10px;
+}
+.pmore {
+  background: $soft;
+  border-radius: 12px;
+  padding: 14px;
+  margin: 16px 0;
+  font-size: 13px;
+  color: $muted;
+  display: grid;
+  gap: 10px;
+}
+.pmore:empty {
+  display: none;
+}
+.pmore p {
+  margin: 0;
+}
+.pmore label {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+  color: $text;
+}
+.pmore .tel {
+  background: #fff;
+}
+.pmore input[type="tel"] {
+  font: inherit;
+  font-size: 14px;
+  border: 0;
+  padding: 10px;
+  background: transparent;
+  min-width: 0;
+}
+.pmore .lbl {
+  margin: 0;
+  color: $text;
+}
+.pmore .opts label {
+  background: #fff;
+  border: 1px solid $line;
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+.pmore .opts label:has(:checked) {
+  border: 2px solid $text;
+  padding: 7px 9px;
+}
+.pmore .opts input {
+  position: absolute;
+  opacity: 0;
+}
+.pmore .opts img {
+  height: 20px;
+}
+.cards {
+  display: flex;
+  gap: 10px;
+}
+.cards img {
+  height: 20px;
+}
+
+.more {
+  border-top: 1px solid $line;
+  padding: 14px 0 0;
+  margin-top: 14px;
+}
+.more:first-of-type {
+  margin-top: 0;
+}
+.more summary {
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.more summary small {
+  display: inline;
+  color: $muted;
+  font-weight: 400;
+}
+.more textarea {
+  font: inherit;
+  font-size: 14px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid $line;
+  border-radius: 10px;
+  resize: vertical;
+}
+.more > small {
+  display: block;
+  margin-top: 8px;
+  color: $muted;
+}
+.vrow {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.vrow input {
+  font: inherit;
+  font-size: 14px;
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid $line;
+  border-radius: 10px;
+}
+
+.coline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid $line;
+}
+.coline:last-of-type {
+  border-bottom: 0;
+}
+.coline img {
+  width: 52px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #f6eef2;
+  flex: none;
+}
+.coline span {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+.coline span small {
+  color: $muted;
+  font-size: 13px;
+}
+.coline .r {
+  text-align: right;
+  justify-items: end;
+}
+.coline > b:last-child {
+  white-space: nowrap;
+  flex: none;
+}
+.coline .woocommerce-Price-amount,
+.coline .woocommerce-Price-currencySymbol {
+  display: inline;
+}
+.sums {
+  display: grid;
+  gap: 10px;
+  /* the row it sits in absorbs the card's slack; keep the rows packed at the top */
+  align-content: start;
+  font-size: 14px;
+}
+.sums > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sums dt {
+  color: $muted;
+}
+.sums dd {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+.sums .tot {
+  border-top: 1px solid $line;
+  padding-top: 12px;
+  font-size: 16px;
+}
+.sums .tot dt {
+  color: $text;
+  font-weight: 600;
+}
+.sums .tot dd {
+  font-weight: 700;
+  font-size: 20px;
+}
+.terms {
+  font-size: 12px;
+  color: $muted;
+  text-align: center;
+}
+.terms a {
+  text-decoration: underline;
+}
+.co-side .hint {
+  margin: 0;
+}
+
+#done {
+  text-align: center;
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px 24px;
+  box-shadow: $shadow;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+#done > svg:first-child {
+  width: 56px;
+  height: 56px;
+  stroke: $text;
+  fill: none;
+  stroke-width: 2.5;
+  background: $mint;
+  border-radius: 50%;
+  padding: 14px;
+}
+#done h1 {
+  font-size: 26px;
+  font-weight: 600;
+}
+#done .box {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  width: 100%;
+  max-width: 420px;
+}
+#done .box small {
+  color: $muted;
+}
+.qrbox {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  background: #fff;
+  border: 1px solid $line;
+  border-radius: 16px;
+  padding: 20px;
+  width: 100%;
+  max-width: 320px;
+}
+.qr {
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+}
+.qrbox small {
+  color: $muted;
+  font-size: 13px;
+}
+.vanum {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
+}
+.qrtag {
+  background: $soft;
+  color: $pink-h;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@media (max-width: 1000px) {
+  .co {
+    padding-bottom: 40px;
+  }
+  .co form.checkout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* one column: nothing to pin against */
+  .co-side > .co-side-in {
+    position: static;
+  }
+}
+@media (max-width: 760px) {
+  .fields {
+    grid-template-columns: 1fr;
+  }
+  .ptiles.two {
+    grid-template-columns: 1fr;
+  }
+}

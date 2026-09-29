@@ -71,5 +71,8 @@
 
 	load(sels[0], ph[0], WIL + 'provinces.json', function (d) {
 		return d.map(function (r) { return [r.id, r.name]; });
+	}).then(function () {
+		// address.js re-applies the saved address once the real option list is in
+		document.dispatchEvent(new Event('acme:cascade-ready'));
 	});
 })();

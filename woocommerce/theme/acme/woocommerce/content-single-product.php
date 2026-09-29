@@ -11,8 +11,6 @@ $cats = wc_get_product_category_list($id);
 $sold = (int) get_post_meta($id, 'total_sales', true);
 $low_stock = $product->managing_stock() ? $product->get_stock_quantity() : null;
 ?>
-<div class="crumbs"><?php woocommerce_breadcrumb(['delimiter' => ' / ', 'wrap_before' => '', 'wrap_after' => '', 'before' => '', 'after' => '']); ?></div>
-
 <section class="pd" aria-live="polite">
 	<div class="pd-gal">
 		<div class="pd-main">
@@ -24,7 +22,7 @@ $low_stock = $product->managing_stock() ? $product->get_stock_quantity() : null;
 		<?php if (count($gallery_ids) > 1): ?>
 		<div class="pd-thumbs">
 			<?php foreach (array_values($gallery_ids) as $i => $img_id): ?>
-				<button type="button" data-img="<?php echo esc_attr($img_id); ?>" class="<?php echo $i === 0 ? 'on' : ''; ?>" aria-label="Foto <?php echo $i + 1; ?>">
+				<button type="button" data-img="<?php echo esc_attr($img_id); ?>" data-full="<?php echo esc_url(wp_get_attachment_image_url($img_id, 'large')); ?>" class="<?php echo $i === 0 ? 'on' : ''; ?>" aria-label="Foto <?php echo $i + 1; ?>">
 					<?php echo wp_get_attachment_image($img_id, 'thumbnail'); ?>
 				</button>
 			<?php endforeach; ?>
@@ -55,16 +53,55 @@ $low_stock = $product->managing_stock() ? $product->get_stock_quantity() : null;
 		</ul>
 
 		<div class="qa">
-			<details open><summary>Detail produk</summary><p><?php echo wpautop(wp_kses_post($product->get_description() ?: $product->get_short_description())); ?></p></details>
+			<details open><summary>Detail produk</summary>
+				<?php
+				$desc = $product->get_description() ?: $product->get_short_description();
+				if ($desc) {
+					echo wpautop(wp_kses_post($desc));
+				} else {
+					// mockup fallback: kode + atribut
+					$bits = [];
+					if ($product->get_sku()) $bits[] = 'Kode ' . $product->get_sku() . '.';
+					foreach ($product->get_attributes() as $attr) {
+						$terms = $product->get_attribute($attr->get_name());
+						if ($terms) $bits[] = wc_attribute_label($attr->get_name()) . ': ' . $terms . '.';
+					}
+					$bits[] = 'Foto produk hanya contoh untuk mockup.';
+					echo '<p>' . esc_html(implode(' ', $bits)) . '</p>';
+				}
+				?>
+			</details>
 			<details><summary>Pengiriman &amp; COD</summary><p>Pesanan dikirim 1×24 jam setelah dikonfirmasi lewat J&amp;T. Bayar di tempat saat paket sampai, ongkir dibayar langsung ke kurir.</p></details>
 			<details><summary>Butuh bantuan?</summary><p>Chat admin lewat WhatsApp sebelum pesanan dikirim jika ingin bertanya soal ukuran atau stok.</p></details>
 		</div>
 	</div>
 </section>
 
-<?php if (isset($_GET['added-to-cart'])): ?>
-<script>window.acmeJustAdded = <?php echo (int) $_GET['added-to-cart']; ?>;</script>
-<?php endif; ?>
+<?php
+// The popup shows the line as it landed in the cart (variant + qty + line total), so read it back
+// from the cart rather than the form, which the redirect has already reset.
+if (isset($_GET['added-to-cart']) && (int) $_GET['added-to-cart'] === $id && WC()->cart) {
+	$line = null;
+	foreach (WC()->cart->get_cart() as $item) {
+		if ((int) $item['product_id'] === $id) $line = $item;
+	}
+	if ($line) {
+		$variant = [];
+		foreach ($line['variation'] ?? [] as $value) {
+			if ($value !== '') $variant[] = $value;
+		}
+		$variant[] = sprintf('%d item', $line['quantity']);
+		?>
+		<script>window.acmeJustAdded = <?php echo wp_json_encode([
+			'name'  => $product->get_name(),
+			'meta'  => implode(' · ', $variant),
+			'price' => wc_price($line['line_subtotal']),
+			'image' => wp_get_attachment_image_url(reset($gallery_ids), 'thumbnail'),
+		]); ?>;</script>
+		<?php
+	}
+}
+?>
 
 <section class="pd-more">
 	<div class="shead"><h2>Mungkin kamu suka</h2><a class="link" href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>">Lihat semua</a></div>

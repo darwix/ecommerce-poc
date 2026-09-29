@@ -4,7 +4,7 @@
 
 	<section class="wrap">
 		<div class="shead"><div><h2>Baru datang</h2><p>Stok terbatas, diperbarui tiap minggu</p></div><a class="link" href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>">Lihat semua</a></div>
-		<div class="grid"><?php foreach (wc_get_products(['limit' => 8, 'orderby' => 'date', 'order' => 'DESC']) as $p) acme_card($p); ?></div>
+		<div class="grid"><?php foreach (wc_get_products(['limit' => 8, 'orderby' => 'date', 'order' => 'DESC']) as $p) theme_product_card($p); ?></div>
 	</section>
 
 	<section class="wrap">
@@ -26,7 +26,7 @@
 
 	<section class="wrap">
 		<div class="shead"><h2>Paling laris bulan ini</h2><a class="link" href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>">Lihat semua</a></div>
-		<div class="row"><?php foreach (wc_get_products(['limit' => 8, 'orderby' => 'meta_value_num', 'meta_key' => 'total_sales', 'order' => 'DESC']) as $p) acme_card($p); ?></div>
+		<div class="row"><?php foreach (wc_get_products(['limit' => 8, 'orderby' => 'meta_value_num', 'meta_key' => 'total_sales', 'order' => 'DESC']) as $p) theme_product_card($p); ?></div>
 	</section>
 </main>
 <?php get_footer();

@@ -1,0 +1,52 @@
+// CSS Custom Properties (for use in CSS)
+:root {
+  --pink: #f4a6c1;
+  --pink-h: #d96d96;
+  --pink-t: #a83f68;
+  --blue: #a8d5e8;
+  --blue-h: #6fb3d2;
+  --bg: #fff8fa;
+  --text: #2e2a3d;
+  --mint: #b8e0d2;
+  --muted: #6f6a7d;
+  --line: #f0dbe3;
+  --danger: #d64545;
+  --soft: #fdeef3;
+  --shadow: 0 1px 3px rgba(217, 109, 150, 0.08), 0 8px 20px -12px rgba(46, 42, 61, 0.18);
+  --wc-form-border-color: var(--line);
+  --wc-form-border-width: 1px;
+  --wc-form-border-radius: 10px;
+  --wc-form-color-background: #fff;
+  --wc-form-color-text: var(--text);
+}
+
+// SCSS Variables (for use in SCSS)
+$pink: #f4a6c1;
+$pink-h: #d96d96;
+$pink-t: #a83f68;
+$blue: #a8d5e8;
+$blue-h: #6fb3d2;
+$bg: #fff8fa;
+$text: #2e2a3d;
+$mint: #b8e0d2;
+$muted: #6f6a7d;
+$line: #f0dbe3;
+$danger: #d64545;
+$soft: #fdeef3;
+
+// Shadows
+$shadow: 0 1px 3px rgba(217, 109, 150, 0.08), 0 8px 20px -12px rgba(46, 42, 61, 0.18);
+
+// WooCommerce form variables
+$wc-form-border-color: $line;
+$wc-form-border-width: 1px;
+$wc-form-border-radius: 10px;
+$wc-form-color-background: #fff;
+$wc-form-color-text: $text;
+
+// Layout
+$max-width: 1240px;
+$max-width-checkout: 1100px;
+$max-width-cart: 960px;
+$max-width-account: 980px;
+$gutter: 20px;

@@ -1,46 +1,18 @@
 <?php
 /**
- * Review order – Acme sidebar (mockup-v2/checkout.html .co-side).
- * Replaces WooCommerce's shop_table with the mockup's line list + sums block.
+ * Review order – Acme sticky sidebar: the sums block and, via the hooks below
+ * it, the payment method and the place-order button. The line items live in
+ * checkout/order-lines.php, in the wide column.
  *
  * @see woocommerce/templates/checkout/review-order.php (5.2.0)
  */
 
 defined('ABSPATH') || exit;
 
-$cart  = WC()->cart;
-$items = 0;
+$cart = WC()->cart;
+$items = $cart->get_cart_contents_count();
 ?>
 <div class="woocommerce-checkout-review-order-table">
-<div class="box">
-	<?php
-	do_action('woocommerce_review_order_before_cart_contents');
-
-	foreach ($cart->get_cart() as $key => $item) {
-		$product = apply_filters('woocommerce_cart_item_product', $item['data'], $item, $key);
-		if (!$product || !$product->exists() || $item['quantity'] <= 0
-			|| !apply_filters('woocommerce_checkout_cart_item_visible', true, $item, $key)) {
-			continue;
-		}
-		$items += $item['quantity'];
-		$meta   = wc_get_formatted_cart_item_data($item, true); // "Warna: X, Ukuran: Y"
-		$parts  = array_filter([$product->get_sku(), $meta, $item['quantity'] . '×']);
-		?>
-		<div class="coline">
-			<?php echo $product->get_image('woocommerce_thumbnail'); ?>
-			<span>
-				<b><?php echo wp_kses_post(apply_filters('woocommerce_cart_item_name', $product->get_name(), $item, $key)); ?></b>
-				<small><?php echo esc_html(implode(' · ', $parts)); ?></small>
-			</span>
-			<b><?php echo wp_kses_post(apply_filters('woocommerce_cart_item_subtotal', $cart->get_product_subtotal($product, $item['quantity']), $item, $key)); ?></b>
-		</div>
-		<?php
-	}
-
-	do_action('woocommerce_review_order_after_cart_contents');
-	?>
-</div>
-
 <dl class="sums">
 	<div>
 		<dt><?php printf(esc_html__('Subtotal · %d item', 'acme'), $items); ?></dt>

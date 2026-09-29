@@ -1,0 +1,407 @@
+/* single product */
+.single-product div.product {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+.single-product .woocommerce-product-gallery {
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f6eef2;
+}
+.single-product .woocommerce-product-gallery img {
+  width: 100%;
+}
+.single-product .summary h1 {
+  font-size: 28px;
+  font-weight: 600;
+}
+.single-product .summary .price {
+  font-size: 22px;
+  display: block;
+  margin: 12px 0;
+}
+.single-product .summary form.cart {
+  display: flex;
+  gap: 12px;
+  margin: 20px 0;
+  align-items: center;
+}
+.single-product .quantity input {
+  width: 72px;
+  text-align: center;
+}
+.single_add_to_cart_button,
+.button:not(.add),
+.woo button[type="submit"],
+.wp-block-button__link,
+.wc-block-components-button:not(.is-link) {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: $pink;
+  color: $text;
+  border-radius: 999px;
+  padding: 12px 26px;
+  font-weight: 600;
+  border: 0;
+  cursor: pointer;
+}
+.single_add_to_cart_button:hover,
+.button:not(.add):hover,
+.woo button[type="submit"]:hover,
+.wp-block-button__link:hover,
+.wc-block-components-button:not(.is-link):hover {
+  background: $pink-t;
+  color: #fff;
+}
+.single-product .related,
+.single-product .upsells {
+  grid-column: 1 / -1;
+  margin-top: 40px;
+}
+.single-product .woocommerce-tabs {
+  grid-column: 1 / -1;
+}
+.woocommerce-tabs ul.tabs {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  border-bottom: 1px solid $line;
+}
+.woocommerce-tabs ul.tabs a {
+  display: block;
+  padding: 10px 0;
+  font-weight: 500;
+}
+.woocommerce-tabs ul.tabs .active a {
+  border-bottom: 2px solid $pink-h;
+}
+.stock {
+  color: $muted;
+  font-size: 14px;
+}
+.single-product div.product .woocommerce-product-gallery {
+  grid-column: 1;
+  grid-row: 1;
+}
+.single-product div.product .summary {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+/* ---- product detail (from mockup-v2) ---- */
+.pd {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  padding: 20px 0 8px;
+}
+.pd-main {
+  position: relative;
+  aspect-ratio: 4/5;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #f6eef2;
+}
+.pd-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pd-thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+.pd-thumbs button {
+  width: 76px;
+  aspect-ratio: 4/5;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f6eef2;
+  border: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+}
+.pd-thumbs button.on {
+  border-color: $text;
+}
+.pd-thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.pd-info {
+  display: grid;
+  gap: 14px;
+}
+.pd-info h1 {
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.pd-meta {
+  display: flex;
+  gap: 14px;
+  font-size: 13px;
+  color: $muted;
+}
+.pd-price {
+  font-size: 26px;
+  font-weight: 600;
+}
+.pd-wish {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-self: start;
+}
+.pd-wish svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+}
+.pd-wish.on svg {
+  fill: $pink-h;
+  stroke: $pink-h;
+}
+.pd-perks {
+  list-style: none;
+  display: grid;
+  gap: 8px;
+  padding: 14px 0;
+  border-top: 1px solid $line;
+  font-size: 14px;
+  color: $muted;
+}
+.pd-perks li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pd-perks svg {
+  width: 18px;
+  height: 18px;
+  stroke: $blue-h;
+  fill: none;
+  stroke-width: 1.8;
+  flex: none;
+}
+.pd-perks b {
+  color: $text;
+  font-weight: 600;
+}
+.pd .qa {
+  max-width: none;
+}
+.pd-more {
+  margin-top: 64px;
+}
+
+/* ---- single product: real WC add-to-cart / variation form, styled to match mockup pills ---- */
+.related.products > h2 {
+  display: none;
+}
+.related.products {
+  margin: 0;
+}
+.pd-form {
+  display: grid;
+  gap: 14px;
+  margin: 4px 0;
+}
+.pd-form table.variations {
+  border: 0;
+  width: auto;
+}
+.pd-form table.variations tbody,
+.pd-form table.variations tr,
+.pd-form table.variations td,
+.pd-form table.variations th {
+  display: block;
+  border: 0;
+  padding: 0;
+}
+.pd-form table.variations tr {
+  margin-bottom: 10px;
+}
+.pd-form table.variations label {
+  font-weight: 600;
+  font-size: 14px;
+  display: block;
+  margin-bottom: 8px;
+}
+/* WC's own JS sets an inline display on this link, hence !important */
+.pd-form .reset_variations {
+  display: none !important;
+}
+.pd-form .woocommerce-variation-add-to-cart {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.pd-form .woocommerce-variation {
+  order: -1;
+  flex-basis: 100%;
+}
+.pd-form .woocommerce-variation-price .price {
+  font-weight: 600;
+}
+.pd-form .woocommerce-variation-availability {
+  font-size: 13px;
+  color: $muted;
+}
+.pd-form .quantity {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid $line;
+  border-radius: 10px;
+}
+.pd-form .quantity input.qty {
+  width: 44px;
+  border: 0;
+  text-align: center;
+  font: inherit;
+  padding: 8px 0;
+  background: transparent;
+}
+.pd-form form.cart {
+  display: flex;
+  width: 100%;
+  justify-self: stretch;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+/* variable product: attribute groups stack, qty + button on their own row */
+.pd-form form.cart.variations_form {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+}
+.pd-form table.variations {
+  text-align: left;
+}
+.woocommerce .pd-form button.single_add_to_cart_button:disabled,
+.woocommerce .pd-form button.single_add_to_cart_button.disabled {
+  background: $pink;
+  color: $text;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.woocommerce .pd-form button.single_add_to_cart_button {
+  flex: 1;
+  min-width: 200px;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: $pink;
+  color: $text;
+  padding: 12px 26px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+.woocommerce .pd-form button.single_add_to_cart_button:hover {
+  background: $pink-t;
+  color: #fff;
+}
+.pd-form .single_add_to_cart_button:disabled,
+.pd-form .single_add_to_cart_button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.pd-form select[name^="attribute_"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+.pd-attr-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pd-attr-opts button {
+  border: 1px solid $line;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  background: #fff;
+}
+.pd-attr-opts button:hover {
+  border-color: $blue-h;
+}
+.pd-attr-opts button.on {
+  border: 2px solid $text;
+  padding: 7px 15px;
+  font-weight: 600;
+}
+.pd-attr-opts button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.pd-attr-opts button.out {
+  opacity: 1;
+  color: $muted;
+  background: var(--soft, #faf3f6);
+}
+.pd-attr-opts button.out small {
+  display: block;
+  font-size: 11px;
+}
+
+.woocommerce div.product div.images,
+.woocommerce div.product div.summary,
+.woocommerce #content div.product div.images {
+  float: none;
+  width: auto;
+  margin: 0;
+}
+.single-product .woocommerce-product-gallery {
+  opacity: 1 !important;
+}
+.single-product .flex-control-thumbs {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+  padding: 8px;
+}
+.single-product .flex-control-thumbs img {
+  width: 64px;
+  border-radius: 8px;
+}
+.woocommerce-product-gallery__trigger {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .recs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 860px) {
+  .single-product div.product {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  .single-product div.product .summary {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .pd {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+}

@@ -1,0 +1,305 @@
+/* ---- add-to-cart flow: picker dialog, added dialog, floating cart bar ---- */
+dialog {
+  border: 0;
+  border-radius: 20px;
+  padding: 0;
+  width: min(460px, calc(100% - 32px));
+  max-height: calc(100dvh - 48px);
+  overflow: auto;
+  color: $text;
+  background: #fff;
+  box-shadow: 0 30px 60px -20px rgba(46, 42, 61, 0.45);
+  margin: auto;
+}
+dialog::backdrop {
+  background: rgba(46, 42, 61, 0.45);
+}
+dialog[open] {
+  animation: pop 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+}
+dialog form {
+  padding: 20px 22px 22px;
+}
+#added {
+  width: min(760px, calc(100% - 32px));
+}
+.dhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.dhead h2 {
+  font-size: 19px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dhead h2 svg {
+  width: 22px;
+  height: 22px;
+  stroke: $text;
+  fill: none;
+  stroke-width: 2.5;
+  background: $mint;
+  border-radius: 50%;
+  padding: 4px;
+}
+.x {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+.x:hover {
+  background: $soft;
+}
+.x svg {
+  width: 20px;
+  height: 20px;
+  stroke: $text;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.dprod {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid $line;
+}
+.dprod img {
+  width: 74px;
+  height: 92px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #f6eef2;
+  flex: none;
+}
+.dprod > div:not(.dacts) {
+  display: grid;
+  gap: 2px;
+}
+.dprod b {
+  font-weight: 600;
+}
+.dprod small {
+  color: $muted;
+  font-size: 13px;
+}
+.dprod .price {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.dprod.wide-prod {
+  flex-wrap: wrap;
+}
+.dprod.wide-prod > div:not(.dacts) {
+  flex: 1;
+  min-width: 140px;
+}
+.dacts {
+  display: flex;
+  gap: 10px;
+  margin-left: auto;
+}
+.dacts .btn,
+.dacts .btn-sec {
+  padding: 11px 22px;
+  border: 1.5px solid transparent;
+  justify-content: center;
+  white-space: nowrap;
+}
+.dacts .btn-sec {
+  border-color: $blue-h;
+}
+
+#pick fieldset {
+  margin-bottom: 16px;
+}
+#pick legend {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.opts button {
+  border: 1px solid $line;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  background: #fff;
+}
+.opts button:hover {
+  border-color: $blue-h;
+}
+.opts button.on {
+  border: 2px solid $text;
+  padding: 7px 15px;
+  font-weight: 600;
+}
+.dfoot {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.dfoot .qty {
+  margin-left: 0;
+}
+.stockline {
+  color: $muted;
+  font-size: 13px;
+}
+.hint {
+  color: $pink-h;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.wide {
+  width: 100%;
+  justify-content: center;
+}
+
+.dsub {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 20px 0 14px;
+}
+.recs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px 14px;
+}
+.recs .card h3 {
+  font-size: 14px;
+}
+.recs .card .img {
+  aspect-ratio: 4/5;
+}
+.recs .add {
+  display: none;
+}
+
+#cartbar {
+  position: fixed;
+  left: 20px;
+  right: 20px;
+  max-width: 420px;
+  margin: 0 auto;
+  bottom: 20px;
+  z-index: 35;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: $text;
+  color: #fff;
+  border-radius: 16px;
+  padding: 12px 16px;
+  box-shadow: 0 16px 32px -12px rgba(46, 42, 61, 0.6);
+}
+#cartbar:hover {
+  transform: translateY(-2px);
+}
+#cartbar span {
+  display: grid;
+  gap: 1px;
+  flex: 1;
+}
+#cartbar b {
+  font-size: 14px;
+  font-weight: 600;
+}
+#cartbar small {
+  font-size: 13px;
+  color: #cfcbd8;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+/* .amount is display:grid elsewhere in the theme, which puts "Rp" on its own line here */
+#cartbar small .amount,
+#cartbar small .woocommerce-Price-currencySymbol {
+  display: inline;
+}
+#cartbar i {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: $pink;
+  border-radius: 12px;
+}
+#cartbar svg {
+  width: 22px;
+  height: 22px;
+  stroke: $text;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+#cartbar em {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: $mint;
+  color: $text;
+  font-size: 12px;
+  font-weight: 700;
+  font-style: normal;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+}
+body.has-bar footer {
+  padding-bottom: 128px;
+}
+
+@media (max-width: 560px) {
+  .dacts {
+    margin-left: 0;
+    width: 100%;
+  }
+  .dacts .btn,
+  .dacts .btn-sec {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+  }
+}
+@media (max-width: 860px) {
+  body.has-bar .fab {
+    bottom: 100px;
+  }
+  body.has-bar #top {
+    bottom: 164px;
+  }
+}
+@media (max-width: 760px) {
+  #cartbar {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+  }
+}

@@ -1,0 +1,59 @@
+.wrap {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: 0 $gutter;
+}
+
+section {
+  padding: 56px 0 8px;
+}
+
+.shead {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 22px;
+
+  h2 {
+    font-size: clamp(22px, 2.4vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    color: $muted;
+    font-size: 14px;
+  }
+}
+
+// Product grid
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px 20px;
+
+  @include tablet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 12px;
+  }
+}
+
+.row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 3 * 20px) / 4);
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+
+  > * {
+    scroll-snap-align: start;
+  }
+
+  @include tablet {
+    grid-auto-columns: calc((100% - 12px) / 2);
+    gap: 12px;
+  }
+}

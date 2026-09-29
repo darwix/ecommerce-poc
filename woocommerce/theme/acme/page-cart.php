@@ -51,7 +51,7 @@
 	if ($cross):
 	?>
 		<h2>Sering dibeli bersamaan</h2>
-		<div class="row"><?php foreach ($cross as $p) if ($p) acme_card($p); ?></div>
+		<div class="row"><?php foreach ($cross as $p) if ($p) theme_product_card($p); ?></div>
 	<?php endif; ?>
 </main>
 

@@ -1,0 +1,153 @@
+/* footer */
+footer {
+  background: $soft;
+  margin-top: 80px;
+  padding: 48px 0 32px;
+  font-size: 14px;
+}
+
+.fgrid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.4fr;
+  gap: 40px;
+}
+
+footer h4 {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $muted;
+  margin-bottom: 14px;
+}
+
+footer a {
+  display: block;
+  margin-bottom: 8px;
+
+  &:hover {
+    color: $blue-h;
+  }
+}
+
+.wa {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    fill: #25a366;
+  }
+}
+
+.ig {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+
+  svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+  }
+}
+
+.pay {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  img {
+    height: 30px;
+    width: 66px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 6px;
+    padding: 4px 8px;
+  }
+}
+
+.legal {
+  margin-top: 32px;
+  padding-top: 18px;
+  border-top: 1px solid $line;
+  font-size: 13px;
+  color: $muted;
+}
+
+/* floating WhatsApp + back to top */
+.fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: $pink-t;
+  color: #fff;
+  border-radius: 999px;
+  padding: 14px 18px;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 8px 22px -8px rgba(217, 109, 150, 0.7);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: #fff;
+  }
+}
+
+#top {
+  position: fixed;
+  right: 24px;
+  bottom: 84px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: $shadow;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 40;
+
+  &.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@include tablet {
+  .fgrid {
+    grid-template-columns: 1fr 1fr;
+
+    > :last-child {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+@include mobile {
+  .fgrid {
+    grid-template-columns: 1fr;
+  }
+
+  .fab span {
+    display: none;
+  }
+
+  .fab {
+    padding: 14px;
+  }
+}

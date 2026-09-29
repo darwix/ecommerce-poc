@@ -1,0 +1,288 @@
+/* hero: real text on a solid panel, photo beside it */
+.hero {
+  display: grid;
+  padding: 0;
+  grid-template-columns: 1.05fr 1fr;
+  min-height: min(60vh, 560px);
+  margin-top: 24px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: $soft;
+
+  &-copy {
+    padding: clamp(28px, 5vw, 64px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+  }
+
+  h1 {
+    font-family: "Playfair Display", serif;
+    font-weight: 400;
+    font-size: clamp(30px, 3.4vw, 46px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  p {
+    color: $muted;
+    max-width: 42ch;
+  }
+
+  .cta {
+    display: flex;
+    gap: 22px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+
+  &-img {
+    position: relative;
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+    }
+  }
+
+  &-cap {
+    margin: 10px 0 36px;
+    font-size: 13px;
+    color: $muted;
+
+    b {
+      font-weight: 600;
+      color: $text;
+      margin-right: 4px;
+    }
+  }
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: $pink-t;
+}
+
+/* category bento */
+.bento {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  grid-template-rows: 250px 250px;
+  gap: 16px;
+}
+
+.tile {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--c, $soft);
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+
+  &:first-child {
+    grid-row: span 2;
+
+    img {
+      height: 80%;
+      width: 90%;
+    }
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+
+  img {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 88%;
+    width: 70%;
+    object-fit: contain;
+    object-position: right bottom;
+    transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+    mix-blend-mode: multiply;
+  }
+
+  b {
+    position: relative;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  small {
+    position: relative;
+    display: block;
+    font-size: 13px;
+    color: $text;
+    font-weight: 400;
+  }
+
+  .label {
+    position: relative;
+  }
+}
+
+/* home hero: full-bleed banner, header transparent until scrolled (body.hc) */
+#sent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 40px;
+  pointer-events: none;
+}
+
+.hc {
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: transparent;
+    box-shadow: none;
+    transition:
+      background 0.25s,
+      box-shadow 0.25s;
+
+    .trust {
+      display: none;
+    }
+
+    &.solid {
+      background: #fff;
+      box-shadow: 0 1px 0 $line;
+
+      .trust {
+        display: block;
+      }
+    }
+  }
+}
+
+.hp-c {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: min(84vh, 720px);
+  margin: 0 0 40px;
+  padding: 0;
+  overflow: hidden;
+  background: $soft;
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    filter: contrast(1.08) saturate(1.1);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 150px;
+    z-index: 1;
+    background: linear-gradient(
+      180deg,
+      rgba(253, 238, 243, 0.92),
+      rgba(253, 238, 243, 0)
+    );
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(253, 238, 243, 0.96) 0%,
+      rgba(253, 238, 243, 0.85) 38%,
+      rgba(253, 238, 243, 0) 70%
+    );
+  }
+
+  h1 {
+    font-family: "Outfit", system-ui, sans-serif;
+    font-weight: 500;
+    font-size: clamp(30px, 3.8vw, 52px);
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  p {
+    color: $muted;
+  }
+}
+
+.hp-copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 16px;
+  box-sizing: content-box;
+  width: min(470px, 100%);
+  padding: clamp(28px, 5vw, 64px) clamp(28px, 5vw, 64px) 150px
+    max(20px, calc((100vw - 1200px) / 2));
+}
+
+@include tablet {
+  .bento {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 220px 160px 160px;
+
+    .tile:first-child {
+      grid-column: span 2;
+      grid-row: auto;
+
+      b {
+        font-size: 18px;
+      }
+    }
+  }
+}
+
+@include mobile {
+  .hero {
+    grid-template-columns: 1fr;
+    margin-top: 12px;
+
+    &-img {
+      min-height: 260px;
+      order: -1;
+    }
+  }
+
+  .hp-c {
+    min-height: 100svh;
+    align-items: flex-end;
+
+    &::after {
+      background: linear-gradient(
+        0deg,
+        rgba(253, 238, 243, 0.96) 45%,
+        rgba(253, 238, 243, 0.4) 100%
+      );
+    }
+  }
+
+  .hp-copy {
+    width: auto;
+    padding: 24px 20px 22svh;
+  }
+}

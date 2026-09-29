@@ -1,0 +1,135 @@
+/* cart */
+.cart {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px 200px;
+}
+.cart h1 {
+  font-size: 30px;
+  font-weight: 600;
+  margin: 28px 0 24px;
+}
+.line {
+  display: flex;
+  gap: 16px;
+  background: #fff;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: $shadow;
+}
+.line img {
+  width: 110px;
+  height: 138px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #f6eef2;
+}
+.line .info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.line .var {
+  font-size: 13px;
+  color: $muted;
+}
+.line .left {
+  font-size: 13px;
+  color: $pink-h;
+  font-weight: 600;
+}
+.line .acts {
+  margin-top: auto;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-size: 13px;
+}
+.line .acts a {
+  text-decoration: underline;
+  color: $muted;
+}
+.line .acts a:hover {
+  color: $blue-h;
+}
+.qty {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid $line;
+  border-radius: 10px;
+  padding: 6px 12px;
+}
+.note {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: #eef7fb;
+  border: 1px solid $blue;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 18px 0;
+  font-size: 14px;
+}
+.note svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  stroke: $blue-h;
+  fill: none;
+  stroke-width: 1.8;
+  margin-top: 1px;
+}
+.cart .pay {
+  margin: 8px 0 32px;
+}
+.cart h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.totalbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  box-shadow: 0 -6px 20px -12px rgba(46, 42, 61, 0.25);
+  z-index: 30;
+}
+.totalbar .inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.totalbar .sum {
+  margin-right: auto;
+}
+.totalbar .sum small {
+  display: block;
+  color: $muted;
+  font-size: 13px;
+}
+.totalbar .sum b {
+  font-size: 22px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* cart page: keep chat + back-to-top above the fixed total bar */
+body:has(.totalbar:not([hidden])) .fab {
+  bottom: 96px;
+}
+body:has(.totalbar:not([hidden])) #top {
+  bottom: 160px;
+}
+
+@media (max-width: 760px) {
+  .cart {
+    padding: 0 20px 80px;
+  }
+}

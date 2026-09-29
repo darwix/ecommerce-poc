@@ -1,0 +1,158 @@
+/* header */
+header {
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  box-shadow: 0 1px 0 $line;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  height: 68px;
+}
+
+.logo {
+  font-family: "Playfair Display", serif;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  color: $pink-h;
+
+  small {
+    display: block;
+    font-family: "Outfit";
+    font-size: 8px;
+    letter-spacing: 0.24em;
+    font-weight: 600;
+  }
+}
+
+header nav {
+  display: flex;
+  gap: 26px;
+  font-size: 14px;
+  font-weight: 500;
+
+  a {
+    padding: 6px 0;
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      border-color: $blue;
+    }
+
+    &.active {
+      border-color: $blue-h;
+      font-weight: 600;
+    }
+  }
+}
+
+.icons {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-left: auto;
+
+  a {
+    position: relative;
+    display: grid;
+    place-items: center;
+
+    &:hover {
+      color: $blue-h;
+    }
+  }
+}
+
+.badge {
+  position: absolute;
+  top: -6px;
+  right: -9px;
+  background: $pink-t;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 1px 5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.menu-btn {
+  display: none;
+}
+
+/* trust strip */
+.trust {
+  background: #fff;
+  border-top: 1px solid $line;
+
+  ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0;
+    font-size: 13px;
+    color: $muted;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+
+  svg {
+    width: 18px;
+    height: 18px;
+    stroke: $blue-h;
+    fill: none;
+    stroke-width: 1.8;
+    flex: none;
+  }
+
+  b {
+    color: $text;
+    font-weight: 600;
+  }
+}
+
+/* .icobtn lives in _search.scss */
+
+@media (max-width: 760px) {
+  header nav {
+    display: none;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 20px 16px;
+    box-shadow: 0 8px 16px -8px rgba(46, 42, 61, 0.2);
+
+    &.open {
+      display: flex;
+    }
+
+    a {
+      padding: 10px 0;
+    }
+  }
+
+  .menu-btn {
+    display: grid;
+  }
+
+  .bar {
+    gap: 14px;
+  }
+}

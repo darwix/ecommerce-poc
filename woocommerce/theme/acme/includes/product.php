@@ -1,0 +1,29 @@
+<?php
+// Product card markup, same as the mockup's card().
+function theme_product_card($product) {
+	$id = $product->get_id();
+	$stock = $product->managing_stock() ? $product->get_stock_quantity() : null;
+	$link = get_permalink($id);
+	echo '<article class="card"><div class="img"><a href="' . esc_url($link) . '">' . $product->get_image('woocommerce_thumbnail') . '</a>';
+	if ($stock !== null && $stock <= 5 && $stock > 0) echo '<span class="tag">Sisa ' . (int) $stock . '</span>';
+	if ($product->is_purchasable() && $product->is_in_stock() && $product->is_type('simple')) {
+		printf('<a href="%s" data-product_id="%d" data-product_sku="%s" class="add button add_to_cart_button ajax_add_to_cart" rel="nofollow" aria-label="Tambah %s ke keranjang">+ Keranjang</a>',
+			esc_url($product->add_to_cart_url()), $id, esc_attr($product->get_sku()), esc_attr($product->get_name()));
+	}
+	echo '</div><div class="meta"><h3><a href="' . esc_url($link) . '">' . esc_html($product->get_name()) . '</a></h3>';
+	echo '<span class="code">' . esc_html($product->get_sku()) . '</span><span class="price">' . $product->get_price_html() . '</span></div></article>';
+}
+
+// Redirect single-product add-to-cart back to same page with ?added-to-cart=ID
+// so product.js can show mockup-styled confirmation popup
+add_filter('woocommerce_add_to_cart_redirect', function ($url) {
+	$id = isset($_REQUEST['add-to-cart']) ? absint($_REQUEST['add-to-cart']) : 0;
+	$product = $id ? wc_get_product($id) : null;
+	if (!$product instanceof WC_Product) return $url;
+	return add_query_arg('added-to-cart', $id, get_permalink($id));
+});
+
+// Style "Place order" button like mockup
+add_filter('woocommerce_order_button_html', function ($html) {
+	return str_replace('class="button', 'class="button btn wide', $html);
+});

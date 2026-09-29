@@ -1,0 +1,263 @@
+/* address book: checkout card + picker dialog, also the "Alamat" page */
+
+/* The card only summarises the chosen address; the field grid lives in the dialog. */
+.box.addr {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 4px 16px;
+}
+.box.addr #addrView {
+  display: grid;
+  gap: 3px;
+  font-size: 14px;
+}
+.box.addr #addrView b {
+  font-weight: 600;
+}
+.box.addr #addrView span {
+  color: $muted;
+}
+.box.addr > .linkbtn {
+  justify-self: end;
+}
+
+.addr-list {
+  display: grid;
+  gap: 10px;
+}
+.addr-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 12px;
+  border: 1px solid $line;
+  border-radius: 12px;
+  padding: 12px 14px;
+  transition: background-color 0.15s ease;
+}
+/* hover reads as a light overlay across the whole row */
+.addr-row:hover {
+  background: $soft;
+}
+.addr-row.on {
+  border: 2px solid $blue-h;
+  padding: 11px 13px;
+}
+.addr-pick {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  text-align: left;
+}
+.addr-pick b {
+  font-size: 14px;
+  font-weight: 600;
+}
+.addr-pick span,
+.addr-pick small {
+  color: $muted;
+  font-size: 13px;
+}
+.addr-row .tick {
+  display: none;
+  width: 22px;
+  height: 22px;
+  stroke: $text;
+  fill: none;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+.addr-row.on .tick {
+  display: block;
+}
+.addr-rowacts {
+  display: flex;
+  gap: 8px;
+  grid-column: 1 / -1;
+}
+.addr-rowacts button {
+  border: 1px solid $line;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  background: #fff;
+}
+.addr-rowacts button:hover {
+  border-color: $blue-h;
+}
+.addr-empty {
+  color: $muted;
+  font-size: 14px;
+  margin: 0;
+}
+
+#addrDlg {
+  width: min(620px, calc(100% - 32px));
+  /* the dialog has no inner <form>, so _dialogs.scss's `dialog form` padding
+     never lands - restate it here */
+  padding: 20px 22px 22px;
+}
+
+/* --- field grid ---
+   Moved out of _checkout.scss: the dialog is now the only place the billing
+   fields render, and `#addrDlg` works on the "Alamat" page too, where `.co`
+   (the checkout page shell) is absent. The id also outranks WooCommerce's own
+   `.woocommerce form .form-row ...` rules instead of needing `.woocommerce-checkout .co`. */
+#addrDlg .woocommerce-billing-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+#addrDlg .woocommerce-billing-fields .form-row {
+  margin-bottom: 0;
+  width: 100%;
+  float: none;
+  padding: 0;
+}
+#addrDlg .woocommerce-billing-fields .form-row-wide {
+  grid-column: 1 / -1;
+}
+/* WC's clearfix pseudo-elements are grid items too, and they push the first
+   field into column 2. Kill them on the grid container only. */
+#addrDlg .woocommerce-billing-fields::before,
+#addrDlg .woocommerce-billing-fields::after {
+  display: none;
+}
+#addrDlg .woocommerce-billing-fields label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+#addrDlg .woocommerce-billing-fields label small {
+  color: $muted;
+  font-weight: 400;
+}
+#addrDlg .woocommerce-billing-fields input,
+#addrDlg .woocommerce-billing-fields select,
+#addrDlg .woocommerce-billing-fields textarea {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 11px 12px;
+  border: 1px solid $line;
+  border-radius: 10px;
+  background: #fff;
+  color: $text;
+  width: 100%;
+  height: auto;
+  line-height: 1.5;
+  accent-color: $pink-h;
+  resize: vertical;
+}
+/* No green-on-valid / red-on-invalid borders: empty and filled fields look the
+   same, only focus and the error message distinguish them. */
+#addrDlg .woocommerce-billing-fields :user-invalid,
+#addrDlg .woocommerce-billing-fields .woocommerce-validated input,
+#addrDlg .woocommerce-billing-fields .woocommerce-validated select,
+#addrDlg .woocommerce-billing-fields .woocommerce-validated textarea,
+#addrDlg .woocommerce-billing-fields .woocommerce-invalid input,
+#addrDlg .woocommerce-billing-fields .woocommerce-invalid select,
+#addrDlg .woocommerce-billing-fields .woocommerce-invalid textarea {
+  border-color: $line;
+}
+#addrDlg .woocommerce-billing-fields input:focus,
+#addrDlg .woocommerce-billing-fields select:focus,
+#addrDlg .woocommerce-billing-fields textarea:focus {
+  border-color: $blue-h;
+  outline: 2px solid $blue;
+  outline-offset: 1px;
+}
+/* Every field here is either required or self-evidently not; the suffix is noise. */
+#addrDlg .woocommerce-billing-fields .required,
+#addrDlg .woocommerce-billing-fields .optional {
+  display: none;
+}
+#addrDlg .woocommerce-billing-fields input:disabled,
+#addrDlg .woocommerce-billing-fields select:disabled {
+  background: #faf6f8;
+  color: $muted;
+}
+
+/* "+62" sits inside the WhatsApp field, as in the mockup. */
+#billing_phone_field .woocommerce-input-wrapper {
+  position: relative;
+  display: block;
+}
+#billing_phone_field .woocommerce-input-wrapper::before {
+  content: "+62";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  font-weight: 600;
+  color: $text;
+  pointer-events: none;
+}
+/* Needs the dialog id too: `#addrDlg ... input` sets its own padding. */
+#addrDlg #billing_phone_field input {
+  padding-left: 46px;
+}
+
+#addrDelDlg {
+  width: min(380px, calc(100% - 32px));
+  /* same reason as #addrDlg: no inner <form> for _dialogs.scss's padding rule */
+  padding: 20px 22px 22px;
+}
+#addrDelDlg p {
+  font-size: 15px;
+  margin: 0;
+}
+#addrDelDlg .addr-acts {
+  justify-content: flex-end;
+}
+
+#addrFormPane > h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+.addr-err {
+  color: $danger;
+  font-size: 14px;
+  margin: 12px 0 0;
+}
+/* the label turns red with its own error message */
+#addrDlg .form-row.row-err > label {
+  color: $danger;
+}
+/* sits under the input it belongs to, inside its .form-row */
+.addr-fielderr {
+  color: $danger;
+  font-size: 13px;
+  margin: 6px 0 0;
+}
+.addr-acts {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+.addr-acts .btn-sec {
+  border-color: $blue-h;
+}
+#addrPick > .linkbtn {
+  display: block;
+  margin: 12px 0 16px;
+  text-align: center;
+}
+
+.addr-page > h1 {
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+.addr-lead {
+  color: $muted;
+  margin: 0 0 20px;
+}
+.addr-page .addr-list {
+  margin-bottom: 16px;
+}

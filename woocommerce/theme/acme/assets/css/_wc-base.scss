@@ -1,0 +1,133 @@
+/* WooCommerce integration */
+.woo,
+.page-wrap {
+  padding: 32px 20px 0;
+  h1.page-title,
+  h1 {
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+}
+.woocommerce-breadcrumb {
+  color: $muted;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.woocommerce-result-count,
+.woocommerce-ordering {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: $muted;
+}
+.woocommerce-ordering {
+  float: right;
+}
+.woocommerce-ordering select,
+.woo select,
+.woo input[type="text"],
+.woo input[type="email"],
+.woo input[type="tel"],
+.woo input[type="number"],
+.woo input[type="password"],
+.woo textarea {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1.5px solid $line;
+  border-radius: 10px;
+  background: #fff;
+}
+.woocommerce-pagination ul {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+  justify-content: center;
+  margin: 36px 0 0;
+}
+.woocommerce-pagination a,
+.woocommerce-pagination span {
+  display: block;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1.5px solid $line;
+}
+.woocommerce-pagination .current {
+  background: $pink;
+  border-color: $pink;
+  font-weight: 600;
+}
+.card .meta h3 a { color: inherit; }
+.card .img > a {
+  display: block;
+  img { display: block; width: 100%; height: 100%; object-fit: cover; }
+}
+.card .add {
+  text-align: center;
+  height: max-content;
+}
+a.added_to_cart { display: none !important; }
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error {
+  list-style: none;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: $soft;
+  border-left: 4px solid $blue-h;
+  margin-bottom: 20px;
+  .button { margin-right: 12px; }
+}
+table.shop_table {
+  width: 100%;
+  border-collapse: collapse;
+  th, td {
+    padding: 12px 8px;
+    border-bottom: 1px solid $line;
+    text-align: left;
+  }
+}
+.wc-block-components-product-name,
+.wc-block-components-totals-item__value { color: $text; }
+.woocommerce div.product div.images,
+.woocommerce div.product div.summary,
+.woocommerce #content div.product div.images {
+  float: none;
+  width: auto;
+  margin: 0;
+}
+.woocommerce-message,
+.woocommerce-info,
+.woocommerce-error {
+  color: $text;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  a.button { order: 2; padding: 8px 18px; }
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 20px;
+  a {
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1.5px solid $line;
+    font-size: 14px;
+    font-weight: 500;
+    &:hover { border-color: $blue-h; }
+    &.on {
+      background: $pink;
+      border-color: $pink;
+      font-weight: 600;
+    }
+  }
+}
+/* Checkout errors stay visible: they are the only signal that a field is missing
+   (the address fields live inside the picker dialog). */
+.woocommerce-checkout .form-row.woocommerce-invalid input.input-text,
+.woocommerce-checkout .form-row.woocommerce-invalid textarea,
+.woocommerce-checkout .form-row.woocommerce-invalid select { border-color: $line; }

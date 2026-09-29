@@ -24,6 +24,12 @@ new IntersectionObserver(([e]) => document.querySelector("header").classList.tog
 	toTop.onclick = () => scrollTo({ top: 0 });
 }
 </script>
-<?php wp_footer(); ?>
+<?php
+if (function_exists('WC') && WC()->cart) {
+	echo get_cartbar();
+	echo '<script>document.body.classList.toggle("has-bar", !document.getElementById("cartbar").hidden);</script>';
+}
+wp_footer();
+?>
 </body>
 </html>

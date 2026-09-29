@@ -1,0 +1,405 @@
+/* account */
+.acct {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px 100px;
+  display: grid;
+  gap: 20px;
+}
+.ahead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.ahead h1 {
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 600;
+}
+.abox {
+  background: #fff;
+  border-radius: 18px;
+  padding: 22px 24px;
+  box-shadow: $shadow;
+}
+.abox h2 {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.vouch {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: linear-gradient(100deg, $soft, #eef7fb);
+  border-radius: 14px;
+  padding: 14px 18px;
+}
+.vouch b {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: $pink-h;
+}
+.vouch span {
+  display: grid;
+  gap: 2px;
+  font-size: 14px;
+}
+.vouch small {
+  color: $muted;
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  background: $soft;
+  border-radius: 999px;
+  padding: 5px;
+  margin-bottom: 18px;
+}
+.tabs button {
+  flex: 1;
+  border-radius: 999px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $muted;
+}
+.tabs button[aria-selected="true"] {
+  background: #fff;
+  color: $text;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(46, 42, 61, 0.12);
+}
+.otools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.otools h2 {
+  margin: 0 auto 0 0;
+}
+.otools h2 span {
+  color: $muted;
+  font-weight: 400;
+}
+.otools input,
+.otools select {
+  font: inherit;
+  font-size: 14px;
+  padding: 9px 12px;
+  border: 1px solid $line;
+  border-radius: 10px;
+  background: #fff;
+}
+.otools input {
+  width: 220px;
+}
+.order {
+  border: 1px solid $line;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+.ohead {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid $line;
+}
+.ohead div {
+  display: grid;
+  gap: 3px;
+}
+.ohead small {
+  color: $muted;
+  font-size: 13px;
+}
+.st {
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.st.wait {
+  background: $soft;
+  color: $pink-t;
+}
+.st.ok {
+  background: #e8f6ee;
+  color: #2f7d55;
+}
+.st.bad {
+  background: #f3f1f5;
+  color: $muted;
+}
+.ototal {
+  text-align: right;
+  font-size: 14px;
+  color: $muted;
+  padding-top: 12px;
+}
+.ototal b {
+  color: $text;
+  font-size: 16px;
+}
+.none {
+  text-align: center;
+  color: $muted;
+  padding: 32px 16px;
+}
+
+/* settings */
+.set {
+  max-width: 1040px;
+}
+.set > .settitle {
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 600;
+}
+.setwrap {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.setnav {
+  position: sticky;
+  top: 100px;
+  padding: 18px;
+}
+.setnav h2 {
+  font-size: 15px;
+}
+.setnav nav {
+  display: grid;
+  gap: 4px;
+}
+.setnav button,
+.setnav a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: $muted;
+  text-align: left;
+}
+.setnav button:hover,
+.setnav a:hover {
+  background: $soft;
+  color: $text;
+}
+.setnav button[aria-current="true"] {
+  background: $soft;
+  color: $text;
+  font-weight: 600;
+}
+.setnav svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.7;
+  flex: none;
+}
+.setpanes > section {
+  display: grid;
+  gap: 14px;
+}
+.setpanes > section > h2 {
+  margin-bottom: 0;
+}
+.setpanes > section > label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.setpanes > section > label input {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 11px 12px;
+  border: 1px solid $line;
+  border-radius: 10px;
+  background: #fff;
+}
+.setpanes > section > label input:disabled {
+  background: #faf6f8;
+  color: $muted;
+}
+.setpanes .fields {
+  margin-top: 4px;
+}
+.setpanes .fields .err,
+.setpanes .fields .fbtns {
+  grid-column: 1 / -1;
+}
+.setpanes .tel {
+  border-radius: 12px;
+}
+.setpanes .tel input {
+  border: 0;
+  border-radius: 0;
+  padding-left: 4px;
+  background: transparent;
+  min-width: 0;
+}
+.setpanes .tel b {
+  font-size: 15px;
+  color: $muted;
+}
+
+.bday {
+  display: grid;
+  gap: 8px;
+}
+.bday legend {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.bday select {
+  font: inherit;
+  font-size: 15px;
+  padding: 11px 12px;
+  border: 1px solid $line;
+  border-radius: 10px;
+  background: #fff;
+}
+.bday,
+.bday select {
+  grid-column: auto;
+}
+#pProfile .bday {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+#pProfile .bday legend {
+  grid-column: 1 / -1;
+}
+
+.acard {
+  display: grid;
+  gap: 3px;
+  border: 1px solid $line;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  position: relative;
+}
+.acard b {
+  font-weight: 600;
+}
+.acard span {
+  color: $muted;
+  font-size: 14px;
+}
+.acard .act {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 4px;
+}
+.iconbtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  border: 1px solid $line;
+  background: #fff;
+}
+.iconbtn:hover {
+  border-color: $blue-h;
+  background: $soft;
+}
+.iconbtn.del:hover {
+  border-color: $pink-h;
+}
+.iconbtn svg {
+  width: 17px;
+  height: 17px;
+  stroke: $text;
+  fill: none;
+  stroke-width: 1.7;
+  stroke-linejoin: round;
+}
+.iconbtn.del svg {
+  stroke: $pink-h;
+}
+.setpanes .linkbtn[hidden],
+.setpanes #addrAdd {
+  margin-top: 4px;
+  justify-self: start;
+}
+.fbtns {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.err {
+  color: $pink-h;
+  font-size: 14px;
+  font-weight: 500;
+}
+.set .note,
+#delDlg .note {
+  display: block;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  color: $muted;
+  font-size: 14px;
+}
+.warn {
+  color: $pink-h;
+  font-size: 14px;
+  font-weight: 500;
+}
+.danger {
+  border: 1.5px solid $pink-h;
+  color: $pink-h;
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-weight: 500;
+  background: #fff;
+  justify-self: start;
+}
+.danger:hover {
+  background: $soft;
+}
+
+@media (max-width: 1000px) {
+  .setwrap {
+    grid-template-columns: 1fr;
+  }
+  .setnav {
+    position: static;
+  }
+}
+@media (max-width: 760px) {
+  .acct {
+    padding: 20px 16px 80px;
+  }
+  .abox {
+    padding: 18px 16px;
+  }
+  .otools input {
+    width: 100%;
+  }
+  #pProfile .bday {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
