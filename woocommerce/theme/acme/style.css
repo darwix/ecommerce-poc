@@ -1,7 +1,7 @@
 ﻿/*
 Theme Name: Acme
 Description: Acme storefront theme for WooCommerce. Ported from mockup-v2 (pink + blue palette).
-Version: 0.3.0
+Version: 0.9.5
 Text Domain: acme
 */
 :root {
@@ -10,6 +10,8 @@ Text Domain: acme
   --bg: #FFF8FA; --text: #2E2A3D; --mint: #B8E0D2;
   --muted: #6f6a7d; --line: #f0dbe3; --soft: #fdeef3;
   --shadow: 0 1px 3px rgba(217,109,150,.08), 0 8px 20px -12px rgba(46,42,61,.18);
+  --wc-form-border-color: var(--line); --wc-form-border-width: 1px; --wc-form-border-radius: 10px;
+  --wc-form-color-background: #fff; --wc-form-color-text: var(--text);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
@@ -86,9 +88,11 @@ section { padding: 56px 0 8px; }
 .wish { position: absolute; top: 8px; right: 8px; width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,.9); display: grid; place-items: center; }
 .wish svg { width: 17px; height: 17px; stroke: var(--text); fill: none; stroke-width: 1.8; }
 .wish.on svg { fill: var(--pink-h); stroke: var(--pink-h); }
-.add { position: absolute; left: 10px; right: 10px; bottom: 10px; background: var(--text); color: #fff; border-radius: 10px; padding: 10px; font-size: 14px; font-weight: 600; opacity: 0; transform: translateY(8px); }
+.card a.add,
+.add { display: block; position: absolute; left: 10px; right: 10px; bottom: 10px; margin: 0; background: var(--text); color: #fff; border-radius: 10px; padding: 10px; font-size: 14px; font-weight: 600; opacity: 0; transform: translateY(8px); }
 .card:hover .add, .add:focus-visible { opacity: 1; transform: none; }
-.add:hover { background: var(--pink-h); }
+.card a.add:hover,
+.add:hover { background: var(--pink-h); color: #fff; }
 .meta { padding: 12px 2px 0; display: flex; flex-direction: column; gap: 2px; }
 .dots { display: flex; gap: 6px; min-height: 18px; margin-bottom: 4px; }
 .dots button { width: 16px; height: 16px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 1px rgba(46,42,61,.15); }
@@ -285,13 +289,14 @@ body:has(.totalbar:not([hidden])) #top { bottom: 160px; }
 
 /* checkout */
 .co { max-width: 1100px; margin: 0 auto; padding: 28px 20px 80px; }
-.co > form { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 32px; align-items: start; }
+.co form.checkout { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 32px; align-items: start; }
 .co-head { display: flex; align-items: center; gap: 16px; height: 68px; padding: 0 max(20px, calc((100% - 1100px) / 2 + 20px)); }
 .co-head .logo { flex: 1; font-size: 22px; }
 .co-head > a > svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; }
 .co h2 { font-size: 17px; font-weight: 600; margin: 24px 0 12px; }
 .co-main > h2:first-child { margin-top: 0; }
 .co-side { position: sticky; top: 100px; display: grid; gap: 16px; }
+.co .co-side { padding-top: 34px; }
 .box { background: #fff; border-radius: 16px; padding: 18px 20px; box-shadow: var(--shadow); }
 .row-opt { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; }
 .row-opt > span:last-child { display: grid; gap: 2px; }
@@ -325,6 +330,92 @@ body:has(.totalbar:not([hidden])) #top { bottom: 160px; }
 #payLogo img, .ptile img { max-width: 52px; max-height: 22px; }
 .paysel .end { margin-left: auto; stroke: var(--muted); }
 .qris { font-weight: 800; letter-spacing: .06em; font-size: 14px; }
+
+/* checkout: reskin default WooCommerce checkout form to match mockup */
+/* checkout/form-checkout.php wraps the two columns, so the grid has exactly two
+   items. The mockup's summary column has no heading. */
+.co #order_review_heading { display: none; }
+/* WC floats .col-1/.col-2 side by side inside #customer_details, which halves the
+   address card. Stack them so the address gets the full left column and the
+   order note sits underneath it. */
+.co .col2-set { display: block; }
+.co .col2-set .col-1, .co .col2-set .col-2 { float: none; width: 100%; }
+/* col-2 held the order note, which this checkout does not use. */
+.co .col2-set .col-2 { display: none; }
+/* col-2 holds only the order note, which now lives in the sidebar, so it is empty. */
+.co .col2-set .col-1, .co .col2-set .col-2 { background: #fff; border-radius: 16px; padding: 18px 20px; box-shadow: var(--shadow); margin-bottom: 16px; }
+.co .col2-set h3 { font-size: 17px; font-weight: 600; margin: 0 0 12px; }
+
+/* Mockup puts the section heading above the white card, with the fields in a
+   two-column grid inside it, so the card is the field wrapper, not .col-1. */
+.co .col2-set .col-1 { background: none; box-shadow: none; padding: 0; }
+.co .col2-set .col-1 > h3 { margin: 0 0 12px; }
+.co .woocommerce-billing-fields__field-wrapper {
+	background: #fff; border-radius: 16px; padding: 18px 20px; box-shadow: var(--shadow);
+	display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; align-items: start;
+}
+.co .woocommerce-billing-fields__field-wrapper .form-row { margin-bottom: 0; width: 100%; float: none; padding: 0; }
+.co .woocommerce-billing-fields__field-wrapper .form-row-wide { grid-column: 1 / -1; }
+/* Remaining .fields rules from the mockup: disabled cascade selects read as
+   inert, the street box is resizable, and invalid entries go pink. */
+.co .woocommerce-billing-fields input:disabled,
+.co .woocommerce-billing-fields select:disabled { background: #faf6f8; color: var(--muted); }
+.co .woocommerce-billing-fields textarea { resize: vertical; }
+.co .woocommerce-billing-fields :user-invalid { border-color: var(--pink-h); }
+.co .woocommerce-billing-fields label small { color: var(--muted); font-weight: 400; }
+/* Pink accent on the address fields, per DESIGN.md. */
+.co .woocommerce-billing-fields input,
+.co .woocommerce-billing-fields select,
+.co .woocommerce-billing-fields textarea { accent-color: var(--pink-h); }
+.co .woocommerce-billing-fields input:focus,
+.co .woocommerce-billing-fields select:focus,
+.co .woocommerce-billing-fields textarea:focus {
+	border-color: var(--pink-h); outline: 2px solid var(--pink); outline-offset: 1px; }
+.woocommerce-checkout .co .woocommerce-billing-fields .required { display: none; }
+/* Every field here is either required or self-evidently not; the suffix is noise. */
+.co .woocommerce-billing-fields .optional { display: none; }
+
+/* "+62" sits inside the WhatsApp field, as in the mockup. */
+#billing_phone_field .woocommerce-input-wrapper { position: relative; display: block; }
+#billing_phone_field .woocommerce-input-wrapper::before {
+	content: "+62"; position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+	font-size: 15px; font-weight: 600; color: var(--text); pointer-events: none;
+}
+#billing_phone_field input { padding-left: 46px; }
+.co .woocommerce-billing-fields .form-row, .co .woocommerce-shipping-fields .form-row, .co .woocommerce-additional-fields .form-row { margin-bottom: 14px; }
+.co .woocommerce-billing-fields label, .co .woocommerce-shipping-fields label, .co .woocommerce-additional-fields label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.co .woocommerce-billing-fields input, .co .woocommerce-billing-fields select, .co .woocommerce-billing-fields textarea,
+.co .woocommerce-shipping-fields input, .co .woocommerce-shipping-fields select, .co .woocommerce-shipping-fields textarea,
+.co .woocommerce-additional-fields input, .co .woocommerce-additional-fields select, .co .woocommerce-additional-fields textarea,
+.co .select2-selection { font: inherit; font-size: 15px; font-weight: 400; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--text); width: 100%; height: auto; }
+.woocommerce-checkout .co .woocommerce-billing-fields input,
+.woocommerce-checkout .co .woocommerce-billing-fields select,
+.woocommerce-checkout .co .woocommerce-billing-fields textarea { padding: 11px 12px; line-height: 1.5; }
+/* The sidebar is a stack of cards (line list, sums, payment, CTA, terms), not one card. */
+.co #order_review { display: grid; gap: 16px; }
+/* The AJAX fragment wrapper must not break the sidebar's card stack. */
+.co .woocommerce-checkout-review-order-table { display: contents; }
+/* DOKU is the only gateway, so the method list is noise; the radio stays in the
+   DOM (hidden) so WooCommerce still receives payment_method on submit. */
+.woocommerce-checkout #payment ul.wc_payment_methods { display: none; }
+.co #order_review .woocommerce-checkout-payment { background: none; padding: 0; box-shadow: none; }
+.co #order_review .woocommerce-checkout-payment ul.wc_payment_methods { margin: 0 0 16px; }
+.co .coline img { width: 52px; height: 64px; }
+.co table.shop_table { width: 100%; font-size: 14px; border-collapse: collapse; }
+.co table.shop_table th, .co table.shop_table td { padding: 8px 0; border-bottom: 1px solid var(--line); text-align: left; }
+.co table.shop_table .order-total td, .co table.shop_table .order-total th { font-weight: 700; font-size: 16px; border-top: 1px solid var(--line); border-bottom: none; }
+.co ul.wc_payment_methods { list-style: none; margin: 16px 0; padding: 0; display: grid; gap: 8px; }
+.co ul.wc_payment_methods li { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.co ul.wc_payment_methods input[type=radio] { margin-right: 8px; }
+.co .payment_box { margin-top: 10px; font-size: 13px; color: var(--muted); }
+/* WC gives the button .button.alt, not .btn, so restate the pill style here. */
+.co #place_order { width: 100%; justify-content: center; background: var(--pink); color: #fff;
+	border: 0; border-radius: 999px; padding: 14px 26px; font: inherit; font-weight: 600; font-size: 16px; cursor: pointer; }
+.co #place_order:hover { background: var(--pink-t); }
+.woocommerce-checkout #payment div.payment_box { background: none; padding: 8px 0 0; margin: 0; color: var(--muted); font-size: 13px; }
+.woocommerce-checkout #payment div.payment_box::before { display: none; }
+.co .woocommerce-checkout-payment .place-order { margin: 0; }
+.woocommerce-checkout #payment .place-order .terms { margin: 10px 0 0; text-align: center; }
 .ptiles { display: grid; gap: 10px; }
 .ptiles.two { grid-template-columns: 1fr 1fr; }
 .ptile { height: 50px; border: 1px solid var(--line); border-radius: 10px; display: grid; place-items: center; font-size: 13px; background: #fff; }
@@ -360,6 +451,8 @@ body:has(.totalbar:not([hidden])) #top { bottom: 160px; }
 .coline span { display: grid; gap: 2px; flex: 1; min-width: 0; }
 .coline span small { color: var(--muted); font-size: 13px; }
 .coline .r { text-align: right; justify-items: end; }
+.coline > b:last-child { white-space: nowrap; flex: none; }
+.coline .woocommerce-Price-amount, .coline .woocommerce-Price-currencySymbol { display: inline; }
 .sums { display: grid; gap: 10px; font-size: 14px; }
 .sums > div { display: flex; justify-content: space-between; gap: 12px; }
 .sums dt { color: var(--muted); }
@@ -486,7 +579,7 @@ body:has(.totalbar:not([hidden])) #top { bottom: 160px; }
 
 @media (max-width: 1000px) {
   .co { padding-bottom: 40px; }
-  .co > form { grid-template-columns: minmax(0, 1fr); }
+  .co form.checkout { grid-template-columns: minmax(0, 1fr); }
   .co-side { position: static; }
   .setwrap { grid-template-columns: 1fr; }
   .setnav { position: static; }
@@ -562,8 +655,9 @@ body:has(.totalbar:not([hidden])) #top { bottom: 160px; }
 .woocommerce-pagination a, .woocommerce-pagination span { display: block; padding: 8px 14px; border-radius: 999px; background: #fff; border: 1.5px solid var(--line); }
 .woocommerce-pagination .current { background: var(--pink); border-color: var(--pink); font-weight: 600; }
 .card .meta h3 a { color: inherit; }
-.card .img > a { display: block; height: 100%; }
-.card .add { display: block; text-align: center; }
+.card .img > a { display: block; }
+.card .img > a img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.card .add { text-align: center; height: max-content; }
 .badge { position: absolute; top: -6px; right: -8px; min-width: 18px; height: 18px; border-radius: 9px; background: var(--pink-t); color: #fff; font-size: 11px; line-height: 18px; text-align: center; padding: 0 4px; }
 .icons a { position: relative; }
 /* single product */
@@ -574,10 +668,10 @@ body:has(.totalbar:not([hidden])) #top { bottom: 160px; }
 .single-product .summary .price { font-size: 22px; display: block; margin: 12px 0; }
 .single-product .summary form.cart { display: flex; gap: 12px; margin: 20px 0; align-items: center; }
 .single-product .quantity input { width: 72px; text-align: center; }
-.single_add_to_cart_button, .button, .woo button[type=submit], .wp-block-button__link, .wc-block-components-button:not(.is-link) {
+.single_add_to_cart_button, .button:not(.add), .woo button[type=submit], .wp-block-button__link, .wc-block-components-button:not(.is-link) {
   display: inline-flex; align-items: center; gap: 8px; background: var(--pink); color: var(--text); border-radius: 999px; padding: 12px 26px; font-weight: 600; border: 0; cursor: pointer;
 }
-.single_add_to_cart_button:hover, .button:hover, .woo button[type=submit]:hover, .wp-block-button__link:hover, .wc-block-components-button:not(.is-link):hover { background: var(--pink-t); color: #fff; }
+.single_add_to_cart_button:hover, .button:not(.add):hover, .woo button[type=submit]:hover, .wp-block-button__link:hover, .wc-block-components-button:not(.is-link):hover { background: var(--pink-t); color: #fff; }
 .single-product .related, .single-product .upsells { grid-column: 1 / -1; margin-top: 40px; }
 .single-product .woocommerce-tabs { grid-column: 1 / -1; }
 .woocommerce-message, .woocommerce-info, .woocommerce-error { list-style: none; padding: 14px 18px; border-radius: 12px; background: var(--soft); border-left: 4px solid var(--blue-h); margin-bottom: 20px; }
@@ -607,3 +701,27 @@ table.shop_table th, table.shop_table td { padding: 12px 8px; border-bottom: 1px
 .chips a { padding: 8px 16px; border-radius: 999px; background: #fff; border: 1.5px solid var(--line); font-size: 14px; font-weight: 500; }
 .chips a:hover { border-color: var(--blue-h); }
 .chips a.on { background: var(--pink); border-color: var(--pink); font-weight: 600; }
+
+/* ---- single product: real WC add-to-cart / variation form, styled to match mockup pills ---- */
+.related.products > h2 { display: none; }
+.related.products { margin: 0; }
+.pd-form { display: grid; gap: 14px; margin: 4px 0; }
+.pd-form table.variations { border: 0; width: auto; }
+.pd-form table.variations tbody, .pd-form table.variations tr, .pd-form table.variations td, .pd-form table.variations th { display: block; border: 0; padding: 0; }
+.pd-form table.variations tr { margin-bottom: 10px; }
+.pd-form table.variations label { font-weight: 600; font-size: 14px; display: block; margin-bottom: 8px; }
+.pd-form .reset_variations { display: none; }
+.pd-form .woocommerce-variation-add-to-cart { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.pd-form .woocommerce-variation { order: -1; flex-basis: 100%; }
+.pd-form .woocommerce-variation-price .price { font-weight: 600; }
+.pd-form .woocommerce-variation-availability { font-size: 13px; color: var(--muted); }
+.pd-form .quantity { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 10px; }
+.pd-form .quantity input.qty { width: 44px; border: 0; text-align: center; font: inherit; padding: 8px 0; background: transparent; }
+.pd-form .single_add_to_cart_button { border: 0; border-radius: 999px; background: var(--text); color: #fff; padding: 12px 28px; font-weight: 600; font-size: 15px; cursor: pointer; }
+.pd-form .single_add_to_cart_button:disabled, .pd-form .single_add_to_cart_button.disabled { opacity: .5; cursor: not-allowed; }
+.pd-form select[name^="attribute_"] { position: absolute; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+.pd-attr-opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.pd-attr-opts button { border: 1px solid var(--line); border-radius: 10px; padding: 8px 16px; font-size: 14px; background: #fff; }
+.pd-attr-opts button:hover { border-color: var(--blue-h); }
+.pd-attr-opts button.on { border: 2px solid var(--text); padding: 7px 15px; font-weight: 600; }
+.pd-attr-opts button:disabled { opacity: .35; cursor: not-allowed; }

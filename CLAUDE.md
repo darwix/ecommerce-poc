@@ -11,6 +11,7 @@ Proof-of-concept rebuild of acme.example (Indonesian import-fashion / beauty res
 - Custom theme `woocommerce/theme/acme/` (mockup-v2 style.css + PHP templates), 24 products seeded from `mockup-v2/app.js` via `woocommerce/seed/gen.js` (local) / `woocommerce/seed/csv.js` -> `woocommerce/deploy/products.csv` (host import).
 - Payment: DOKU (official plugin `doku-payment`, hosted DOKU Checkout page, sandbox). Client ID/Secret Key go on the **`doku_gateway`** section (`wc-settings&tab=checkout&section=doku_gateway`), not `doku_checkout` - the Payments screen hides this in newer WooCommerce, use the direct URL. Never commit credentials. Plugin needs HPOS off (`wp wc hpos disable`). No refund/cancel API - refunds and post-cancel refunds are a manual step in the DOKU Back Office; WooCommerce-side refund/cancel only updates local records. Stock is held (reserved), not decremented, until payment confirms; WooCommerce's Hold stock (minutes) setting should be >= DOKU's payment expiry window. Local dev: webhooks can't reach localhost, so orders stay pending unless a public tunnel is used (untested). Host: notification URL is `https://shop.armstronger.web.id/wp/wp-json/doku/notification` (QRIS needs separate QRIS Client-ID/Shared Key/MPAN, not yet obtained).
 - Still to do: variant/added popups, bottom-sheet filters, account/settings pages on the host theme, client Shop-manager user, verify order actually flips Pending -> Processing on the host (webhook vs anti-bot layer, not yet confirmed end-to-end).
+- Deferred: split `theme/acme/style.css` per page. WordPress requires `style.css` at the theme root (theme header), so base/tokens/header/footer stay there and page CSS moves to `assets/css/<page>.css` enqueued per template. Only worth doing once a page's CSS is big and page-specific - checkout (~160 lines) is the only candidate today, and the whole file is ~700 lines, so one cached request still wins.
 
 Deployment state and hosting gotchas live in [DEPLOYMENT.md](DEPLOYMENT.md). Keep it updated after any deploy change.
 
@@ -63,3 +64,33 @@ Each mockup is plain HTML + one `style.css` + one `app.js`, no build step, no fr
 3. 4–6 sample products across 2–3 categories with stock levels.
 4. Cart + checkout with Cash on Delivery / Bank Transfer only – no real payment gateway, domain, or hosting.
 5. Give the user access instructions.
+
+## Key files
+
+Read these directly instead of searching the repo.
+
+| Path | What |
+|---|---|
+| `DEPLOYMENT.md` | Host state, cPanel/DOKU gotchas. Read before deploy work. |
+| `DESIGN.md` | Palette + design rules. |
+| `mockup-v2/app.js` | Product data (array `P`, 24 items), `acme`-card renderer, cart state (`lb-cart`). Source of truth for the port. |
+| `mockup-v2/style.css` | All mockup CSS; the theme's `style.css` is derived from it. |
+| `mockup-v2/*.html` | Reference pages: index, category, product, cart, checkout, login, register, account, settings, about, faq. Header/footer duplicated - keep in sync. |
+| `woocommerce/compose.yaml` | Local podman compose (WP + MariaDB, :8080). |
+| `woocommerce/theme/acme/style.css` | All theme CSS. |
+| `woocommerce/theme/acme/functions.php` | Hooks, `acme_card()`, WooCommerce hook removals, cart/redirect filters. |
+| `woocommerce/theme/acme/front-page.php` | Home: hero, product grids, bento categories. |
+| `woocommerce/theme/acme/woocommerce.php` | Shop archive (filters, grid). |
+| `woocommerce/theme/acme/woocommerce/content-product.php` | Product card in loops. |
+| `woocommerce/theme/acme/woocommerce/content-single-product.php` | Product detail. |
+| `woocommerce/theme/acme/page-cart.php`, `page-checkout.php` | Cart / checkout templates. |
+| `woocommerce/theme/acme/header.php`, `footer.php` | Shell (scroll header, nav, footer). |
+| `woocommerce/theme/acme/assets/js/` | Theme JS. |
+| `woocommerce/seed/gen.js` | Seeds products into local WP via wp-cli. |
+| `woocommerce/seed/csv.js` | Generates `woocommerce/deploy/products.csv` for host import. |
+| `woocommerce/seed/*.sh` | One-off setup: pages, menu, i18n, DOKU. |
+| `woocommerce/deploy/` | Host deploy: install.sh, compose.prod.yaml, Caddyfile, products.csv. |
+
+## Agents
+
+Never fork or spawn subagents (no Agent tool, no forks). Do all work directly in this session.
