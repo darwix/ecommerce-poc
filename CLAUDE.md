@@ -2,16 +2,24 @@
 
 Proof-of-concept rebuild of acme.example (Indonesian import-fashion / beauty resale store, PT. Acme Beauty Group) with a new pink + blue palette. Target stack is WordPress + WooCommerce; later deployment on Biznet Gio. Design rules live in [DESIGN.md](DESIGN.md).
 
-## Status (2026-09-27)
+## Status (2026-09-29)
 
 - **Phase 1 - static mockup (mockup-v2): done, deployed** to https://ecommerce-poc.acme-demo.workers.dev (Cloudflare Workers static assets).
 - **Phase 2 - WooCommerce POC deployed and DOKU sandbox live on the host.** Two environments:
   - Local: `woocommerce/` = podman compose (WP + MariaDB, port 8080; admin/admin), WP 6.9.4 + WooCommerce 10.9.4 (11.x needs WP 7). Gotchas: run wp-cli inside `woocommerce_wp_1` as uid 33 (WP's own HTTP client gets 434 from wordpress.org, so install plugins from zips fetched with curl); other containers `wp-app`/`wp-db` belong to a different project.
   - Host (real deploy check): NeoHosting shared cPanel, https://shop.armstronger.web.id/wp/ - WordPress 7.1.2 + WooCommerce 11.1.2, Acme theme active, store Live, 24 products imported and visible, DOKU Payment plugin installed with sandbox keys entered, email confirmed working (DOKU's own receipt + WooCommerce order emails). Full details, gotchas (OPcache fix, anti-bot layer, wrong-IP mistake) and open items in [DEPLOYMENT.md](DEPLOYMENT.md) - **read it before continuing deploy work**.
-- Custom theme `woocommerce/theme/acme/` (mockup-v2 style.css + PHP templates), 24 products seeded from `mockup-v2/app.js` via `woocommerce/seed/gen.js` (local) / `woocommerce/seed/csv.js` -> `woocommerce/deploy/products.csv` (host import).
+- Custom theme `woocommerce/theme/acme/` (SCSS + PHP templates, see refactor note below), 24 products seeded from `mockup-v2/app.js` via `woocommerce/seed/gen.js` (local) / `woocommerce/seed/csv.js` -> `woocommerce/deploy/products.csv` (host import).
 - Payment: DOKU (official plugin `doku-payment`, hosted DOKU Checkout page, sandbox). Client ID/Secret Key go on the **`doku_gateway`** section (`wc-settings&tab=checkout&section=doku_gateway`), not `doku_checkout` - the Payments screen hides this in newer WooCommerce, use the direct URL. Never commit credentials. Plugin needs HPOS off (`wp wc hpos disable`). No refund/cancel API - refunds and post-cancel refunds are a manual step in the DOKU Back Office; WooCommerce-side refund/cancel only updates local records. Stock is held (reserved), not decremented, until payment confirms; WooCommerce's Hold stock (minutes) setting should be >= DOKU's payment expiry window. Local dev: webhooks can't reach localhost, so orders stay pending unless a public tunnel is used (untested). Host: notification URL is `https://shop.armstronger.web.id/wp/wp-json/doku/notification` (QRIS needs separate QRIS Client-ID/Shared Key/MPAN, not yet obtained).
 - Still to do: variant/added popups, bottom-sheet filters, account/settings pages on the host theme, client Shop-manager user, verify order actually flips Pending -> Processing on the host (webhook vs anti-bot layer, not yet confirmed end-to-end).
-- Deferred: split `theme/acme/style.css` per page. WordPress requires `style.css` at the theme root (theme header), so base/tokens/header/footer stay there and page CSS moves to `assets/css/<page>.css` enqueued per template. Only worth doing once a page's CSS is big and page-specific - checkout (~160 lines) is the only candidate today, and the whole file is ~700 lines, so one cached request still wins.
+- **Theme refactor done (2026-09-29): functions.php split into `includes/`, CSS is now SCSS.**
+  - `functions.php` is a 6-line loader (`require_once` of `includes/*.php`). Logic lives in `includes/core-functions.php` (setup + enqueue), `cart.php`, `product.php`, `shop.php`, `checkout.php`. Frontend markup moved to template overrides (`header.php`, `footer.php`, `front-page.php`, `woocommerce/`, `page-*.php`).
+  - Styles are SCSS. `style.scss` at the theme root holds the WordPress theme header + `@import`s and **no rules**; all sources are flat partials in `assets/css/_*.scss` (`_variables`, `_mixins`, `_base`, `_layout`, `_buttons`, `_header`, `_footer`, `_product-card`, `_component-utilities`, `_home`, `_shop`, `_product`, `_cart`, `_checkout`, `_account`, `_dialogs`, `_search`, `_page`, `_wc-base`). `style.css` is build output - never edit it. Follows Storefront's pattern.
+  - Build: `npm run sass` (one-shot) / `npm run sass:watch`. Dart Sass. `@import` is deprecated in favour of `@use` but warnings are ignored for now.
+  - Only two stylesheets are enqueued: Google Fonts and `style.css`. The per-page `assets/css/<page>.css` files and their conditional `wp_enqueue_style` blocks are gone - all rules ship in the one compiled file.
+  - `node_modules/` and `*.css.map` are gitignored. `style.css` is currently still tracked (decision pending on whether to follow Storefront's gitignore-compiled-CSS).
+  - **Checkout is now two columns** (`woocommerce/checkout/form-checkout.php`): left = sticky address card, "Pengiriman", "Ringkasan" sums, place-order button; right = "Pesanan" heading + `checkout/order-lines.php` cart lines. `review-order.php` keeps only the sums.
+  - **Saved-address book**: `includes/address.php` (CRUD, user meta), `page-address.php`, `template-parts/address-dialog.php` (pick / add / edit / delete-confirm dialogs), `assets/js/address.js`, styles in `assets/css/_address.scss`. Billing fields render inside the picker dialog, not inline; validation errors are per-field inline with the failing label going red (`$danger`).
+  - **Gotcha that cost an hour:** `:root` must be emitted by SCSS. Converting `var(--x)` to `$x` throughout silently drops the custom-property definitions - keep the `:root { --x: ... }` block in `_variables.scss` alongside the `$x` SCSS variables. Also re-check `html`/`body` background after any build: WooCommerce ships its own `html`/`body` background and it wins on a stale cache.
 
 Deployment state and hosting gotchas live in [DEPLOYMENT.md](DEPLOYMENT.md). Keep it updated after any deploy change.
 
@@ -57,6 +65,17 @@ Each mockup is plain HTML + one `style.css` + one `app.js`, no build step, no fr
 - Full-page screenshots leave lazy-loaded images blank – scroll and take viewport shots to check images.
 - Bash heredocs containing backticks/quotes broke several times; for larger JS/Python edits write a file first, then splice.
 - The user wants per-phase stops: show results and wait for approval before moving to the next phase.
+- `woocommerce.css` is enqueued **after** the theme's `style.css`, and its form rules (`.woocommerce form .form-row .input-text`, `... select`) tie on specificity, so WooCommerce wins the cascade and theme field styling silently does nothing. Set its own variables instead of writing override rules: `--wc-form-border-color`, `--wc-form-border-width`, `--wc-form-border-radius`, `--wc-form-color-background`, `--wc-form-color-text` on `:root`. Padding has no variable, so it needs one extra specificity notch (`.woocommerce-checkout .co ...`).
+- When matching mockup field metrics, copy `line-height` too - the mockup inherits `1.5` (22.5px at 15px) from `body`; `line-height: normal` gives ~19px and every input comes out 4px short.
+- Don't claim a style "matches the mockup" from reading the mockup's CSS alone. Measure the live page with `agent-browser eval` and compare computed values - the theme rule may be present and still losing the cascade.
+- A page that renders *most* of the layout but sits in a white bordered box is WordPress's critical-error screen (`#error-page`), not a CSS bug. Check the real error first: `podman logs --tail 40 woocommerce_wp_1 | grep -i fatal`. Styling the symptom wastes time.
+- `podman exec` from Git Bash mangles absolute container paths (`/var/...` -> `C:/Program Files/Git/var/...`). Prefix with `MSYS_NO_PATHCONV=1`.
+- After refactors that move PHP, `grep -rn` for every function the templates call before trusting the build - the `includes/` split silently dropped `acme_card()` and only surfaced as a runtime fatal.
+- WooCommerce's checkout JS replaces **every** element carrying `.woocommerce-checkout-review-order-table` with the sidebar AJAX fragment. Any custom block in that class gets overwritten - use another class (`order-lines.php` uses `.co-lines`/`.box`).
+- A sticky column inside a CSS grid needs `align-items: stretch` (the default `start` shrinks the grid item to its own content, so the sticky child has zero travel) plus an inner wrapper carrying `position: sticky` - the item itself can never travel, its containing block is its own grid area.
+- `overflow-x: hidden` on `html`/`body` (set in `_base.scss`) makes `body` the scroll container and disables `position: sticky` for its children. `page-checkout.php` opts out with `class="co-html"`.
+- `page-checkout.php` is a standalone shell (no `header.php`), so it owns its own `<!doctype html>` - without it the page renders in quirks mode.
+- Local dev: `/checkout/` showing "Ada beberapa masalah dengan barang di keranjang Anda" is a stale cart error in the WC session, not a template bug. Clear it by removing an item from `/cart/` and re-adding a product - `?empty-cart=1` does not work.
 
 ## Phase 2 plan (when approved)
 1. Local WordPress + WooCommerce via Docker (wordpress + mysql images).
@@ -77,8 +96,22 @@ Read these directly instead of searching the repo.
 | `mockup-v2/style.css` | All mockup CSS; the theme's `style.css` is derived from it. |
 | `mockup-v2/*.html` | Reference pages: index, category, product, cart, checkout, login, register, account, settings, about, faq. Header/footer duplicated - keep in sync. |
 | `woocommerce/compose.yaml` | Local podman compose (WP + MariaDB, :8080). |
-| `woocommerce/theme/acme/style.css` | All theme CSS. |
-| `woocommerce/theme/acme/functions.php` | Hooks, `acme_card()`, WooCommerce hook removals, cart/redirect filters. |
+| `woocommerce/theme/acme/style.scss` | SCSS entry point: theme header + `@import`s, no rules. |
+| `woocommerce/theme/acme/assets/css/_*.scss` | All theme CSS source, flat partials. |
+| `woocommerce/theme/acme/style.css` | Build output from `style.scss`. Never edit. |
+| `woocommerce/theme/acme/functions.php` | 6-line loader for `includes/*.php`. |
+| `woocommerce/theme/acme/includes/core-functions.php` | Theme setup, stylesheet/script enqueue, `body_class`. |
+| `woocommerce/theme/acme/includes/product.php` | `theme_product_card()`, add-to-cart redirect, order button. |
+| `woocommerce/theme/acme/includes/cart.php` | `get_cart_badge()`, `get_cartbar()`, ajax fragments. |
+| `woocommerce/theme/acme/includes/shop.php` | Filters, price buckets, `is_shop_archive()`. |
+| `woocommerce/theme/acme/includes/checkout.php` | Billing/shipping fields, saved-address handlers, payment tweaks. |
+| `woocommerce/theme/acme/includes/address.php` | Address book CRUD (user meta), AJAX endpoints, script enqueue. |
+| `woocommerce/theme/acme/woocommerce/checkout/form-checkout.php` | Two-column checkout shell (`.co-side` sticky / `.co-main`). |
+| `woocommerce/theme/acme/woocommerce/checkout/order-lines.php` | Cart line items, right column. Not `.woocommerce-checkout-review-order-table`. |
+| `woocommerce/theme/acme/woocommerce/checkout/review-order.php` | Sums only (Subtotal / Ongkir / Total bayar). |
+| `woocommerce/theme/acme/template-parts/address-dialog.php` | Address pick / add-edit / delete-confirm `<dialog>`s. |
+| `woocommerce/theme/acme/assets/js/address.js` | Address book state + AJAX. |
+| `woocommerce/theme/acme/page-address.php` | `/address/` saved-address page. |
 | `woocommerce/theme/acme/front-page.php` | Home: hero, product grids, bento categories. |
 | `woocommerce/theme/acme/woocommerce.php` | Shop archive (filters, grid). |
 | `woocommerce/theme/acme/woocommerce/content-product.php` | Product card in loops. |
