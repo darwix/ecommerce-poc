@@ -43,7 +43,9 @@ html {
 
 html,
 body {
-  overflow-x: hidden;
+  /* clip, not hidden: `hidden` makes body the scroll container and kills
+     `position: sticky` for its children (the header). */
+  overflow-x: clip;
 }
 
 body {
@@ -1807,14 +1809,6 @@ body:has(.totalbar:not([hidden])) #top {
   /* stretch, not start: the sticky sidebar needs a grid area taller than itself
      to travel in, and `start` shrinks the item to its own content. */
   align-items: stretch;
-}
-
-/* The theme hides horizontal overflow on html and body, which makes body the
-   scroll container and kills `position: sticky` for its children (the header
-   below). This template renders its own page shell, so it can opt out. */
-html.co-html,
-html.co-html body {
-  overflow: visible;
 }
 
 .co-head {

@@ -11,7 +11,9 @@ html {
 
 html,
 body {
-  overflow-x: hidden;
+  /* clip, not hidden: `hidden` makes body the scroll container and kills
+     `position: sticky` for its children (the header). */
+  overflow-x: clip;
 }
 
 body {
