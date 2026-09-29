@@ -1067,7 +1067,7 @@ footer a:hover {
   display: none;
 }
 
-#chips button {
+#chips a {
   background: #fff;
   border: 1px solid #a8d5e8;
   border-radius: 999px;
@@ -1075,13 +1075,12 @@ footer a:hover {
   font-size: 13px;
 }
 
-#chips button:hover {
+#chips a:hover {
   background: #a8d5e8;
 }
 
 #chips .clear {
   border-color: transparent;
-  text-decoration: underline;
 }
 
 .shop .grid {

@@ -73,7 +73,7 @@ Each mockup is plain HTML + one `style.css` + one `app.js`, no build step, no fr
 - After refactors that move PHP, `grep -rn` for every function the templates call before trusting the build - the `includes/` split silently dropped `acme_card()` and only surfaced as a runtime fatal.
 - WooCommerce's checkout JS replaces **every** element carrying `.woocommerce-checkout-review-order-table` with the sidebar AJAX fragment. Any custom block in that class gets overwritten - use another class (`order-lines.php` uses `.co-lines`/`.box`).
 - A sticky column inside a CSS grid needs `align-items: stretch` (the default `start` shrinks the grid item to its own content, so the sticky child has zero travel) plus an inner wrapper carrying `position: sticky` - the item itself can never travel, its containing block is its own grid area.
-- `overflow-x: hidden` on `html`/`body` (set in `_base.scss`) makes `body` the scroll container and disables `position: sticky` for its children. `page-checkout.php` opts out with `class="co-html"`.
+- `overflow-x: clip` on `html`/`body` (set in `_base.scss`) — **not `hidden`**. `hidden` makes `body` the scroll container and disables `position: sticky` for its children (the header). This replaced the older workaround where `page-checkout.php` opted out with `class="co-html"` + `overflow: visible`; both the class and that override are gone.
 - `page-checkout.php` is a standalone shell (no `header.php`), so it owns its own `<!doctype html>` - without it the page renders in quirks mode.
 - Local dev: `/checkout/` showing "Ada beberapa masalah dengan barang di keranjang Anda" is a stale cart error in the WC session, not a template bug. Clear it by removing an item from `/cart/` and re-adding a product - `?empty-cart=1` does not work.
 

@@ -134,19 +134,18 @@
 #chips:empty {
   display: none;
 }
-#chips button {
+#chips a {
   background: #fff;
   border: 1px solid $blue;
   border-radius: 999px;
   padding: 5px 12px;
   font-size: 13px;
 }
-#chips button:hover {
+#chips a:hover {
   background: $blue;
 }
 #chips .clear {
   border-color: transparent;
-  text-decoration: underline;
 }
 .shop .grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));

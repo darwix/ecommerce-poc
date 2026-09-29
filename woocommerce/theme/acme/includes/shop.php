@@ -18,12 +18,25 @@ function get_price_buckets() {
 }
 
 add_action('woocommerce_product_query', function ($q) {
-	if (is_admin() || empty($_GET['price']) || !array_key_exists($_GET['price'], get_price_buckets())) return;
-	$ranges = ['lt200' => [0, 200000], '200-300' => [200000, 300000], 'gt300' => [300000, PHP_INT_MAX]];
-	[$min, $max] = $ranges[$_GET['price']];
-	$mq = $q->get('meta_query') ?: [];
-	$mq[] = ['key' => '_price', 'value' => [$min, $max], 'type' => 'NUMERIC', 'compare' => 'BETWEEN'];
-	$q->set('meta_query', $mq);
+	if (is_admin()) return;
+
+	if (!empty($_GET['price']) && array_key_exists($_GET['price'], get_price_buckets())) {
+		$ranges = ['lt200' => [0, 200000], '200-300' => [200000, 300000], 'gt300' => [300000, PHP_INT_MAX]];
+		[$min, $max] = $ranges[$_GET['price']];
+		$mq = $q->get('meta_query') ?: [];
+		$mq[] = ['key' => '_price', 'value' => [$min, $max], 'type' => 'NUMERIC', 'compare' => 'BETWEEN'];
+		$q->set('meta_query', $mq);
+	}
+
+	if (!empty($_GET['acme_q'])) {
+		$q->set('s', wp_unslash($_GET['acme_q']));
+	}
+
+	if (!empty($_GET['acme_cat'])) {
+		$tq = $q->get('tax_query') ?: [];
+		$tq[] = ['taxonomy' => 'product_cat', 'field' => 'term_id', 'terms' => (int) $_GET['acme_cat']];
+		$q->set('tax_query', $tq);
+	}
 });
 
 function is_shop_archive() {
