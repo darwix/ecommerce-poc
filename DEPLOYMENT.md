@@ -12,8 +12,7 @@ Living record of how the Acme POC is hosted. Update it whenever something change
 
 ## NeoHosting cPanel (shared hosting)
 
-- cPanel: https://web14-cpn.neohosting.id:2083/ , account `wwwarmst`.
-- **Site IP is the Shared IP `<SHARED_IP>`** (cPanel sidebar > General Information). `<CPANEL_HOST_IP>` is only the cPanel hostname's IP and serves someone else's default site. Do not use it.
+- **Use the Shared IP** (cPanel sidebar > General Information) for the site A record, not the IP of the cPanel hostname: that one serves someone else's default site.
 - PHP 8.2 (needs 8.1+). Set `memory_limit` >= 256M. Extensions: mysqli, curl, mbstring, gd/imagick, zip, intl, xml.
 - Host runs an anti-bot layer: unauthenticated requests get a "One moment, please..." loader page, so `curl` cannot read the site. Check pages in a browser. Ask NeoHosting to whitelist `/wp-json/doku/` (DOKU webhooks are automated requests).
 - Softaculous "SoftWP" installs WordPress with bundled extras. Decline "AI Assistant" and onboarding. Remove SpeedyCache (breaks cart/checkout), Pagelayer, FormLayer, Social Login. Keep Backuply, GoSMTP (order email); CookieAdmin and SiteSEO optional.
@@ -24,7 +23,7 @@ Living record of how the Acme POC is hosted. Update it whenever something change
 ## DNS (Cloudflare)
 
 - Zone `armstronger.web.id` is on Cloudflare (kenia / zod nameservers). The apex has no records.
-- `shop` A record -> `<SHARED_IP>`, **DNS only (grey cloud)** so cPanel AutoSSL can validate. HTTPS is issued and valid.
+- `shop` A record -> the Shared IP, **DNS only (grey cloud)** so cPanel AutoSSL can validate. HTTPS is issued and valid.
 - If proxied later: SSL/TLS mode Full (strict); bypass cache for `/cart/`, `/checkout/`, `/my-account/`, `/wp-json/`.
 
 ## WordPress install (current)

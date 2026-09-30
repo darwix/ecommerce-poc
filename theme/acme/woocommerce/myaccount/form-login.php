@@ -25,7 +25,7 @@ $year = range(gmdate('Y') - 10, gmdate('Y') - 79);
 	<form method="post" class="woocommerce-form-register">
 		<label>Nama lengkap<input name="acme_name" autocomplete="name" required placeholder="Nama lengkap" value="<?php echo esc_attr(wp_unslash($_POST['acme_name'] ?? '')); ?>"></label>
 		<label>Email<input name="email" type="email" autocomplete="email" required placeholder="nama@email.com" value="<?php echo esc_attr(wp_unslash($_POST['email'] ?? '')); ?>"></label>
-		<label>Password<span class="pw"><input name="password" type="password" autocomplete="new-password" required minlength="6" placeholder="Minimal 6 karakter"><?php echo $eye; ?></span></label>
+		<label>Password<span class="pw"><input name="password" type="password" autocomplete="new-password" required minlength="8" placeholder="Minimal 8 karakter"><?php echo $eye; ?></span></label>
 		<fieldset class="bday">
 			<legend>Tanggal lahir <small>(opsional)</small></legend>
 			<select name="acme_bd" aria-label="Tanggal"><?php echo $opts('Tgl', $days); ?></select>

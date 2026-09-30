@@ -8,6 +8,11 @@
   var $$ = function (s, ctx) {
     return Array.prototype.slice.call((ctx || document).querySelectorAll(s));
   };
+  var esc = function (s) {
+    var d = document.createElement("div");
+    d.textContent = s;
+    return d.innerHTML.replace(/"/g, "&quot;");
+  };
 
   // gallery thumbs
   document.addEventListener("click", function (e) {
@@ -168,11 +173,11 @@
       '<form method="dialog"><div class="dhead"><h2><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Masuk keranjang</h2>' +
       '<button class="x" value="close" aria-label="Tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
       '<div class="dprod wide-prod">' +
-      (line.image ? '<img src="' + line.image + '" alt="">' : "") +
+      (line.image ? '<img src="' + esc(line.image) + '" alt="">' : "") +
       "<div><b>" +
-      line.name +
+      esc(line.name) +
       "</b>" +
-      (line.meta ? "<small>" + line.meta + "</small>" : "") +
+      (line.meta ? "<small>" + esc(line.meta) + "</small>" : "") +
       '<span class="price">' +
       (line.price || "") +
       "</span></div>" +

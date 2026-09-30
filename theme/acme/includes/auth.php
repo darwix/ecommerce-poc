@@ -24,7 +24,7 @@ add_action('template_redirect', function () {
 
 add_filter('woocommerce_process_registration_errors', function ($err, $user, $pass) {
 	if (trim($_POST['acme_name'] ?? '') === '') $err->add('acme_name', 'Nama lengkap wajib diisi.');
-	if (strlen($pass) < 6) $err->add('acme_pass', 'Password minimal 6 karakter.');
+	if (strlen($pass) < 8) $err->add('acme_pass', 'Password minimal 8 karakter.');
 	return $err;
 }, 10, 3);
 
