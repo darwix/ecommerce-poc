@@ -160,7 +160,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  justify-self: start;
+  flex: none;
 }
 .pd-wish svg {
   width: 18px;
@@ -266,7 +266,24 @@
   border: 1px solid $line;
   border-radius: 10px;
 }
+.pd-form .quantity button {
+  border: 0;
+  background: transparent;
+  width: 34px;
+  align-self: stretch;
+  font-size: 18px;
+  cursor: pointer;
+}
+.pd-form .quantity button:hover {
+  color: $pink-h;
+}
+.pd-form .quantity input.qty::-webkit-outer-spin-button,
+.pd-form .quantity input.qty::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 .pd-form .quantity input.qty {
+  -moz-appearance: textfield;
   width: 44px;
   border: 0;
   text-align: center;
@@ -403,5 +420,62 @@
   .pd {
     grid-template-columns: minmax(0, 1fr);
     gap: 24px;
+  }
+}
+
+/* simple product: "Stok n" + stepper on one row, add-to-cart + Simpan below */
+.pd-form--simple {
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  column-gap: 16px;
+}
+.pd-form--simple form.cart {
+  display: contents;
+}
+.pd-form--simple .stock {
+  margin: 0;
+}
+.pd-form--simple .quantity {
+  justify-self: start;
+}
+.pd-form--simple .single_add_to_cart_button {
+  grid-column: 1 / 3;
+}
+.pd-info .woocommerce-error,
+.pd-info .woocommerce-message,
+.pd-info .woocommerce-info {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid $line;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 14px;
+  line-height: 1.45;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  flex-wrap: wrap;
+  &::before {
+    display: none;
+  }
+  .button {
+    float: none;
+    order: 2;
+    margin: 0;
+    padding: 0;
+    background: none;
+    color: $pink-h;
+    font-weight: 600;
+    text-decoration: underline;
+    white-space: nowrap;
+  }
+}
+.pd-info .woocommerce-error {
+  border-color: $danger;
+  background: #fff5f5;
+  color: $danger;
+  .button {
+    color: $danger;
   }
 }

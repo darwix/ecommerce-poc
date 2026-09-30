@@ -41,4 +41,5 @@
       if (t.id === "tWish") renderWish();
     };
   });
+  if (location.hash === "#wishlist") $("#tWish").click();
 })();

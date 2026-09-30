@@ -666,6 +666,38 @@ footer a:hover {
     font-size: 13px;
   }
 }
+#wishToast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 20px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #2e2a3d;
+  color: #fff;
+  font-size: 14px;
+  box-shadow: 0 1px 3px rgba(217, 109, 150, 0.08), 0 8px 20px -12px rgba(46, 42, 61, 0.18);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+#wishToast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+#wishToast a {
+  color: #f4a6c1;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 /* hero: real text on a solid panel, photo beside it */
 .hero {
   display: grid;
@@ -1353,7 +1385,7 @@ footer a:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  justify-self: start;
+  flex: none;
 }
 
 .pd-wish svg {
@@ -1480,7 +1512,27 @@ footer a:hover {
   border-radius: 10px;
 }
 
+.pd-form .quantity button {
+  border: 0;
+  background: transparent;
+  width: 34px;
+  align-self: stretch;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.pd-form .quantity button:hover {
+  color: #d96d96;
+}
+
+.pd-form .quantity input.qty::-webkit-outer-spin-button,
+.pd-form .quantity input.qty::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .pd-form .quantity input.qty {
+  -moz-appearance: textfield;
   width: 44px;
   border: 0;
   text-align: center;
@@ -1638,6 +1690,73 @@ footer a:hover {
     gap: 24px;
   }
 }
+/* simple product: "Stok n" + stepper on one row, add-to-cart + Simpan below */
+.pd-form--simple {
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  column-gap: 16px;
+}
+
+.pd-form--simple form.cart {
+  display: contents;
+}
+
+.pd-form--simple .stock {
+  margin: 0;
+}
+
+.pd-form--simple .quantity {
+  justify-self: start;
+}
+
+.pd-form--simple .single_add_to_cart_button {
+  grid-column: 1/3;
+}
+
+.pd-info .woocommerce-error,
+.pd-info .woocommerce-message,
+.pd-info .woocommerce-info {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid #f0dbe3;
+  border-radius: 12px;
+  background: #fff;
+  font-size: 14px;
+  line-height: 1.45;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  flex-wrap: wrap;
+}
+.pd-info .woocommerce-error::before,
+.pd-info .woocommerce-message::before,
+.pd-info .woocommerce-info::before {
+  display: none;
+}
+.pd-info .woocommerce-error .button,
+.pd-info .woocommerce-message .button,
+.pd-info .woocommerce-info .button {
+  float: none;
+  order: 2;
+  margin: 0;
+  padding: 0;
+  background: none;
+  color: #d96d96;
+  font-weight: 600;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.pd-info .woocommerce-error {
+  border-color: #d64545;
+  background: #fff5f5;
+  color: #d64545;
+}
+.pd-info .woocommerce-error .button {
+  color: #d64545;
+}
+
 /* cart */
 .cart {
   max-width: 960px;
@@ -3879,6 +3998,10 @@ body.has-bar footer {
   min-width: 0;
   border: 0;
   background: none;
+}
+
+.sbox input::-webkit-search-cancel-button {
+  display: none;
 }
 
 .sbox input:focus-visible {

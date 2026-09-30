@@ -48,6 +48,9 @@
   border: 0;
   background: none;
 }
+.sbox input::-webkit-search-cancel-button {
+  display: none;
+}
 .sbox input:focus-visible {
   outline: 0;
 }

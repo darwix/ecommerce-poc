@@ -124,7 +124,23 @@
     i < 0 ? w.push(id) : w.splice(i, 1);
     setWish(w);
     btn.classList.toggle("on", i < 0);
+    if (i < 0) wishToast();
   });
+
+  var toastTimer;
+  function wishToast() {
+    var t = document.getElementById("wishToast");
+    if (!t) {
+      t = document.createElement("div");
+      t.id = "wishToast";
+      t.setAttribute("role", "status");
+      t.innerHTML = '<span>Tersimpan di Wishlist</span><a href="' + (window.acmeWishUrl || "#") + '">Lihat wishlist</a>';
+      document.body.appendChild(t);
+    }
+    t.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove("show"); }, 4000);
+  }
 
   // "added to cart" popup — real WC add-to-cart happened server-side (added-to-cart query var,
   // or jQuery's added_to_cart event for the ajax case in product loops/cards elsewhere)
@@ -177,6 +193,26 @@
     });
     d.showModal();
   }
+
+  // single product: − / + around WC's quantity input
+  document.querySelectorAll(".pd-form .quantity").forEach(function (box) {
+    var inp = box.querySelector("input.qty");
+    if (!inp) return;
+    function mk(d, t, l) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = t;
+      b.setAttribute("aria-label", l);
+      b.addEventListener("click", function () {
+        var max = parseInt(inp.max, 10) || Infinity;
+        inp.value = Math.min(max, Math.max(parseInt(inp.min, 10) || 1, (parseInt(inp.value, 10) || 1) + d));
+        inp.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+      return b;
+    }
+    box.insertBefore(mk(-1, "−", "Kurangi"), inp);
+    box.appendChild(mk(1, "+", "Tambah"));
+  });
 
   if (window.acmeJustAdded) openAdded(window.acmeJustAdded);
   window.acmeOpenAdded = openAdded; // used by quick-add.js after a card's "+ Keranjang"
