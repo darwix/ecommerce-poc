@@ -1,8 +1,13 @@
 <?php
 // Logged-in dashboard, after mockup-v2/account.html. Login form and the
 // orders / edit-address / edit-account endpoints keep the generic page shell.
-if (!is_user_logged_in() || WC()->query->get_current_endpoint()) {
+$endpoint = is_user_logged_in() ? WC()->query->get_current_endpoint() : '';
+if (!is_user_logged_in() || ($endpoint && $endpoint !== 'edit-account')) {
 	locate_template('page.php', true, false);
+	return;
+}
+if ($endpoint === 'edit-account') {
+	get_template_part('template-parts/account-settings');
 	return;
 }
 $user   = wp_get_current_user();

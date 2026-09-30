@@ -219,13 +219,13 @@
 .setpanes > section > h2 {
   margin-bottom: 0;
 }
-.setpanes > section > label {
+.setpanes > section label {
   display: grid;
   gap: 6px;
   font-size: 14px;
   font-weight: 600;
 }
-.setpanes > section > label input {
+.setpanes > section label input {
   font: inherit;
   font-size: 15px;
   font-weight: 400;
@@ -234,7 +234,7 @@
   border-radius: 10px;
   background: #fff;
 }
-.setpanes > section > label input:disabled {
+.setpanes > section label input:disabled {
   background: #faf6f8;
   color: $muted;
 }

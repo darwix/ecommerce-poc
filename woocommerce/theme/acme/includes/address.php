@@ -136,9 +136,9 @@ add_action('wp_enqueue_scripts', function () {
 	]) . ';', 'before');
 });
 
-// Pages where the address book is in play: checkout and the "Alamat" page.
+// Pages where the address book is in play: checkout, the "Alamat" page and account settings.
 function acme_address_page(): bool {
-	return is_page('address') || (function_exists('is_checkout') && is_checkout() && !is_wc_endpoint_url());
+	return is_page('address') || (function_exists('is_wc_endpoint_url') && is_wc_endpoint_url('edit-account')) || (function_exists('is_checkout') && is_checkout() && !is_wc_endpoint_url());
 }
 
 // The cascading wilaya selects are needed by the address form too.

@@ -3117,14 +3117,14 @@ body:has(.totalbar:not([hidden])) #top {
   margin-bottom: 0;
 }
 
-.setpanes > section > label {
+.setpanes > section label {
   display: grid;
   gap: 6px;
   font-size: 14px;
   font-weight: 600;
 }
 
-.setpanes > section > label input {
+.setpanes > section label input {
   font: inherit;
   font-size: 15px;
   font-weight: 400;
@@ -3134,7 +3134,7 @@ body:has(.totalbar:not([hidden])) #top {
   background: #fff;
 }
 
-.setpanes > section > label input:disabled {
+.setpanes > section label input:disabled {
   background: #faf6f8;
   color: #6f6a7d;
 }
