@@ -118,3 +118,21 @@
     margin-left: 0;
   }
 }
+
+/* legal pages (syarat & ketentuan, kebijakan privasi) */
+.legal {
+  max-width: 760px;
+}
+.legal h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 28px;
+}
+.legal p {
+  margin-top: 8px;
+  line-height: 1.6;
+}
+.legal .upd {
+  color: $muted;
+  font-size: 13px;
+}

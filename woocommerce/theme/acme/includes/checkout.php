@@ -141,7 +141,7 @@ add_filter('woocommerce_login_redirect', function ($redirect, $user) {
 // Terms line (mockup has one)
 add_action('woocommerce_review_order_after_submit', function () {
 	echo '<p class="terms">Dengan memesan, kamu setuju dengan <a href="' .
-		esc_url(get_privacy_policy_url() ?: '#') . '">Syarat &amp; ketentuan</a> kami.</p>';
+		esc_url(home_url('/terms-and-conditions/')) . '">Syarat &amp; ketentuan</a> kami.</p>';
 });
 
 // Remove WC's privacy policy text

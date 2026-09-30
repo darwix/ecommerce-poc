@@ -1,5 +1,5 @@
 cd /var/www/html
-for spec in "about:Tentang" "faq:FAQ"; do
+for spec in "about:Tentang" "faq:FAQ" "terms-and-conditions:Syarat & Ketentuan" "privacy-policy:Kebijakan Privasi"; do
   slug=${spec%%:*}; title=${spec#*:}
   wp post list --post_type=page --name=$slug --format=ids | grep -q . || wp post create --post_type=page --post_status=publish --post_title="$title" --post_name=$slug
 done
