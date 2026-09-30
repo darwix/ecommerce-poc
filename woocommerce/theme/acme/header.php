@@ -17,7 +17,7 @@
 			<a href="<?php echo esc_url(home_url('/')); ?>"<?php echo is_front_page() ? ' class="active"' : ''; ?>>Beranda</a><a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>"<?php echo is_shop() ? ' class="active"' : ''; ?>>Semua produk</a><a href="<?php echo esc_url(home_url('/about/')); ?>"<?php echo is_page('about') ? ' class="active"' : ''; ?>>Tentang</a>
 		</nav>
 		<div class="icons">
-			<a href="<?php echo esc_url(home_url('/?post_type=product&s=')); ?>" aria-label="Cari produk"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm9 16-4-4"/></svg></a>
+			<a href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>" data-search aria-label="Cari produk" onclick="return false"><svg class="i" viewBox="0 0 24 24"><path d="M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm9 16-4-4"/></svg></a>
 			<a href="<?php echo esc_url(wc_get_page_permalink('myaccount')); ?>" aria-label="Akun"><svg class="i" viewBox="0 0 24 24"><path d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg></a>
 			<a href="<?php echo esc_url(wc_get_cart_url()); ?>" aria-label="Keranjang"><svg class="i" viewBox="0 0 24 24"><path d="M5 7h14l-1.5 13h-11zM9 7a3 3 0 0 1 6 0"/></svg><?php echo get_cart_badge(); ?></a>
 		</div>

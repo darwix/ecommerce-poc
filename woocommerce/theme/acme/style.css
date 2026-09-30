@@ -3871,6 +3871,15 @@ body.has-bar footer {
   overflow: auto;
 }
 
+#sSeen:not([hidden]) {
+  display: grid;
+  gap: 10px;
+}
+
+#sSeen .lbl {
+  margin: 0;
+}
+
 .lbl {
   font-size: 13px;
   font-weight: 600;

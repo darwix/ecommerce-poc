@@ -13,6 +13,8 @@ add_action('wp_enqueue_scripts', function () {
 	wp_enqueue_style('theme', get_stylesheet_uri(), [], wp_get_theme()->get('Version'));
 
 	if (function_exists('WC')) {
+		wp_enqueue_script('search', get_theme_file_uri('assets/js/search.js'), [], wp_get_theme()->get('Version'), true);
+		wp_add_inline_script('search', 'window.acmeSearch=' . wp_json_encode(['ajax' => admin_url('admin-ajax.php'), 'shop' => wc_get_page_permalink('shop')]) . ';', 'before');
 		wp_enqueue_script('wc-add-to-cart');
 		$deps = ['jquery'];
 		if (is_product()) $deps[] = 'wc-add-to-cart-variation';
