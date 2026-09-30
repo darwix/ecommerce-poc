@@ -3037,6 +3037,7 @@ body:has(.totalbar:not([hidden])) #top {
 }
 
 .none {
+  grid-column: 1/-1;
   text-align: center;
   color: #6f6a7d;
   padding: 32px 16px;

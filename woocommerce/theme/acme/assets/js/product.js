@@ -112,15 +112,18 @@
     } catch (e) {}
   };
   $$("[data-wish-id]").forEach(function (btn) {
-    var id = +btn.dataset.wishId;
-    btn.classList.toggle("on", getWish().indexOf(id) > -1);
-    btn.addEventListener("click", function () {
-      var w = getWish(),
-        i = w.indexOf(id);
-      i < 0 ? w.push(id) : w.splice(i, 1);
-      setWish(w);
-      btn.classList.toggle("on", i < 0);
-    });
+    btn.classList.toggle("on", getWish().indexOf(+btn.dataset.wishId) > -1);
+  });
+  // delegated so cards injected later (wishlist tab ajax) work too
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest("[data-wish-id]");
+    if (!btn) return;
+    var id = +btn.dataset.wishId,
+      w = getWish(),
+      i = w.indexOf(id);
+    i < 0 ? w.push(id) : w.splice(i, 1);
+    setWish(w);
+    btn.classList.toggle("on", i < 0);
   });
 
   // "added to cart" popup — real WC add-to-cart happened server-side (added-to-cart query var,

@@ -151,6 +151,7 @@
   font-size: 16px;
 }
 .none {
+  grid-column: 1 / -1;
   text-align: center;
   color: $muted;
   padding: 32px 16px;

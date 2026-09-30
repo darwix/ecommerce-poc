@@ -22,8 +22,18 @@
     if (!ids.length) { $("#wishGrid").innerHTML = none; return; }
     fetch(window.acmeAjax + "?action=acme_wish_cards&ids=" + ids.join(","))
       .then(function (r) { return r.text(); })
-      .then(function (h) { $("#wishGrid").innerHTML = h || none; });
+      .then(function (h) {
+        $("#wishGrid").innerHTML = h || none;
+        $$("#wishGrid .wish").forEach(function (b) { b.classList.add("on"); });
+      });
   };
+  // un-heart in the wishlist tab: drop the card (product.js updates localStorage)
+  $("#wishGrid").addEventListener("click", function (e) {
+    var b = e.target.closest(".wish");
+    if (!b) return;
+    b.closest(".card").remove();
+    if (!$("#wishGrid .card")) $("#wishGrid").innerHTML = none;
+  });
   $$("[role=tab]").forEach(function (t) {
     t.onclick = function () {
       $$("[role=tab]").forEach(function (x) { x.setAttribute("aria-selected", x === t); });
