@@ -37,13 +37,14 @@ add_filter('woocommerce_save_account_details_required_fields', function () {
 	return ['account_first_name' => 'Nama', 'account_email' => 'Email'];
 });
 
-add_action('woocommerce_save_account_details', function ($uid) {
+function acme_save_birthday($uid) {
 	$d = absint($_POST['acme_bd'] ?? 0);
 	$m = absint($_POST['acme_bm'] ?? 0);
 	$y = absint($_POST['acme_by'] ?? 0);
 	if ($d && $m && $y && checkdate($m, $d, $y)) update_user_meta($uid, 'acme_birthday', "$y-$m-$d");
 	else delete_user_meta($uid, 'acme_birthday');
-});
+}
+add_action('woocommerce_save_account_details', 'acme_save_birthday');
 
 // Delete own account (not admins); orders stay with the shop.
 add_action('admin_post_acme_delete_account', function () {

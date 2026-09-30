@@ -3328,6 +3328,131 @@ body:has(.totalbar:not([hidden])) #top {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+/* login / register (woocommerce/myaccount/form-login.php) */
+.auth {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 48px 0 24px;
+  display: grid;
+  gap: 14px;
+}
+.auth h1 {
+  font-size: clamp(26px, 3vw, 34px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+.auth .sub {
+  color: #6f6a7d;
+}
+.auth form {
+  display: grid;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #f0dbe3;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+.auth label,
+.auth .bday legend {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.auth input,
+.auth select {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 12px 14px;
+  border: 1px solid #f0dbe3;
+  border-radius: 10px;
+  background: #fff;
+  color: #2e2a3d;
+  width: 100%;
+}
+.auth input:focus-visible,
+.auth select:focus-visible {
+  outline: 2px solid #6fb3d2;
+  outline-offset: 1px;
+}
+.auth .bday {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 8px;
+  border: 0;
+  padding: 0;
+}
+.auth .bday legend {
+  display: block;
+  grid-column: 1/-1;
+  padding: 0;
+}
+.auth .bday legend small {
+  color: #6f6a7d;
+  font-weight: 400;
+}
+.auth input::-ms-reveal {
+  display: none;
+}
+.auth .show-password-input {
+  display: none;
+}
+.auth .pw {
+  position: relative;
+  display: block;
+}
+.auth .pw input {
+  padding-right: 46px;
+}
+.auth .eye {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  color: #6f6a7d;
+}
+.auth .eye:hover {
+  color: #2e2a3d;
+}
+.auth .hint {
+  margin: 0;
+  color: #d96d96;
+  font-size: 14px;
+  font-weight: 500;
+}
+.auth .btn.wide {
+  width: 100%;
+  justify-content: center;
+}
+.auth .alt {
+  text-align: center;
+  font-size: 14px;
+}
+.auth .alt a {
+  color: #a83f68;
+}
+.auth .woocommerce-error,
+.auth .woocommerce-info,
+.auth .woocommerce-message {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: #d96d96;
+  font-size: 14px;
+  font-weight: 500;
+}
+.auth .woocommerce-error::before,
+.auth .woocommerce-info::before,
+.auth .woocommerce-message::before {
+  display: none;
+}
+
 /* ---- add-to-cart flow: picker dialog, added dialog, floating cart bar ---- */
 dialog {
   border: 0;
