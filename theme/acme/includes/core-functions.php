@@ -24,6 +24,24 @@ add_action('wp_enqueue_scripts', function () {
 	}
 });
 
+// The theme does its own layout. woocommerce.css stays on checkout/account: its --wc-form-* variables style those fields.
+add_filter('woocommerce_enqueue_styles', function ($styles) {
+	unset($styles['woocommerce-layout'], $styles['woocommerce-smallscreen']);
+	if (!is_checkout() && !is_account_page()) unset($styles['woocommerce-general']);
+	return $styles;
+});
+
+// jQuery Migrate is a compat shim for old plugins; nothing here needs it
+add_action('wp_default_scripts', function ($scripts) {
+	if (!is_admin() && isset($scripts->registered['jquery'])) {
+		$scripts->registered['jquery']->deps = array_diff($scripts->registered['jquery']->deps, ['jquery-migrate']);
+	}
+});
+
+add_action('wp_head', function () {
+	echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n" . '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
+}, 1);
+
 add_filter('body_class', function ($c) {
 	if (is_front_page()) $c[] = 'hc';
 	return $c;
