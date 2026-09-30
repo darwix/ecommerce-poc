@@ -1,3 +1,4 @@
+name: woocommerce
 services:
   db:
     image: docker.io/library/mariadb:11

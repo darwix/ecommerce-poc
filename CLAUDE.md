@@ -6,9 +6,9 @@ Proof-of-concept rebuild of acme.example (Indonesian import-fashion / beauty res
 
 - **Phase 1 - static mockup (mockup-v2): done, deployed** to https://ecommerce-poc.acme-demo.workers.dev (Cloudflare Workers static assets).
 - **Phase 2 - WooCommerce POC deployed and DOKU sandbox live on the host.** Two environments:
-  - Local: `woocommerce/` = podman compose (WP + MariaDB, port 8080; admin/admin), WP 6.9.4 + WooCommerce 10.9.4 (11.x needs WP 7). Gotchas: run wp-cli inside `woocommerce_wp_1` as uid 33 (WP's own HTTP client gets 434 from wordpress.org, so install plugins from zips fetched with curl); other containers `wp-app`/`wp-db` belong to a different project.
+  - Local: repo root = podman compose (WP + MariaDB, port 8080; admin/admin), WP 6.9.4 + WooCommerce 10.9.4 (11.x needs WP 7). Gotchas: run wp-cli inside `woocommerce_wp_1` as uid 33 (WP's own HTTP client gets 434 from wordpress.org, so install plugins from zips fetched with curl); other containers `wp-app`/`wp-db` belong to a different project.
   - Host (real deploy check): NeoHosting shared cPanel, https://shop.armstronger.web.id/wp/ - WordPress 7.1.2 + WooCommerce 11.1.2, Acme theme active, store Live, 24 products imported and visible, DOKU Payment plugin installed with sandbox keys entered, email confirmed working (DOKU's own receipt + WooCommerce order emails). Full details, gotchas (OPcache fix, anti-bot layer, wrong-IP mistake) and open items in [DEPLOYMENT.md](DEPLOYMENT.md) - **read it before continuing deploy work**.
-- Custom theme `woocommerce/theme/acme/` (SCSS + PHP templates, see refactor note below), 24 products seeded from `mockup-v2/app.js` via `woocommerce/seed/gen.js` (local) / `woocommerce/seed/csv.js` -> `woocommerce/deploy/products.csv` (host import).
+- Custom theme `theme/acme/` (SCSS + PHP templates, see refactor note below), 24 products imported from `deploy/products.csv` (WooCommerce > Products > Import, local and host; generators removed, mockup-v2 deleted).
 - Payment: DOKU (official plugin `doku-payment`, hosted DOKU Checkout page, sandbox). Client ID/Secret Key go on the **`doku_gateway`** section (`wc-settings&tab=checkout&section=doku_gateway`), not `doku_checkout` - the Payments screen hides this in newer WooCommerce, use the direct URL. Never commit credentials. Plugin needs HPOS off (`wp wc hpos disable`). No refund/cancel API - refunds and post-cancel refunds are a manual step in the DOKU Back Office; WooCommerce-side refund/cancel only updates local records. Stock is held (reserved), not decremented, until payment confirms; WooCommerce's Hold stock (minutes) setting should be >= DOKU's payment expiry window. Local dev: webhooks can't reach localhost, so orders stay pending unless a public tunnel is used (untested). Host: notification URL is `https://shop.armstronger.web.id/wp/wp-json/doku/notification` (QRIS needs separate QRIS Client-ID/Shared Key/MPAN, not yet obtained).
 - Still to do: variant/added popups, bottom-sheet filters, account/settings pages on the host theme, client Shop-manager user, verify order actually flips Pending -> Processing on the host (webhook vs anti-bot layer, not yet confirmed end-to-end).
 - **Theme refactor done (2026-09-29): functions.php split into `includes/`, CSS is now SCSS.**
@@ -16,7 +16,7 @@ Proof-of-concept rebuild of acme.example (Indonesian import-fashion / beauty res
   - Styles are SCSS. `style.scss` at the theme root holds the WordPress theme header + `@import`s and **no rules**; all sources are flat partials in `assets/css/_*.scss` (`_variables`, `_mixins`, `_base`, `_layout`, `_buttons`, `_header`, `_footer`, `_product-card`, `_component-utilities`, `_home`, `_shop`, `_product`, `_cart`, `_checkout`, `_account`, `_dialogs`, `_search`, `_page`, `_wc-base`). `style.css` is build output - never edit it. Follows Storefront's pattern.
   - Build: `npm run sass` (one-shot) / `npm run sass:watch`. Dart Sass. `@import` is deprecated in favour of `@use` but warnings are ignored for now.
   - Only two stylesheets are enqueued: Google Fonts and `style.css`. The per-page `assets/css/<page>.css` files and their conditional `wp_enqueue_style` blocks are gone - all rules ship in the one compiled file.
-  - `node_modules/` and `*.css.map` are gitignored. `style.css` is currently still tracked (decision pending on whether to follow Storefront's gitignore-compiled-CSS).
+  - `node_modules/` and `*.css.map` are gitignored. `style.css` is now gitignored too (build output): run `npm install && npm run sass` in `theme/acme/` after cloning.
   - **Checkout is now two columns** (`woocommerce/checkout/form-checkout.php`): left = sticky address card, "Pengiriman", "Ringkasan" sums, place-order button; right = "Pesanan" heading + `checkout/order-lines.php` cart lines. `review-order.php` keeps only the sums.
   - **Saved-address book**: `includes/address.php` (CRUD, user meta), `page-address.php`, `template-parts/address-dialog.php` (pick / add / edit / delete-confirm dialogs), `assets/js/address.js`, styles in `assets/css/_address.scss`. Billing fields render inside the picker dialog, not inline; validation errors are per-field inline with the failing label going red (`$danger`).
   - **Account dashboard (`/my-account/`, done 2026-09-30)** after `mockup-v2/account.html`: `page-my-account.php` renders the `.acct` dashboard (greeting, Pengaturan + Keluar, voucher, Pesanan/Wishlist tabs) only when logged in on the main endpoint; otherwise it loads `page.php` (logged-in only now; logged-out gets the auth shell below), so the orders / edit-address / edit-account endpoints still use the generic shell . `includes/account.php` = WC status -> mockup label map (`acme_order_status()`), `acme_wish_cards` ajax, script enqueue; `assets/js/account.js` = tabs, order search/status filter, wishlist. Orders are real WC orders (server-rendered, filtered client-side). Wishlist is still localStorage `lb-wish` (product IDs), cards fetched via ajax. Voucher box shows only if a WC coupon `ACME10` exists (created locally via wp-cli; **create it on the host too**). Pengaturan links to WC edit-account, which is now the settings page (next bullet). Styles were already in `_account.scss`.
@@ -103,39 +103,37 @@ Read these directly instead of searching the repo.
 | `mockup-v2/app.js` | Product data (array `P`, 24 items), `acme`-card renderer, cart state (`lb-cart`). Source of truth for the port. |
 | `mockup-v2/style.css` | All mockup CSS; the theme's `style.css` is derived from it. |
 | `mockup-v2/*.html` | Reference pages: index, category, product, cart, checkout, login, register, account, settings, about, faq. Header/footer duplicated - keep in sync. |
-| `woocommerce/compose.yaml` | Local podman compose (WP + MariaDB, :8080). |
-| `woocommerce/theme/acme/style.scss` | SCSS entry point: theme header + `@import`s, no rules. |
-| `woocommerce/theme/acme/assets/css/_*.scss` | All theme CSS source, flat partials. |
-| `woocommerce/theme/acme/style.css` | Build output from `style.scss`. Never edit. |
-| `woocommerce/theme/acme/functions.php` | 6-line loader for `includes/*.php`. |
-| `woocommerce/theme/acme/includes/core-functions.php` | Theme setup, stylesheet/script enqueue, `body_class`. |
-| `woocommerce/theme/acme/includes/product.php` | `theme_product_card()`, add-to-cart redirect, order button. |
-| `woocommerce/theme/acme/includes/cart.php` | `get_cart_badge()`, `get_cartbar()`, ajax fragments. |
-| `woocommerce/theme/acme/includes/shop.php` | Filters, price buckets, `is_shop_archive()`. |
-| `woocommerce/theme/acme/includes/checkout.php` | Billing/shipping fields, saved-address handlers, payment tweaks. |
-| `woocommerce/theme/acme/includes/address.php` | Address book CRUD (user meta), AJAX endpoints, script enqueue. |
-| `woocommerce/theme/acme/woocommerce/checkout/form-checkout.php` | Two-column checkout shell (`.co-side` sticky / `.co-main`). |
-| `woocommerce/theme/acme/woocommerce/checkout/order-lines.php` | Cart line items, right column. Not `.woocommerce-checkout-review-order-table`. |
-| `woocommerce/theme/acme/woocommerce/checkout/review-order.php` | Sums only (Subtotal / Ongkir / Total bayar). |
-| `woocommerce/theme/acme/template-parts/address-dialog.php` | Address pick / add-edit / delete-confirm `<dialog>`s. |
-| `woocommerce/theme/acme/assets/js/address.js` | Address book state + AJAX. |
-| `woocommerce/theme/acme/page-address.php` | `/address/` saved-address page. |
-| `woocommerce/theme/acme/page-my-account.php` | `/my-account/` dashboard (logged-in, main endpoint only). |
-| `woocommerce/theme/acme/includes/account.php` | Order status labels, wishlist ajax cards, account script enqueue. |
-| `woocommerce/theme/acme/assets/js/account.js` | Account tabs, order filter, wishlist. |
-| `woocommerce/theme/acme/template-parts/account-settings.php` | `/my-account/edit-account/` settings page (profile / shipping / delete account). |
-| `woocommerce/theme/acme/assets/js/settings.js` | Settings pane switching, birthday selects, delete dialog. |
-| `woocommerce/theme/acme/front-page.php` | Home: hero, product grids, bento categories. |
-| `woocommerce/theme/acme/woocommerce.php` | Shop archive (filters, grid). |
-| `woocommerce/theme/acme/woocommerce/content-product.php` | Product card in loops. |
-| `woocommerce/theme/acme/woocommerce/content-single-product.php` | Product detail. |
-| `woocommerce/theme/acme/page-cart.php`, `page-checkout.php` | Cart / checkout templates. |
-| `woocommerce/theme/acme/header.php`, `footer.php` | Shell (scroll header, nav, footer). |
-| `woocommerce/theme/acme/assets/js/` | Theme JS. |
-| `woocommerce/seed/gen.js` | Seeds products into local WP via wp-cli. |
-| `woocommerce/seed/csv.js` | Generates `woocommerce/deploy/products.csv` for host import. |
-| `woocommerce/seed/*.sh` | One-off setup: pages, menu, i18n, DOKU. |
-| `woocommerce/deploy/` | Host deploy: install.sh, compose.prod.yaml, Caddyfile, products.csv. |
+| `compose.yaml` | Local podman compose (WP + MariaDB, :8080). |
+| `theme/acme/style.scss` | SCSS entry point: theme header + `@import`s, no rules. |
+| `theme/acme/assets/css/_*.scss` | All theme CSS source, flat partials. |
+| `theme/acme/style.css` | Build output from `style.scss`. Never edit. |
+| `theme/acme/functions.php` | 6-line loader for `includes/*.php`. |
+| `theme/acme/includes/core-functions.php` | Theme setup, stylesheet/script enqueue, `body_class`. |
+| `theme/acme/includes/product.php` | `theme_product_card()`, add-to-cart redirect, order button. |
+| `theme/acme/includes/cart.php` | `get_cart_badge()`, `get_cartbar()`, ajax fragments. |
+| `theme/acme/includes/shop.php` | Filters, price buckets, `is_shop_archive()`. |
+| `theme/acme/includes/checkout.php` | Billing/shipping fields, saved-address handlers, payment tweaks. |
+| `theme/acme/includes/address.php` | Address book CRUD (user meta), AJAX endpoints, script enqueue. |
+| `theme/acme/woocommerce/checkout/form-checkout.php` | Two-column checkout shell (`.co-side` sticky / `.co-main`). |
+| `theme/acme/woocommerce/checkout/order-lines.php` | Cart line items, right column. Not `.woocommerce-checkout-review-order-table`. |
+| `theme/acme/woocommerce/checkout/review-order.php` | Sums only (Subtotal / Ongkir / Total bayar). |
+| `theme/acme/template-parts/address-dialog.php` | Address pick / add-edit / delete-confirm `<dialog>`s. |
+| `theme/acme/assets/js/address.js` | Address book state + AJAX. |
+| `theme/acme/page-address.php` | `/address/` saved-address page. |
+| `theme/acme/page-my-account.php` | `/my-account/` dashboard (logged-in, main endpoint only). |
+| `theme/acme/includes/account.php` | Order status labels, wishlist ajax cards, account script enqueue. |
+| `theme/acme/assets/js/account.js` | Account tabs, order filter, wishlist. |
+| `theme/acme/template-parts/account-settings.php` | `/my-account/edit-account/` settings page (profile / shipping / delete account). |
+| `theme/acme/assets/js/settings.js` | Settings pane switching, birthday selects, delete dialog. |
+| `theme/acme/front-page.php` | Home: hero, product grids, bento categories. |
+| `theme/acme/woocommerce.php` | Shop archive (filters, grid). |
+| `theme/acme/woocommerce/content-product.php` | Product card in loops. |
+| `theme/acme/woocommerce/content-single-product.php` | Product detail. |
+| `theme/acme/page-cart.php`, `page-checkout.php` | Cart / checkout templates. |
+| `theme/acme/header.php`, `footer.php` | Shell (scroll header, nav, footer). |
+| `theme/acme/assets/js/` | Theme JS. |
+| `seed/*.sh` | One-off setup: pages, menu, i18n, DOKU. |
+| `deploy/` | Host deploy: products.csv, acme-theme.zip (gitignored). |
 
 ## Agents
 

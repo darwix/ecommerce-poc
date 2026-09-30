@@ -4,8 +4,6 @@
 !.dev.vars.example
 .env*
 !.env.example
-# screenshots (verification shots, not source)
-woocommerce/shot-*.png
-mockup-v2/*.png
 
-woocommerce/deploy/*.zip
+deploy/*.zip
+theme/acme/style.css
