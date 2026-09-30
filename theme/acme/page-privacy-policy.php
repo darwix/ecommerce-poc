@@ -2,7 +2,7 @@
 <main id="content" class="wrap page-wrap legal">
 	<h1>Kebijakan Privasi</h1>
 	<p class="upd">Contoh teks – terakhir diperbarui 30 September 2026</p>
-	<p>Kebijakan ini menjelaskan cara Acme Beauty (PT. Acme Beauty Group) mengelola data pribadi Anda. Teks ini hanya contoh dan perlu ditinjau sebelum toko diluncurkan.</p>
+	<p>Kebijakan ini menjelaskan cara Acme Store (PT. Acme Retail Group) mengelola data pribadi Anda. Teks ini hanya contoh dan perlu ditinjau sebelum toko diluncurkan.</p>
 	<h2>1. Data yang kami kumpulkan</h2>
 	<p>Nama, email, nomor telepon, alamat pengiriman, tanggal lahir (opsional), dan riwayat pesanan.</p>
 	<h2>2. Penggunaan data</h2>

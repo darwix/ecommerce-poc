@@ -11,7 +11,7 @@
   if (pd) {
     var id = +pd.dataset.wishId;
     try {
-      localStorage.setItem("lb-seen", JSON.stringify([id].concat(read("lb-seen").filter(function (x) { return x !== id; })).slice(0, 8)));
+      localStorage.setItem("ac-seen", JSON.stringify([id].concat(read("ac-seen").filter(function (x) { return x !== id; })).slice(0, 8)));
     } catch (e) {}
   }
 
@@ -47,7 +47,7 @@
     dlg.showModal();
     dlg.querySelector("#sQ").focus();
 
-    var ids = read("lb-seen").slice(0, 4);
+    var ids = read("ac-seen").slice(0, 4);
     if (!ids.length) return;
     fetch(cfg.ajax + "?action=acme_wish_cards&ids=" + ids.join(","))
       .then(function (r) { return r.text(); })
@@ -55,7 +55,7 @@
         if (!h) return;
         var box = dlg.querySelector("#sSeen");
         box.querySelector(".grid").innerHTML = h;
-        var wish = read("lb-wish");
+        var wish = read("ac-wish");
         box.querySelectorAll(".wish").forEach(function (b) { b.classList.toggle("on", wish.indexOf(+b.dataset.wishId) > -1); });
         box.hidden = false;
       });

@@ -12,7 +12,7 @@ function acme_order_status(string $status): array {
 	return $map[$status] ?? ['Dibatalkan', 'bad']; // cancelled, failed, refunded
 }
 
-// Wishlist lives in localStorage (lb-wish); the browser posts the ids, we return cards.
+// Wishlist lives in localStorage (ac-wish); the browser posts the ids, we return cards.
 add_action('wp_ajax_acme_wish_cards', 'acme_wish_cards');
 add_action('wp_ajax_nopriv_acme_wish_cards', 'acme_wish_cards');
 function acme_wish_cards() {

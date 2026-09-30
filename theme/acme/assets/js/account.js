@@ -18,7 +18,7 @@
   var none = '<p class="none">Belum ada produk di wishlist. Tekan ♡ di produk untuk menyimpannya.</p>';
   var renderWish = function () {
     var ids = [];
-    try { ids = JSON.parse(localStorage.getItem("lb-wish")) || []; } catch (e) {}
+    try { ids = JSON.parse(localStorage.getItem("ac-wish")) || []; } catch (e) {}
     if (!ids.length) { $("#wishGrid").innerHTML = none; return; }
     fetch(window.acmeAjax + "?action=acme_wish_cards&ids=" + ids.join(","))
       .then(function (r) { return r.text(); })

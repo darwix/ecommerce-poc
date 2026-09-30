@@ -103,7 +103,7 @@
   })();
 
   // wishlist heart (client-only for now)
-  var wishKey = "lb-wish";
+  var wishKey = "ac-wish";
   var getWish = function () {
     try {
       return JSON.parse(localStorage.getItem(wishKey)) || [];

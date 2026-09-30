@@ -2,7 +2,7 @@
 <main id="content" class="wrap page-wrap legal">
 	<h1>Syarat &amp; Ketentuan</h1>
 	<p class="upd">Contoh teks – terakhir diperbarui 30 September 2026</p>
-	<p>Dengan berbelanja di Acme Beauty (dikelola PT. Acme Beauty Group), Anda menyetujui syarat berikut. Teks ini hanya contoh dan perlu ditinjau sebelum toko diluncurkan.</p>
+	<p>Dengan berbelanja di Acme Store (dikelola PT. Acme Retail Group), Anda menyetujui syarat berikut. Teks ini hanya contoh dan perlu ditinjau sebelum toko diluncurkan.</p>
 	<h2>1. Pemesanan</h2>
 	<p>Pesanan dianggap sah setelah Anda menyelesaikan checkout dan pembayaran dikonfirmasi. Kami dapat membatalkan pesanan bila stok habis atau data yang diberikan tidak lengkap.</p>
 	<h2>2. Harga &amp; pembayaran</h2>

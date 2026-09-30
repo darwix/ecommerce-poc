@@ -6,7 +6,7 @@
             <span class="eyebrow">Tentang Acme</span>
             <h1>Fashion import pilihan, langsung dari gudang kami.</h1>
             <p>
-              Acme Beauty dijalankan PT. Acme Beauty Group. Kami memilih
+              Acme Store dijalankan PT. Acme Retail Group. Kami memilih
               pakaian, tas, sepatu, dan produk kecantikan import, lalu
               mengirimnya dari stok yang benar-benar ada.
             </p>

@@ -20,7 +20,7 @@
 | PDP-1 | Simple product: qty +/- | Respects min and max | P1 |
 | PDP-2 | Qty over stock, or already in cart | Notice shown above form, cart unchanged | P1 |
 | PDP-3 | Variable product with no option picked | "Pilih <attr> dulu", add blocked | P1 |
-| PDP-4 | Simpan button | Beside add-to-cart, toggles heart, persists in `lb-wish` | P2 |
+| PDP-4 | Simpan button | Beside add-to-cart, toggles heart, persists in `ac-wish` | P2 |
 | QA-1 | Card "+ Keranjang" | Dialog opens (does not add directly), then "Masuk keranjang" popup | P1 |
 | QA-2 | Product 10, Hitam | Sold-out pills disabled, invalid combo resets selection | P1 |
 | QA-3 | Sold-out product | "Stok habis", button and qty disabled | P1 |
