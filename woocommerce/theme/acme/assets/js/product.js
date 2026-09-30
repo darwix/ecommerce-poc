@@ -179,24 +179,5 @@
   }
 
   if (window.acmeJustAdded) openAdded(window.acmeJustAdded);
-
-  // ajax add-to-cart elsewhere on the page (cards in related row) still uses WC's own fragment/badge refresh
-  if (window.jQuery) {
-    jQuery(document.body).on(
-      "added_to_cart",
-      function (e, fragments, hash, button) {
-        // WC hands this over as a jQuery object
-        var el = button && (button[0] || button);
-        var card = el && el.closest && el.closest(".card");
-        if (!card) return;
-        openAdded({
-          card: card,
-          name: card.querySelector("h3")?.textContent || "",
-          meta: "1 item",
-          price: card.querySelector(".price")?.textContent || "",
-          image: card.querySelector("img")?.src || "",
-        });
-      },
-    );
-  }
+  window.acmeOpenAdded = openAdded; // used by quick-add.js after a card's "+ Keranjang"
 })();

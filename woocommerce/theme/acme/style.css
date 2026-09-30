@@ -3454,7 +3454,7 @@ body:has(.totalbar:not([hidden])) #top {
   display: none;
 }
 
-/* ---- add-to-cart flow: picker dialog, added dialog, floating cart bar ---- */
+/* ---- add-to-cart flow: quick-add dialog (#qadd), added dialog, floating cart bar ---- */
 dialog {
   border: 0;
   border-radius: 20px;
@@ -3603,11 +3603,11 @@ dialog form {
   border-color: #6fb3d2;
 }
 
-#pick fieldset {
+#qadd fieldset {
   margin-bottom: 16px;
 }
 
-#pick legend {
+#qadd legend {
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 8px;
@@ -3802,6 +3802,27 @@ body.has-bar footer {
     bottom: 12px;
   }
 }
+/* sold-out colour / size in the quick-add dialog */
+.opts button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+  background: #f4a6c1;
+  color: #2e2a3d;
+}
+
+.dfoot .qty button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
 /* search overlay + header icon */
 .icobtn {
   display: grid;

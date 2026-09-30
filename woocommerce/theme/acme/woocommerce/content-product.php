@@ -18,11 +18,10 @@ $link = get_permalink($id);
 			<span class="tag">Sisa <?php echo (int) $stock; ?></span>
 		<?php endif; ?>
 		<button type="button" class="wish" data-wish-id="<?php echo (int) $id; ?>" aria-label="Simpan <?php echo esc_attr($product->get_name()); ?>"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
-			<?php if ($product->is_purchasable() && $product->is_in_stock() && $product->is_type('simple')): ?>
-			<a href="<?php echo esc_url($product->add_to_cart_url()); ?>"
-				data-product_id="<?php echo (int) $id; ?>"
-				data-product_sku="<?php echo esc_attr($product->get_sku()); ?>"
-				class="add button add_to_cart_button ajax_add_to_cart"
+			<?php if ($product->is_purchasable() && ($product->is_type('simple') || $product->is_type('variable'))): ?>
+			<a href="<?php echo esc_url($link); ?>"
+				data-quick-add="<?php echo (int) $id; ?>"
+				class="add button"
 				rel="nofollow"
 				aria-label="<?php echo esc_attr(sprintf(__('Add %s to cart', 'woocommerce'), $product->get_name())); ?>">
 				+ Keranjang
