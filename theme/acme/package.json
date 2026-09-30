@@ -4,7 +4,8 @@
   "description": "Acme WooCommerce theme",
   "scripts": {
     "sass": "sass style.scss style.css --no-source-map",
-    "sass:watch": "sass --watch style.scss:style.css --poll --no-source-map"
+    "sass:watch": "sass --watch style.scss:style.css --poll --no-source-map",
+    "zip": "sass style.scss style.css --no-source-map --style=compressed && python zip.py"
   },
   "devDependencies": {
     "sass": "^1.77.0"
