@@ -41,13 +41,13 @@
 				'</button>' +
 				'<svg class="tick" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>' +
 				'<div class="addr-rowacts">' +
-					'<button type="button" data-del="' + esc(a.id) + '">Hapus</button>' +
-					'<button type="button" data-edit="' + esc(a.id) + '">Ubah</button>' +
+					'<button type="button" data-del="' + esc(a.id) + '">' + acmeT('Remove') + '</button>' +
+					'<button type="button" data-edit="' + esc(a.id) + '">' + acmeT('Edit') + '</button>' +
 				'</div>' +
 			'</div>';
-		}).join('') || '<p class="addr-empty">Belum ada alamat tersimpan.</p>';
+		}).join('') || '<p class="addr-empty">' + acmeT('No saved addresses yet.') + '</p>';
 		if (cfg.manageUrl && card) {
-			rows += '<a class="linkbtn" href="' + esc(cfg.manageUrl) + '">Kelola alamat tersimpan</a>';
+			rows += '<a class="linkbtn" href="' + esc(cfg.manageUrl) + '">' + acmeT('Manage saved addresses') + '</a>';
 		}
 		Array.prototype.forEach.call(lists, function (el) { el.innerHTML = rows; });
 
@@ -57,8 +57,8 @@
 		var a = find(state.id);
 		view.innerHTML = a
 			? '<b>' + esc(a.name) + '</b><span>+62' + esc(a.phone) + '</span><span>' + esc(line(a)) + '</span>'
-			: '<b>Belum ada alamat</b><span>Tambah alamat pengiriman dulu.</span>';
-		btn.textContent = a ? 'Ubah' : 'Tambah alamat';
+			: '<b>' + acmeT('No address yet') + '</b><span>' + acmeT('Add a shipping address first.') + '</span>';
+		btn.textContent = a ? acmeT('Edit') : acmeT('Add address');
 	}
 
 	// The saved value is a readable name, so the option may not exist until the
@@ -124,7 +124,7 @@
 		var fields = d.fields;
 		if (!fields && d.field) {
 			fields = {};
-			fields[d.field] = d.message || 'Belum diisi.';
+			fields[d.field] = d.message || acmeT('Required.');
 		}
 		clearErr();
 		if (fields) {
@@ -144,7 +144,7 @@
 			if (first) first.focus();
 			return;
 		}
-		errBox.textContent = d.message || 'Gagal menyimpan alamat.';
+		errBox.textContent = d.message || acmeT('Failed to save address.');
 		errBox.hidden = false;
 	}
 
@@ -159,11 +159,11 @@
 				if (el && el.tagName !== 'SELECT') el.value = rec ? rec[key] || '' : '';
 			});
 			if (rec) fill(rec);
-			document.getElementById('addrDlgTitle').textContent = rec ? 'Ubah alamat' : 'Alamat baru';
+			document.getElementById('addrDlgTitle').textContent = rec ? acmeT('Edit address') : acmeT('New address');
 			var first = field('name');
 			if (first) first.focus();
 		} else {
-			document.getElementById('addrDlgTitle').textContent = 'Pilih alamat pengiriman';
+			document.getElementById('addrDlgTitle').textContent = acmeT('Select a shipping address');
 		}
 		if (!dlg.open) dlg.showModal();
 	}

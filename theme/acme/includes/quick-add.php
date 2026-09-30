@@ -55,13 +55,13 @@ function acme_quick_add() {
 	if (!WC()->cart->add_to_cart($p->get_id(), $qty, $vid, $vid ? $attrs : [])) {
 		$msg = html_entity_decode(wp_strip_all_tags(implode(' ', array_column(wc_get_notices('error'), 'notice'))));
 		wc_clear_notices();
-		wp_send_json_error($msg ?: 'Gagal menambah ke keranjang.');
+		wp_send_json_error($msg ?: acme_t('Failed to add to cart.'));
 	}
 	wc_clear_notices(); // WC's "added" notice would otherwise show on the next page
 	$line = $vid ? wc_get_product($vid) : $p;
 	wp_send_json_success([
 		'name'      => $p->get_name(),
-		'meta'      => implode(' · ', array_filter(array_merge(array_values($attrs), [$qty . ' item']))),
+		'meta'      => implode(' · ', array_filter(array_merge(array_values($attrs), [acme_t('%d items', $qty)]))),
 		'price'     => wc_price((float) $line->get_price() * $qty),
 		'image'     => wp_get_attachment_image_url($p->get_image_id(), 'thumbnail'),
 		'fragments' => apply_filters('woocommerce_add_to_cart_fragments', []),

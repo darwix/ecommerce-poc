@@ -9,7 +9,7 @@
     document.querySelectorAll(".setpanes > section").forEach(function (s) { s.hidden = s.id !== b.dataset.p; });
   };
 
-  var MO = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+  var MO = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"].map(acmeT);
   var range = function (n, f) { return Array.from({ length: n }, function (_, i) { return f(i); }); };
   var fill = function (sel, ph, vals, labels, cur) {
     sel.innerHTML = '<option value="">' + ph + "</option>" + vals.map(function (v, i) {
@@ -18,9 +18,9 @@
   };
   var f = document.querySelector("[data-bday]"), cur = JSON.parse(f.dataset.bday), s = f.querySelectorAll("select");
   var d = range(31, function (i) { return i + 1; }), y = range(70, function (i) { return 2008 - i; });
-  fill(s[0], "Tanggal", d, d, cur[2]);
-  fill(s[1], "Bulan", d.slice(0, 12), MO, cur[1]);
-  fill(s[2], "Tahun", y, y, cur[0]);
+  fill(s[0], acmeT("Day"), d, d, cur[2]);
+  fill(s[1], acmeT("Month"), d.slice(0, 12), MO, cur[1]);
+  fill(s[2], acmeT("Year"), y, y, cur[0]);
 
   var btn = document.getElementById("delBtn");
   if (btn) btn.onclick = function () { document.getElementById("delDlg").showModal(); };

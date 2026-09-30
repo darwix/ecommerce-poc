@@ -28,32 +28,32 @@ get_header();
 ?>
 <main id="content" class="acct">
 	<div class="ahead">
-		<h1>Hai, <?php echo esc_html($first); ?></h1>
+		<h1><?php acme_te('Hi, %s', $first); ?></h1>
 		<div>
-			<a class="btn-sec" href="<?php echo esc_url(wc_get_endpoint_url('edit-account')); ?>">Pengaturan</a>
-			<a class="btn-sec" href="<?php echo esc_url(wc_logout_url()); ?>">Keluar</a>
+			<a class="btn-sec" href="<?php echo esc_url(wc_get_endpoint_url('edit-account')); ?>"><?php acme_te('Settings'); ?></a>
+			<a class="btn-sec" href="<?php echo esc_url(wc_logout_url()); ?>"><?php acme_te('Log out'); ?></a>
 		</div>
 	</div>
 	<?php if ($coupon->get_id()) : ?>
 	<section class="abox">
-		<h2>Voucher saya</h2>
+		<h2><?php acme_te('My voucher'); ?></h2>
 		<div class="vouch">
 			<b><?php echo esc_html(strtoupper($coupon->get_code())); ?></b>
-			<span>Diskon <?php echo esc_html(wc_format_localized_price($coupon->get_amount())); ?>% semua produk<small>Pakai di halaman checkout</small></span>
+			<span><?php acme_te('%s%% off all products', wc_format_localized_price($coupon->get_amount())); ?><small><?php acme_te('Use it on checkout'); ?></small></span>
 		</div>
 	</section>
 	<?php endif; ?>
 	<section class="abox">
 		<div class="tabs" role="tablist">
-			<button role="tab" id="tOrders" aria-selected="true" aria-controls="pOrders">Pesanan</button>
+			<button role="tab" id="tOrders" aria-selected="true" aria-controls="pOrders"><?php acme_te('Orders'); ?></button>
 			<button role="tab" id="tWish" aria-selected="false" aria-controls="pWish">Wishlist</button>
 		</div>
 		<div role="tabpanel" id="pOrders" aria-labelledby="tOrders">
 			<div class="otools">
-				<h2>Pesanan saya <span>(<?php echo count($orders); ?>)</span></h2>
-				<input id="q" type="search" placeholder="Cari no. pesanan / produk" aria-label="Cari pesanan">
-				<select id="status" aria-label="Filter status">
-					<option value="">Semua status</option>
+				<h2><?php acme_te('My orders (%d)', count($orders)); ?></h2>
+				<input id="q" type="search" placeholder="<?php echo esc_attr(acme_t('Search order no. / product')); ?>" aria-label="<?php echo esc_attr(acme_t('Search orders')); ?>">
+				<select id="status" aria-label="<?php echo esc_attr(acme_t('Filter status')); ?>">
+					<option value=""><?php acme_te('All statuses'); ?></option>
 					<?php foreach (array_keys($stat) as $s) echo '<option>' . esc_html($s) . '</option>'; ?>
 				</select>
 			</div>
@@ -66,7 +66,7 @@ get_header();
 					?>
 				<article class="order" data-status="<?php echo esc_attr($label); ?>" data-q="<?php echo esc_attr(strtolower($o->get_order_number() . ' ' . implode(' ', $names))); ?>">
 					<div class="ohead">
-						<div><b>Pesanan #<?php echo esc_html($o->get_order_number()); ?></b><small><?php echo esc_html(date_i18n('j M Y', $o->get_date_created()->getTimestamp()) . ' · ' . $o->get_payment_method_title()); ?></small></div>
+						<div><b><?php acme_te('Order #%s', $o->get_order_number()); ?></b><small><?php echo esc_html(date_i18n('j M Y', $o->get_date_created()->getTimestamp()) . ' · ' . $o->get_payment_method_title()); ?></small></div>
 						<span class="st <?php echo $cls; ?>"><?php echo esc_html($label); ?></span>
 					</div>
 					<?php foreach ($o->get_items() as $it) :
@@ -79,10 +79,10 @@ get_header();
 						<span class="r"><b><?php echo wp_kses_post(wc_price($o->get_item_subtotal($it, false, true) , ['currency' => $o->get_currency()])); ?></b><small>×<?php echo (int) $it->get_quantity(); ?></small></span>
 					</div>
 					<?php endforeach; ?>
-					<p class="ototal"><?php echo (int) $qty; ?> item: <b><?php echo wp_kses_post($o->get_formatted_order_total()); ?></b></p>
+					<p class="ototal"><?php echo esc_html(acme_t('%d items', $qty)); ?>: <b><?php echo wp_kses_post($o->get_formatted_order_total()); ?></b></p>
 				</article>
 				<?php endforeach; ?>
-				<p class="none" <?php echo $orders ? 'hidden' : ''; ?>><?php echo $orders ? 'Tidak ada pesanan yang cocok.' : 'Belum ada pesanan.'; ?></p>
+				<p class="none" <?php echo $orders ? 'hidden' : ''; ?>><?php echo esc_html($orders ? acme_t('No matching orders.') : acme_t('No orders yet.')); ?></p>
 			</div>
 		</div>
 		<div role="tabpanel" id="pWish" aria-labelledby="tWish" hidden>

@@ -15,7 +15,7 @@
   };
   $("#q").oninput = $("#status").onchange = filter;
 
-  var none = '<p class="none">Belum ada produk di wishlist. Tekan ♡ di produk untuk menyimpannya.</p>';
+  var none = '<p class="none">' + acmeT('Nothing in your wishlist yet. Tap ♡ on a product to save it.') + '</p>';
   var renderWish = function () {
     var ids = [];
     try { ids = JSON.parse(localStorage.getItem("ac-wish")) || []; } catch (e) {}

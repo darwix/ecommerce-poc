@@ -4,12 +4,12 @@
 // WooCommerce status => [label, badge class] (mockup-v2 account.html)
 function acme_order_status(string $status): array {
 	$map = [
-		'pending'    => ['Menunggu pembayaran', 'wait'],
-		'on-hold'    => ['Menunggu pembayaran', 'wait'],
-		'processing' => ['Diproses', 'wait'],
-		'completed'  => ['Selesai', 'ok'],
+		'pending'    => [acme_t('Awaiting payment'), 'wait'],
+		'on-hold'    => [acme_t('Awaiting payment'), 'wait'],
+		'processing' => [acme_t('Processing'), 'wait'],
+		'completed'  => [acme_t('Completed'), 'ok'],
 	];
-	return $map[$status] ?? ['Dibatalkan', 'bad']; // cancelled, failed, refunded
+	return $map[$status] ?? [acme_t('Cancelled'), 'bad']; // cancelled, failed, refunded
 }
 
 // Wishlist lives in localStorage (ac-wish); the browser posts the ids, we return cards.
@@ -34,7 +34,7 @@ add_action('wp_enqueue_scripts', function () {
 
 // /my-account/edit-account/: single "Nama" field, no last name / display name inputs.
 add_filter('woocommerce_save_account_details_required_fields', function () {
-	return ['account_first_name' => 'Nama', 'account_email' => 'Email'];
+	return ['account_first_name' => acme_t('Name'), 'account_email' => acme_t('Email')];
 });
 
 function acme_save_birthday($uid) {
@@ -50,7 +50,7 @@ add_action('woocommerce_save_account_details', 'acme_save_birthday');
 add_action('admin_post_acme_delete_account', function () {
 	check_admin_referer('acme_delete_account');
 	$u = wp_get_current_user();
-	if (!$u->ID || user_can($u, 'manage_options')) wp_die('Tidak diizinkan.', '', 403);
+	if (!$u->ID || user_can($u, 'manage_options')) wp_die(acme_t('Not allowed.'), '', 403);
 	require_once ABSPATH . 'wp-admin/includes/user.php';
 	wp_logout();
 	wp_delete_user($u->ID);

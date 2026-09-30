@@ -19,13 +19,13 @@ add_filter('woocommerce_checkout_posted_data', function ($data) {
 add_filter('woocommerce_checkout_fields', function ($fields) {
 	$b = &$fields['billing'];
 
-	// Indonesian labels + mockup field order
-	$b['billing_first_name']['label'] = 'Nama lengkap';
+	// Base-English labels + mockup field order; acme_t() renders them in Indonesian
+	$b['billing_first_name']['label'] = acme_t('Full name');
 	$b['billing_first_name']['class'] = ['form-row-first'];
 	$b['billing_first_name']['priority'] = 10;
 	unset($b['billing_last_name'], $b['billing_company'], $b['billing_country'], $b['billing_address_2']);
 
-	$b['billing_phone']['label'] = 'No. WhatsApp';
+	$b['billing_phone']['label'] = acme_t('WhatsApp number');
 	$b['billing_phone']['required'] = true;
 	$b['billing_phone']['placeholder'] = '8123456789';
 	$b['billing_phone']['priority'] = 20;
@@ -35,17 +35,17 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
 
 	// Four cascading selects; options start empty, JS loads each level
 	$cascade = [
-		'billing_state' => [30, 'Provinsi', 'Pilih provinsi', 'address-level1'],
-		'billing_city' => [40, 'Kota / kabupaten', 'Pilih provinsi dulu', 'address-level2'],
-		'billing_kecamatan' => [50, 'Kecamatan', 'Pilih kota dulu', 'address-level3'],
-		'billing_postcode' => [60, 'Kode pos', 'Pilih kecamatan dulu', 'postal-code'],
+		'billing_state' => [30, 'Province', 'Select a province', 'address-level1'],
+		'billing_city' => [40, 'City / regency', 'Select a province first', 'address-level2'],
+		'billing_kecamatan' => [50, 'District (kecamatan)', 'Select a city first', 'address-level3'],
+		'billing_postcode' => [60, 'Postal code', 'Select a district first', 'postal-code'],
 	];
 	foreach ($cascade as $key => [$priority, $label, $placeholder, $autocomplete]) {
 		$b[$key] = [
 			'type' => 'select',
-			'label' => $label,
+			'label' => acme_t($label),
 			'required' => true,
-			'options' => ['' => $placeholder],
+			'options' => ['' => acme_t($placeholder)],
 			'input_class' => ['area-select'],
 			'class' => ['form-row-first'],
 			'priority' => $priority,
@@ -56,7 +56,7 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
 
 	// Address textarea (wraps past one line)
 	$b['billing_address_1']['type'] = 'textarea';
-	$b['billing_address_1']['label'] = 'Nama jalan, gedung, no. rumah';
+	$b['billing_address_1']['label'] = acme_t('Street, building, house number');
 	$b['billing_address_1']['placeholder'] = '';
 	$b['billing_address_1']['class'] = ['form-row-wide'];
 	$b['billing_address_1']['priority'] = 70;
@@ -64,8 +64,8 @@ add_filter('woocommerce_checkout_fields', function ($fields) {
 
 	// Custom field: extra address details
 	$b['billing_detail'] = [
-		'label' => 'Detail lain <small>(blok / unit, patokan)</small>',
-		'placeholder' => 'Contoh: pagar hitam, depan masjid',
+		'label' => acme_t('Other details <small>(block / unit, landmark)</small>'),
+		'placeholder' => acme_t('Example: black fence, in front of the mosque'),
 		'required' => false,
 		'class' => ['form-row-wide'],
 		'priority' => 80,
@@ -92,13 +92,18 @@ add_action('woocommerce_admin_order_data_after_billing_address', function ($orde
 // Shipping display moved to woocommerce/checkout/form-shipping.php
 
 // Text labels
-add_filter('woocommerce_order_button_text', fn() => 'Pesan sekarang');
+add_filter('woocommerce_order_button_text', fn() => acme_t('Place order'));
 remove_action('woocommerce_before_checkout_form', 'woocommerce_checkout_coupon_form', 10);
 
-// Translate checkout section titles
+// Translate checkout section titles for the Indonesian locale (the id_ID language
+// pack's own wording is stiffer than the mockup's)
 add_filter('gettext', function ($translated, $original, $domain) {
-	if ($domain !== 'woocommerce' || !is_checkout()) return $translated;
-	$map = ['Billing details' => 'Alamat pengiriman', 'Additional information' => 'Pesan untuk pengiriman', 'Your order' => 'Pesanan kamu'];
+	if ($domain !== 'woocommerce' || !is_checkout() || acme_lang() === 'en') return $translated;
+	$map = [
+		'Billing details' => 'Alamat pengiriman',
+		'Additional information' => 'Pesan untuk pengiriman',
+		'Your order' => 'Pesanan kamu',
+	];
 	return $map[$original] ?? $translated;
 }, 10, 3);
 
@@ -140,8 +145,10 @@ add_filter('woocommerce_login_redirect', function ($redirect, $user) {
 
 // Terms line (mockup has one)
 add_action('woocommerce_review_order_after_submit', function () {
-	echo '<p class="terms">Dengan memesan, kamu setuju dengan <a href="' .
-		esc_url(home_url('/terms-and-conditions/')) . '">Syarat &amp; ketentuan</a> kami.</p>';
+	echo '<p class="terms">' . acme_t(
+		'By placing your order, you agree to our <a href="%s">Terms &amp; conditions</a>.',
+		esc_url(home_url('/terms-and-conditions/'))
+	) . '</p>';
 });
 
 // Remove WC's privacy policy text

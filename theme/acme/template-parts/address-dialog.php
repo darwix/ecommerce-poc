@@ -1,6 +1,6 @@
 <?php
 /**
- * Address picker + add/edit form. Shared by checkout and the "Alamat" page.
+ * Address picker + add/edit form. Shared by checkout and the "Address" page.
  *
  * On checkout this partial is rendered inside <form class="checkout">, so the
  * field grid stays in the DOM (hidden while the dialog is closed) and WooCommerce
@@ -16,15 +16,15 @@ uasort($fields, function ($a, $b) { // uasort keeps the field keys, which become
 ?>
 <dialog id="addrDlg" aria-labelledby="addrDlgTitle">
 	<div class="dhead">
-		<h2 id="addrDlgTitle">Pilih alamat pengiriman</h2>
-		<button type="button" class="x" data-close aria-label="Tutup">
+		<h2 id="addrDlgTitle"><?php acme_te('Choose a shipping address'); ?></h2>
+		<button type="button" class="x" data-close aria-label="<?php echo esc_attr(acme_t('Close')); ?>">
 			<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
 		</button>
 	</div>
 
 	<div id="addrPick">
 		<div class="addr-list" data-addr-list></div>
-		<button type="button" class="btn wide" id="addrAdd">+ Tambah baru</button>
+		<button type="button" class="btn wide" id="addrAdd"><?php acme_te('+ Add new'); ?></button>
 	</div>
 
 	<div id="addrFormPane" hidden>
@@ -35,16 +35,16 @@ uasort($fields, function ($a, $b) { // uasort keeps the field keys, which become
 		</div>
 		<p class="addr-err" id="addrErr" role="alert" hidden></p>
 		<div class="addr-acts">
-			<button type="button" class="btn-sec" id="addrCancel">Batal</button>
-			<button type="button" class="btn" id="addrSave">Simpan alamat</button>
+			<button type="button" class="btn-sec" id="addrCancel"><?php acme_te('Cancel'); ?></button>
+			<button type="button" class="btn" id="addrSave"><?php acme_te('Save address'); ?></button>
 		</div>
 	</div>
 </dialog>
 
 <dialog id="addrDelDlg" aria-labelledby="addrDelMsg">
-	<p id="addrDelMsg">Hapus alamat ini?</p>
+	<p id="addrDelMsg"><?php acme_te('Delete this address?'); ?></p>
 	<div class="addr-acts">
-		<button type="button" class="btn-sec" id="addrDelCancel">Batal</button>
-		<button type="button" class="btn" id="addrDelOk">Hapus</button>
+		<button type="button" class="btn-sec" id="addrDelCancel"><?php acme_te('Cancel'); ?></button>
+		<button type="button" class="btn" id="addrDelOk"><?php acme_te('Delete'); ?></button>
 	</div>
 </dialog>

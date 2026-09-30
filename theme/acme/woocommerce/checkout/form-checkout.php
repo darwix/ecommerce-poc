@@ -39,7 +39,7 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
 
 		<?php do_action('woocommerce_checkout_before_order_review_heading'); ?>
 
-		<h3 id="order_review_heading">Ringkasan</h3>
+		<h3 id="order_review_heading"><?php acme_te('Summary'); ?></h3>
 
 		<?php do_action('woocommerce_checkout_before_order_review'); ?>
 
@@ -52,7 +52,7 @@ if (!$checkout->is_registration_enabled() && $checkout->is_registration_required
 	</div>
 
 	<div class="co-main">
-		<h3 class="co-lines-title">Pesanan</h3>
+		<h3 class="co-lines-title"><?php acme_te('Your order'); ?></h3>
 
 		<?php get_template_part('woocommerce/checkout/order-lines'); ?>
 	</div>

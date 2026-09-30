@@ -75,6 +75,21 @@ header nav {
   }
 }
 
+.lang {
+  display: flex;
+  font-size: 12px;
+  font-weight: 600;
+
+  a {
+    padding: 2px 6px;
+    color: $muted;
+
+    &.on {
+      color: $blue-h;
+    }
+  }
+}
+
 .badge {
   position: absolute;
   top: -6px;

@@ -1,17 +1,17 @@
 <?php get_header(); ?>
 <main id="content">
       <div class="wrap faq">
-        <span class="eyebrow">Bantuan</span>
-        <h1>Pertanyaan yang sering ditanyakan</h1>
+        <span class="eyebrow"><?php acme_te('Help'); ?></span>
+        <h1><?php acme_te('Frequently asked questions'); ?></h1>
         <div class="qa">
-          <details><summary>Apakah semua produk ready stock?</summary><p>Ya. Produk yang tampil di toko ada di gudang kami dan dikirim dalam 1×24 jam. Jika stok tinggal sedikit, tertera label "Sisa".</p></details>
-          <details><summary>Bagaimana cara COD?</summary><p>Pilih pengiriman COD J&amp;T saat checkout. Bayar ke kurir saat paket sampai. Ongkir tidak masuk total pesanan dan dibayar langsung ke kurir.</p></details>
-          <details><summary>Metode pembayaran apa saja yang tersedia?</summary><p>QRIS, OVO, Virtual Account (BRI, BNI, Mandiri, Permata, CIMB), Alfamart, Akulaku, dan kartu.</p></details>
-          <details><summary>Berapa lama pesanan sampai?</summary><p>Pesanan dikirim 1x24 jam setelah dikonfirmasi. Lama perjalanan tergantung kota tujuan dan J&amp;T.</p></details>
-          <details><summary>Bisakah saya membatalkan atau mengubah pesanan?</summary><p>Hubungi admin lewat WhatsApp sebelum pesanan dikirim. Setelah dikirim, pesanan tidak bisa diubah.</p></details>
-          <details><summary>Bagaimana jika ada masalah dengan barang?</summary><p>Rekam video saat membuka paket, lalu kirim ke admin lewat WhatsApp agar kami bisa bantu.</p></details>
+          <details><summary><?php acme_te('Are all products in stock?'); ?></summary><p><?php acme_te('Yes. Products shown in the store are in our warehouse and ship within 1×24 hours. Low stock carries an "Only X left" tag.'); ?></p></details>
+          <details><summary><?php acme_te('How does COD work?'); ?></summary><p><?php acme_te('Choose COD J&T shipping at checkout and pay the courier when your package arrives. Shipping is not part of the order total and is paid directly to the courier.'); ?></p></details>
+          <details><summary><?php acme_te('What payment methods are available?'); ?></summary><p><?php acme_te('QRIS, OVO, Virtual Account (BRI, BNI, Mandiri, Permata, CIMB), Alfamart, Akulaku, and cards.'); ?></p></details>
+          <details><summary><?php acme_te('How long does delivery take?'); ?></summary><p><?php acme_te('Orders ship within 1×24 hours of confirmation. Travel time depends on the destination city and J&T.'); ?></p></details>
+          <details><summary><?php acme_te('Can I cancel or change my order?'); ?></summary><p><?php acme_te("Contact the admin on WhatsApp before your order ships. Once shipped, it can't be changed."); ?></p></details>
+          <details><summary><?php acme_te("What if there's a problem with an item?"); ?></summary><p><?php acme_te('Record a video while unboxing, then send it to the admin on WhatsApp so we can help.'); ?></p></details>
         </div>
-        <p class="faq-more">Belum ketemu jawabannya? <a href="#">Chat admin</a></p>
+        <p class="faq-more"><?php acme_te("Didn't find your answer?"); ?> <a href="#"><?php acme_te('Chat admin'); ?></a></p>
       </div>
     </main>
 <?php get_footer();

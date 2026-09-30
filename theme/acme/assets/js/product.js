@@ -90,7 +90,7 @@
         if (!matching.length || matching.some(function (x) { return x.is_in_stock; })) return;
         btn.disabled = true;
         btn.classList.add("out");
-        btn.appendChild(document.createElement("small")).textContent = "Habis";
+        btn.appendChild(document.createElement("small")).textContent = acmeT("Sold out");
       });
       // don't leave a sold-out value preselected
       var on = $("button.on.out", wrap);
@@ -139,7 +139,7 @@
       t = document.createElement("div");
       t.id = "wishToast";
       t.setAttribute("role", "status");
-      t.innerHTML = '<span>Tersimpan di Wishlist</span><a href="' + (window.acmeWishUrl || "#") + '">Lihat wishlist</a>';
+      t.innerHTML = '<span>' + acmeT('Saved to Wishlist') + '</span><a href="' + (window.acmeWishUrl || "#") + '">' + acmeT('View wishlist') + '</a>';
       document.body.appendChild(t);
     }
     t.classList.add("show");
@@ -170,8 +170,8 @@
       })
       .join("");
     d.innerHTML =
-      '<form method="dialog"><div class="dhead"><h2><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Masuk keranjang</h2>' +
-      '<button class="x" value="close" aria-label="Tutup"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
+      '<form method="dialog"><div class="dhead"><h2><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>' + acmeT('Added to cart') + '</h2>' +
+      '<button class="x" value="close" aria-label="' + acmeT('Close') + '"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>' +
       '<div class="dprod wide-prod">' +
       (line.image ? '<img src="' + esc(line.image) + '" alt="">' : "") +
       "<div><b>" +
@@ -183,12 +183,12 @@
       "</span></div>" +
       '<div class="dacts"><a class="btn-sec" href="' +
       (window.acmeCartUrl || "/cart/") +
-      '">Lihat keranjang</a>' +
+      '">' + acmeT('View cart') + '</a>' +
       '<a class="btn" href="' +
       (window.acmeCheckoutUrl || "/checkout/") +
       '">Checkout</a></div></div>' +
       (recs
-        ? '<h3 class="dsub">Mungkin kamu suka</h3><div class="recs">' +
+        ? '<h3 class="dsub">' + acmeT('You may also like') + '</h3><div class="recs">' +
           recs +
           "</div>"
         : "") +
@@ -215,8 +215,8 @@
       });
       return b;
     }
-    box.insertBefore(mk(-1, "−", "Kurangi"), inp);
-    box.appendChild(mk(1, "+", "Tambah"));
+    box.insertBefore(mk(-1, "−", acmeT("Decrease")), inp);
+    box.appendChild(mk(1, "+", acmeT("Increase")));
   });
 
   if (window.acmeJustAdded) openAdded(window.acmeJustAdded);

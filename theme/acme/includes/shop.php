@@ -5,15 +5,15 @@ add_filter('woocommerce_product_loop_end', fn() => '</div>');
 add_filter('loop_shop_columns', fn() => 4);
 
 // Shop page title
-add_filter('woocommerce_page_title', fn($t) => is_shop() ? 'Semua produk' : $t);
+add_filter('woocommerce_page_title', fn($t) => is_shop() ? acme_t('All products') : $t);
 
-// Price bucket filter: all / <200rb / 200-300rb / >300rb
+// Price bucket filter: all / <200k / 200-300k / >300k
 function get_price_buckets() {
 	return [
-		'' => 'Semua harga',
-		'lt200' => 'Di bawah Rp 200rb',
-		'200-300' => 'Rp 200rb - 300rb',
-		'gt300' => 'Di atas Rp 300rb',
+		'' => acme_t('All prices'),
+		'lt200' => acme_t('Under Rp 200k'),
+		'200-300' => acme_t('Rp 200k - 300k'),
+		'gt300' => acme_t('Above Rp 300k'),
 	];
 }
 

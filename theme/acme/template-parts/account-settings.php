@@ -13,64 +13,64 @@ $icons = [
 get_header();
 ?>
 <main id="content" class="acct set">
-	<h1 class="settitle">Pengaturan</h1>
+	<h1 class="settitle"><?php acme_te('Settings'); ?></h1>
 	<?php wc_print_notices(); ?>
 	<div class="setwrap">
 		<aside class="abox setnav">
-			<h2>Pengaturan saya</h2>
+			<h2><?php acme_te('My settings'); ?></h2>
 			<nav id="setNav">
-				<?php foreach (['pProfile' => 'Info profil', 'pShip' => 'Info pengiriman', 'pAcct' => 'Info akun'] as $id => $label) : ?>
+				<?php foreach (['pProfile' => acme_t('Profile'), 'pShip' => acme_t('Shipping info'), 'pAcct' => acme_t('Account info')] as $id => $label) : ?>
 				<button type="button" data-p="<?php echo $id; ?>"<?php echo $id === 'pProfile' ? ' aria-current="true"' : ''; ?>>
-					<svg class="i" viewBox="0 0 24 24"><path d="<?php echo $icons[$id]; ?>"/></svg><?php echo $label; ?>
+					<svg class="i" viewBox="0 0 24 24"><path d="<?php echo $icons[$id]; ?>"/></svg><?php echo esc_html($label); ?>
 				</button>
 				<?php endforeach; ?>
 				<a href="<?php echo esc_url(wc_logout_url()); ?>">
-					<svg class="i" viewBox="0 0 24 24"><path d="M15 4h4v16h-4M11 8l-4 4 4 4M7 12h9"/></svg>Keluar
+					<svg class="i" viewBox="0 0 24 24"><path d="M15 4h4v16h-4M11 8l-4 4 4 4M7 12h9"/></svg><?php acme_te('Log out'); ?>
 				</a>
 			</nav>
 		</aside>
 		<div class="setpanes">
 			<section class="abox" id="pProfile">
-				<h2>Info profil</h2>
+				<h2><?php acme_te('Profile'); ?></h2>
 				<form method="post" style="display:grid;gap:14px">
-					<label>Nama<input name="account_first_name" value="<?php echo esc_attr($name); ?>" autocomplete="name" required></label>
+					<label><?php acme_te('Name'); ?><input name="account_first_name" value="<?php echo esc_attr($name); ?>" autocomplete="name" required></label>
 					<label>Email<input value="<?php echo esc_attr($user->user_email); ?>" disabled></label>
 					<input type="hidden" name="account_email" value="<?php echo esc_attr($user->user_email); ?>">
 					<input type="hidden" name="account_display_name" value="<?php echo esc_attr($user->display_name); ?>">
 					<fieldset class="bday" data-bday="<?php echo esc_attr(wp_json_encode($bday)); ?>">
-						<legend>Tanggal lahir</legend>
-						<select name="acme_bd" aria-label="Tanggal"></select>
-						<select name="acme_bm" aria-label="Bulan"></select>
-						<select name="acme_by" aria-label="Tahun"></select>
+						<legend><?php acme_te('Date of birth'); ?></legend>
+						<select name="acme_bd" aria-label="<?php echo esc_attr(acme_t('Day')); ?>"></select>
+						<select name="acme_bm" aria-label="<?php echo esc_attr(acme_t('Month')); ?>"></select>
+						<select name="acme_by" aria-label="<?php echo esc_attr(acme_t('Year')); ?>"></select>
 					</fieldset>
-					<div class="fbtns"><button type="submit" class="btn">Simpan</button></div>
+					<div class="fbtns"><button type="submit" class="btn"><?php acme_te('Save'); ?></button></div>
 					<?php wp_nonce_field('save_account_details', 'save-account-details-nonce'); ?>
 					<input type="hidden" name="action" value="save_account_details">
 				</form>
 			</section>
 			<section class="abox" id="pShip" hidden>
-				<h2>Info pengiriman</h2>
+				<h2><?php acme_te('Shipping info'); ?></h2>
 				<div class="addr-list" data-addr-list></div>
-				<button type="button" class="linkbtn" id="addrAdd">+ Tambah baru</button>
+				<button type="button" class="linkbtn" id="addrAdd"><?php acme_te('+ Add new'); ?></button>
 			</section>
 			<section class="abox" id="pAcct" hidden>
-				<h2>Info akun</h2>
+				<h2><?php acme_te('Account info'); ?></h2>
 				<?php if (!user_can($user, 'manage_options')) : ?>
-				<button type="button" class="danger" id="delBtn">Hapus akun saya</button>
+				<button type="button" class="danger" id="delBtn"><?php acme_te('Delete my account'); ?></button>
 				<?php endif; ?>
-				<p class="note">Semua data kamu di toko ini akan hilang dan tidak bisa diambil lagi, termasuk data pribadi dan alamat tersimpan. Riwayat pesanan tetap disimpan toko.</p>
-				<p class="warn">Tindakan ini tidak bisa dibatalkan.</p>
+				<p class="note"><?php acme_te('All your data in this store will be lost and cannot be recovered, including personal data and saved addresses. Order history stays with the store.'); ?></p>
+				<p class="warn"><?php acme_te('This action cannot be undone.'); ?></p>
 			</section>
 		</div>
 	</div>
 	<?php get_template_part('template-parts/address-dialog'); ?>
 	<dialog id="delDlg" aria-labelledby="delTitle">
 		<form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-			<div class="dhead"><h2 id="delTitle">Hapus akun saya?</h2></div>
-			<p class="note">Akun dan data pribadi kamu akan dihapus permanen.</p>
+			<div class="dhead"><h2 id="delTitle"><?php acme_te('Delete your account?'); ?></h2></div>
+			<p class="note"><?php acme_te('Your account and personal data will be permanently deleted.'); ?></p>
 			<input type="hidden" name="action" value="acme_delete_account">
 			<?php wp_nonce_field('acme_delete_account'); ?>
-			<div class="fbtns"><button class="danger" type="submit">Ya, hapus akun</button><button class="btn-sec" type="submit" formmethod="dialog">Batal</button></div>
+			<div class="fbtns"><button class="danger" type="submit"><?php acme_te('Yes, delete account'); ?></button><button class="btn-sec" type="submit" formmethod="dialog"><?php acme_te('Cancel'); ?></button></div>
 		</form>
 	</dialog>
 </main>

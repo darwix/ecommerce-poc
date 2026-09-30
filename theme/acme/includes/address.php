@@ -22,14 +22,14 @@ function acme_address_field_map(): array {
 // Labels for messages; the form itself uses WooCommerce's own field definitions.
 function acme_address_labels(): array {
 	return [
-		'name'      => 'Nama lengkap',
-		'phone'     => 'No. WhatsApp',
-		'state'     => 'Provinsi',
-		'city'      => 'Kota / kabupaten',
-		'kecamatan' => 'Kecamatan',
-		'postcode'  => 'Kode pos',
-		'address_1' => 'Nama jalan, gedung, no. rumah',
-		'detail'    => 'Detail lain',
+		'name'      => acme_t('Full name'),
+		'phone'     => acme_t('WhatsApp number'),
+		'state'     => acme_t('Province'),
+		'city'      => acme_t('City / regency'),
+		'kecamatan' => acme_t('District (kecamatan)'),
+		'postcode'  => acme_t('Postal code'),
+		'address_1' => acme_t('Street, building, house number'),
+		'detail'    => acme_t('Other details'),
 	];
 }
 
@@ -74,7 +74,7 @@ function acme_address_required(): array {
 // login check and the re-read of the book.
 add_action('wp_ajax_acme_address', function () {
 	check_ajax_referer('acme_address', 'nonce');
-	if (!is_user_logged_in()) wp_send_json_error(['message' => 'Masuk dulu untuk menyimpan alamat.'], 401);
+	if (!is_user_logged_in()) wp_send_json_error(['message' => acme_t('Log in to save addresses.')], 401);
 
 	$op   = sanitize_key($_POST['op'] ?? '');
 	$id   = sanitize_key($_POST['id'] ?? '');
@@ -87,12 +87,12 @@ add_action('wp_ajax_acme_address', function () {
 	}
 
 	if ($op === 'default') {
-		if (!acme_address_find($id)) wp_send_json_error(['message' => 'Alamat tidak ditemukan.']);
+		if (!acme_address_find($id)) wp_send_json_error(['message' => acme_t('Address not found.')]);
 		acme_address_save_book($list, $id);
 		wp_send_json_success(['list' => $list, 'default' => $id]);
 	}
 
-	if ($op !== 'save') wp_send_json_error(['message' => 'Permintaan tidak dikenal.']);
+	if ($op !== 'save') wp_send_json_error(['message' => acme_t('Unknown request.')]);
 
 	$rec = [];
 	foreach (array_keys(acme_address_field_map()) as $key) {
@@ -102,7 +102,7 @@ add_action('wp_ajax_acme_address', function () {
 	// appears after the previous field is filled.
 	$missing = [];
 	foreach (acme_address_required() as $key) {
-		if ($rec[$key] === '') $missing[$key] = acme_address_labels()[$key] . ' belum diisi.';
+		if ($rec[$key] === '') $missing[$key] = acme_t('%s is required.', acme_address_labels()[$key]);
 	}
 	if ($missing) {
 		wp_send_json_error(['message' => reset($missing), 'fields' => $missing]);

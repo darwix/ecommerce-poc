@@ -1,5 +1,6 @@
 <?php
 require_once get_template_directory() . '/includes/core-functions.php';
+require_once get_template_directory() . '/includes/i18n.php';
 require_once get_template_directory() . '/includes/cart.php';
 require_once get_template_directory() . '/includes/product.php';
 require_once get_template_directory() . '/includes/quick-add.php';

@@ -15,18 +15,18 @@ $link = get_permalink($id);
 			<?php echo $product->get_image('woocommerce_thumbnail'); ?>
 		</a>
 		<?php if ($stock !== null && $stock <= 5 && $stock > 0): ?>
-			<span class="tag">Sisa <?php echo (int) $stock; ?></span>
+			<span class="tag"><?php acme_te('Only %d left', (int) $stock); ?></span>
 		<?php endif; ?>
-		<button type="button" class="wish" data-wish-id="<?php echo (int) $id; ?>" aria-label="Simpan <?php echo esc_attr($product->get_name()); ?>"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
-			<?php if ($product->is_purchasable() && ($product->is_type('simple') || $product->is_type('variable'))): ?>
-			<a href="<?php echo esc_url($link); ?>"
-				data-quick-add="<?php echo (int) $id; ?>"
-				class="add button"
-				rel="nofollow"
-				aria-label="<?php echo esc_attr(sprintf(__('Add %s to cart', 'woocommerce'), $product->get_name())); ?>">
-				+ Keranjang
-			</a>
-		<?php endif; ?>
+		<button type="button" class="wish" data-wish-id="<?php echo (int) $id; ?>" aria-label="<?php echo esc_attr(acme_t('Save %s', $product->get_name())); ?>"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button>
+		<?php if ($product->is_purchasable() && ($product->is_type('simple') || $product->is_type('variable'))): ?>
+		<a href="<?php echo esc_url($link); ?>"
+			data-quick-add="<?php echo (int) $id; ?>"
+			class="add button"
+			rel="nofollow"
+			aria-label="<?php echo esc_attr(acme_t('Add %s to cart', $product->get_name())); ?>">
+			<?php acme_te('+ Cart'); ?>
+		</a>
+	<?php endif; ?>
 	</div>
 	<div class="meta">
 		<h3><a href="<?php echo esc_url($link); ?>"><?php echo esc_html($product->get_name()); ?></a></h3>

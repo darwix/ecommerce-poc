@@ -38,7 +38,7 @@
 			setOpts(sel, text, map(d));
 		}).catch(function (e) {
 			console.error('[acme] area load failed', url, e);
-			setOpts(sel, 'Gagal memuat, pilih ulang', []);
+			setOpts(sel, acmeT('Failed to load, pick again'), []);
 		});
 	}
 

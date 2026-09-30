@@ -1,21 +1,21 @@
 <?php get_header(); ?>
 <main id="content" class="wrap page-wrap legal">
-	<h1>Syarat &amp; Ketentuan</h1>
-	<p class="upd">Contoh teks – terakhir diperbarui 30 September 2026</p>
-	<p>Dengan berbelanja di Acme Store (dikelola PT. Acme Retail Group), Anda menyetujui syarat berikut. Teks ini hanya contoh dan perlu ditinjau sebelum toko diluncurkan.</p>
-	<h2>1. Pemesanan</h2>
-	<p>Pesanan dianggap sah setelah Anda menyelesaikan checkout dan pembayaran dikonfirmasi. Kami dapat membatalkan pesanan bila stok habis atau data yang diberikan tidak lengkap.</p>
-	<h2>2. Harga &amp; pembayaran</h2>
-	<p>Semua harga dalam Rupiah (IDR). Pembayaran diproses lewat mitra pembayaran kami. Ongkos kirim dibayar ke kurir dan tidak termasuk dalam total pesanan.</p>
-	<h2>3. Pengiriman</h2>
-	<p>Pesanan ready stock dikirim dalam 1×24 jam hari kerja lewat J&amp;T. Estimasi tiba bergantung pada kurir dan alamat tujuan.</p>
-	<h2>4. Pengembalian &amp; penukaran</h2>
-	<p>Ajukan klaim maksimal 2×24 jam setelah paket diterima, disertai video unboxing. Barang harus belum dipakai dan label masih terpasang.</p>
-	<h2>5. Akun</h2>
-	<p>Anda bertanggung jawab menjaga kerahasiaan kata sandi. Kami dapat menonaktifkan akun yang melanggar ketentuan ini.</p>
-	<h2>6. Perubahan</h2>
-	<p>Kami dapat memperbarui syarat ini sewaktu-waktu. Versi terbaru selalu tersedia di halaman ini.</p>
-	<h2>7. Kontak</h2>
-	<p>Pertanyaan? Hubungi admin lewat WhatsApp yang tertera di bagian bawah situs.</p>
+	<h1><?php acme_te('Terms & Conditions'); ?></h1>
+	<p class="upd"><?php acme_te('Sample text – last updated September 30, 2026'); ?></p>
+	<p><?php acme_te('By shopping at Acme Store (run by PT. Acme Retail Group), you agree to the following terms. This text is a sample and needs review before the store launches.'); ?></p>
+	<h2>1. <?php acme_te('Orders'); ?></h2>
+	<p><?php acme_te('An order is valid once you complete checkout and payment is confirmed. We may cancel an order if stock runs out or the details given are incomplete.'); ?></p>
+	<h2>2. <?php acme_te('Prices & payment'); ?></h2>
+	<p><?php acme_te("All prices are in Rupiah (IDR). Payment is processed through our payment partner. Shipping is paid to the courier and isn't part of the order total."); ?></p>
+	<h2>3. <?php acme_te('Shipping'); ?></h2>
+	<p><?php acme_te('In-stock orders ship within 1×24 business hours via J&T. The arrival estimate depends on the courier and the destination address.'); ?></p>
+	<h2>4. <?php acme_te('Returns & exchanges'); ?></h2>
+	<p><?php acme_te('File a claim within 2×24 hours of receiving the package, with an unboxing video. Items must be unused with labels still attached.'); ?></p>
+	<h2>5. <?php acme_te('Accounts'); ?></h2>
+	<p><?php acme_te('You are responsible for keeping your password confidential. We may disable accounts that violate these terms.'); ?></p>
+	<h2>6. <?php acme_te('Changes'); ?></h2>
+	<p><?php acme_te('We may update these terms at any time. The latest version is always on this page.'); ?></p>
+	<h2>7. <?php acme_te('Contact'); ?></h2>
+	<p><?php acme_te('Questions? Contact the admin on WhatsApp listed at the bottom of the site.'); ?></p>
 </main>
 <?php get_footer();

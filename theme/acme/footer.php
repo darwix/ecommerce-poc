@@ -2,17 +2,17 @@
 <footer>
 	<div class="wrap">
 		<div class="fgrid">
-			<div><h4>Bantuan</h4><a href="<?php echo esc_url(home_url('/terms-and-conditions/')); ?>">Syarat &amp; ketentuan</a><a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Kebijakan privasi</a><a href="<?php echo esc_url(home_url('/faq/')); ?>">FAQ</a><a href="<?php echo esc_url(home_url('/about/')); ?>">Tentang Acme</a></div>
-			<div><h4>Follow us</h4><a class="ig" href="#" aria-label="Instagram Acme Store"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></svg>Instagram</a></div>
-			<div><h4>Metode pembayaran</h4><div class="pay">
+			<div><h4><?php acme_te('Help'); ?></h4><a href="<?php echo esc_url(home_url('/terms-and-conditions/')); ?>"><?php acme_te('Terms & conditions'); ?></a><a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>"><?php acme_te('Privacy policy'); ?></a><a href="<?php echo esc_url(home_url('/faq/')); ?>">FAQ</a><a href="<?php echo esc_url(home_url('/about/')); ?>"><?php acme_te('About Acme'); ?></a></div>
+			<div><h4><?php acme_te('Follow us'); ?></h4><a class="ig" href="#" aria-label="Instagram Acme Store"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6"/></svg>Instagram</a></div>
+			<div><h4><?php acme_te('Payment methods'); ?></h4><div class="pay">
 				<?php foreach ($logos as $f => $alt) printf('<img src="%s" alt="%s" loading="lazy">', esc_url(get_theme_file_uri("assets/logos/$f.svg")), esc_attr($alt)); ?>
 			</div></div>
 		</div>
 		<p class="legal">© 2026 PT. Acme Retail Group</p>
 	</div>
 </footer>
-<a class="fab" href="#" aria-label="Chat admin via WhatsApp"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.3-.3.6-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.1.1.3 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 1c.3.1.4.2.5.3.1.2.1.7-.1 1.3z"/></svg><span>Chat admin</span></a>
-<button id="top" aria-label="Kembali ke atas"><svg class="i" viewBox="0 0 24 24"><path d="M12 19V5m-6 6 6-6 6 6"/></svg></button>
+<a class="fab" href="#" aria-label="<?php echo esc_attr(acme_t('Chat admin via WhatsApp')); ?>"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.3-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.8-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.3-.3.6-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c.1.1.1.3 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.7 1.2 1.6 1.9 1.1 1 2 1.3 2.3 1.4.3.1.4.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 1c.3.1.4.2.5.3.1.2.1.7-.1 1.3z"/></svg><span><?php acme_te('Chat admin'); ?></span></a>
+<button id="top" aria-label="<?php acme_te('Back to top'); ?>"><svg class="i" viewBox="0 0 24 24"><path d="M12 19V5m-6 6 6-6 6 6"/></svg></button>
 <script>
 new IntersectionObserver(([e]) => document.querySelector("header").classList.toggle("solid", !e.isIntersecting)).observe(document.getElementById("sent"));
 {
