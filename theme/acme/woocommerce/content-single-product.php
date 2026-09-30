@@ -39,13 +39,21 @@ $low_stock = $product->managing_stock() ? $product->get_stock_quantity() : null;
 		</div>
 		<span class="price pd-price"><?php echo $product->get_price_html(); ?></span>
 
-		<div class="pd-form">
-			<?php woocommerce_template_single_add_to_cart(); ?>
-		</div>
+		<?php wc_print_notices(); ?>
 
-		<button class="btn-sec pd-wish" id="wishBtn" type="button" data-wish-id="<?php echo esc_attr($id); ?>" aria-label="Simpan <?php echo esc_attr($product->get_name()); ?>">
-			<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>Simpan
-		</button>
+		<div class="pd-form<?php echo $product->is_type('simple') ? ' pd-form--simple' : ''; ?>">
+			<?php
+			// "Simpan" sits inside the cart form, beside the add-to-cart button
+			$acme_wish = function () use ($id, $product) { ?>
+				<button class="btn-sec pd-wish" id="wishBtn" type="button" data-wish-id="<?php echo esc_attr($id); ?>" aria-label="Simpan <?php echo esc_attr($product->get_name()); ?>">
+					<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>Simpan
+				</button>
+			<?php };
+			add_action('woocommerce_after_add_to_cart_button', $acme_wish);
+			woocommerce_template_single_add_to_cart();
+			remove_action('woocommerce_after_add_to_cart_button', $acme_wish);
+			?>
+		</div>
 
 		<ul class="pd-perks">
 			<li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span><b>Ready stock</b> · dikirim 1×24 jam</span></li>
