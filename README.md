@@ -12,6 +12,7 @@ Proof-of-concept rebuild of the Acme fashion & beauty store on WordPress + WooCo
 ## Run locally
 
 ```sh
+(cd theme/acme && npm ci && npm run sass)   # builds style.css (gitignored)
 podman compose up -d   # WordPress + MariaDB on http://localhost:8080
 ```
 
